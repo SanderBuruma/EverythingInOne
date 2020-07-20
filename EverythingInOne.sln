@@ -1,14 +1,14 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceProgram", "ConsoleApp1\SpaceProgram.csproj", "{10C72599-1BC7-4F1F-BCDA-881EAC0DD308}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceProgram", "SpaceProgram\SpaceProgram.csproj", "{10C72599-1BC7-4F1F-BCDA-881EAC0DD308}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D2E3AE41-7560-41A4-B883-5AED9CC5B640}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{ECD640E2-722F-4E26-B541-EC16A0BE4540}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cubit32", "Utils\Cubit32.csproj", "{ECD640E2-722F-4E26-B541-EC16A0BE4540}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
