@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Text.RegularExpressions;
+using Utils;
 
 namespace KerbalTradingProgram
 {
@@ -8,7 +9,16 @@ namespace KerbalTradingProgram
     {
         static void Main(string[] args)
         {
-
+            while (true)
+            {
+                string inputText = Console.ReadLine();
+                Console.WriteLine($"input: {inputText}");
+                decimal input = decimal.Parse(inputText);
+                Console.WriteLine($"input: {input}");
+                Console.WriteLine($"sqrt: {input.Sqrt()}");
+                Console.ReadKey();
+            }
+            Console.WriteLine("end");
         }
     }
 
@@ -17,36 +27,36 @@ namespace KerbalTradingProgram
     {
         #region Fields
         /// <summary>(x,y) In meters compared to starting position, right and up are positive</summary>
-        private (double, double) _position;
-        private double _dryMassKg;
-        private double _fuelMassKg;
-        private double _exhVelocityMs;
-        private double _thrustN;
-        private (double, double) _velocity;
+        private (decimal, decimal) _position;
+        private decimal _dryMassKg;
+        private decimal _fuelMassKg;
+        private decimal _exhVelocityMs;
+        private decimal _thrustN;
+        private (decimal, decimal) _velocity;
         private ShipStatus _shipStatus;
         private Planet _currentPlanet;
         private Ship _secondStage;
         private int _fraction;
         private int _ticksInFlight;
         ///<summary>0 is eastbound, 180 is west; 270 isn't north, it's up.</summary>
-        private double _rotation;
+        private decimal _rotation;
         /// <summary>rad/s</summary>
-        private double _angularMomentum;
+        private decimal _angularMomentum;
         #endregion
 
         #region Constructor
         public Ship(
-            (double, double) position,
-            (double, double) velocity,
-            double dryMassKg,
-            double fuelMassKg,
-            double exhVelocityMs,
-            double thrustN,
+            (decimal, decimal) position,
+            (decimal, decimal) velocity,
+            decimal dryMassKg,
+            decimal fuelMassKg,
+            decimal exhVelocityMs,
+            decimal thrustN,
             Planet currentPlanet,
             Ship secondStage = null,
             int fraction = 30,
-            double rotation = 270,
-            double angularMomentum = 0
+            decimal rotation = 270,
+            decimal angularMomentum = 0
         )
         {
             if (dryMassKg <= 0)
@@ -74,27 +84,27 @@ namespace KerbalTradingProgram
             _fraction = fraction;
             _ticksInFlight = 0;
 
-            rotation = rotation / (360 / (2 * Math.PI));
-            _rotation = rotation % (2 * Math.PI);
-            _angularMomentum = angularMomentum % (2 * Math.PI);
+            rotation = rotation / (decimal)(360 / (2 * Math.PI));
+            _rotation = rotation % (decimal)(2 * Math.PI);
+            _angularMomentum = angularMomentum % (decimal)(2 * Math.PI);
         }
         #endregion
 
         #region Properties
-        public double DryMass               { get { return _dryMassKg; } }
-        public double ExhaustVelocity       { get { return _exhVelocityMs; } }
-        public double FuelMass              { get { return _fuelMassKg; }   set { _fuelMassKg = value; } }
+        public decimal DryMass               { get { return _dryMassKg; } }
+        public decimal ExhaustVelocity       { get { return _exhVelocityMs; } }
+        public decimal FuelMass              { get { return _fuelMassKg; }   set { _fuelMassKg = value; } }
         public Planet Planet                { get { return _currentPlanet; } }
-        public (double, double) Position    { get { return _position; }     set { _position = value; } }
+        public (decimal, decimal) Position    { get { return _position; }     set { _position = value; } }
         public Ship SecondStage             { get { return _secondStage; } }
-        public double Thrust                { get { return _thrustN; } }
+        public decimal Thrust                { get { return _thrustN; } }
         public int TicksInFlight            { get => _ticksInFlight;        set => _ticksInFlight = value; }
-        public (double, double) Velocity    { get { return _velocity; }     set { _velocity = value; } }
+        public (decimal, decimal) Velocity    { get { return _velocity; }     set { _velocity = value; } }
 
-        public double Acceleration { get { return Thrust / TotalMass; } }
+        public decimal Acceleration { get { return Thrust / TotalMass; } }
 
         //local gravity minus centripetal acceleration
-        public double EffectiveGravity
+        public decimal EffectiveGravity
         {
             get
             {
@@ -102,36 +112,35 @@ namespace KerbalTradingProgram
             }
         }
 
-        public double FuelUse { get { return _thrustN / _exhVelocityMs; } }
+        public decimal FuelUse { get { return _thrustN / _exhVelocityMs; } }
 
-        public double LocalGravity
+        public decimal LocalGravity
         {
             get
             {
-                return Math.Pow(
-                    _currentPlanet.Radius / (_currentPlanet.Radius + _position.Item2)
-                    , 2)
-                * _currentPlanet.SurfaceGravity;
+                decimal temp =  _currentPlanet.Radius / (_currentPlanet.Radius + _position.Item2);
+                return temp * temp * _currentPlanet.SurfaceGravity;
             }
         }
 
-        public double Rotation
+        public decimal Rotation
         {
             get { return _rotation; }
-            set { _rotation = value % (2 * Math.PI); }
+            set { _rotation = value % (decimal)(2 * Math.PI); }
         }
-        public double AngularMomentum
+        public decimal AngularMomentum
         {
             get { return _angularMomentum; }
-            set { _angularMomentum = value % (2 * Math.PI); }
+            set { _angularMomentum = value; }
         }
 
-        public ShipStatus Status {
+        public ShipStatus Status
+        {
             get { return _shipStatus; }
             set { _shipStatus = value; }
         }
 
-        public double TotalMass
+        public decimal TotalMass
         {
             get {
                 if (_secondStage == null) return _fuelMassKg + _dryMassKg;
@@ -139,7 +148,7 @@ namespace KerbalTradingProgram
             }
         }
 
-        public double TWR { get { return Acceleration / EffectiveGravity; } }
+        public decimal TWR { get { return Acceleration / EffectiveGravity; } }
         #endregion
 
         #region Methods
@@ -160,11 +169,11 @@ namespace KerbalTradingProgram
             }
 
             //if no fuel don't do anything else
-            (double, double) thrustAcceleration = (0, 0);
+            (decimal, decimal) thrustAcceleration = (0, 0);
             if (FuelMass > 0 && !dontRunEngines)
             {
                 //todo implement proper ship controls and related velocity changes.
-                thrustAcceleration.Item1 += Math.Sqrt(Acceleration*Acceleration - LocalGravity*LocalGravity);
+                thrustAcceleration.Item1 += (Acceleration*Acceleration - LocalGravity*LocalGravity).Sqrt();
             }
             else Status = ShipStatus.OutOfFuel;
 
@@ -192,17 +201,18 @@ namespace KerbalTradingProgram
     #region planet
     class Planet
     {
-        private double _surfaceGravitym2s;
-        private double _radiusInM;
+        private decimal _surfaceGravitym2s;
+        private decimal _radiusInM;
+        private decimal _mass;
 
-        public Planet(double surfaceGravitym2s, double radiusInM)
+        public Planet(decimal surfaceGravitym2s, decimal radiusInM)
         {
             _surfaceGravitym2s = surfaceGravitym2s;
             _radiusInM = radiusInM;
         }
 
-        public double SurfaceGravity { get { return _surfaceGravitym2s;} }
-        public double Radius { get { return _radiusInM;} }
+        public decimal SurfaceGravity { get { return _surfaceGravitym2s;} }
+        public decimal Radius { get { return _radiusInM;} }
     }
     #endregion
 }
