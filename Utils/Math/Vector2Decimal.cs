@@ -1,9 +1,6 @@
 ﻿using System;
 namespace Cubit32.Physics
 {
-   /// <summary>
-   /// The units should represent velocity or position in meters
-   /// </summary>
    public class Vector2Decimal
    {
       private double _x;
