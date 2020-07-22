@@ -7,13 +7,9 @@ namespace SpaceProgram.Models.Entities
 {
    public class Ship : Entity
    {
-      #region Fields
-      /// <summary>(x,y) In meters compared to starting position, right and up are positive</summary>
-      private double fuelMassKg;
-      private double exhVelocityMs;
+
+#region Fields
       private double thrustKn;
-      private Ship secondStage;
-      private ShipStatus status;
       #endregion
 
       #region Constructor
@@ -71,15 +67,15 @@ namespace SpaceProgram.Models.Entities
       #region Properties
       //makes a cler distinction between this and fuelmass
       public double DryMass { get { return Mass; } }
-      public double ExhaustVelocity { get { return exhVelocityMs; } set { exhVelocityMs = value; } }
-      public double FuelMass { get { return fuelMassKg; } set { fuelMassKg = value; } }
-      public Ship SecondStage { get { return secondStage; } set { secondStage = value; } }
-      public ShipStatus Status { get => status; set => status = value; }
+      public double ExhaustVelocity { get; set; }
+      public double FuelMass { get; set; }
+      public Ship SecondStage { get; set; }
+      public ShipStatus Status { get; set; }
       public double Thrust { get { return thrustKn; } set => thrustKn = value; }
 
       public double Acceleration { get { return Thrust / TotalMass; } }
 
-      public double FuelUse { get { return Thrust / exhVelocityMs; } }
+      public double FuelUse { get { return Thrust / ExhaustVelocity; } }
 
       public double TotalMass
       {

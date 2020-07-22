@@ -6,19 +6,11 @@ namespace SpaceProgram.Models.Entities
 {
    public class Entity
    {
-      #region fields
-      private Vector2Decimal position;
-      /// <summary>rad/s</summary>
-      private double angularMomentum;
-      private double mass;
-      private double radius;
+
+#region fields
       ///<summary>0 is eastbound, 180 is west; 270 isn't north, it's up.</summary>
       private double rotation;
-      private CelestialBody influencingBody;
-      private Vector2Decimal velocityVector;
-      private string name;
       private Orbit orbit;
-      private StarSystem starSystem;
       #endregion
 
       #region Constructor
@@ -54,25 +46,18 @@ namespace SpaceProgram.Models.Entities
       #region Properties
 
 
-      public double AngularMomentum
-      {
-         get => angularMomentum;
-         set => angularMomentum = value;
-      }
+      public double AngularMomentum { get; set; }
 
-      /// <summary>
-      /// Radius from influencing body's center of mass
-      /// </summary>
+      /// <summary>Radius from influencing body's center of mass</summary>
       public double Altitude
       {
          get
          {
-            return DistanceFIB - influencingBody.Radius;
+            return DistanceFIB - InfluencingBody.Radius;
          }
       }
 
-
-      ///density of the entity in tons/m^3
+      /// <summary>density of the entity in tons/m^3</summary>
       public double Density
       {
          get
@@ -89,7 +74,7 @@ namespace SpaceProgram.Models.Entities
          }
       }
 
-      /// <summary>distance from influencing body</summary>
+      ///<summary>distance from influencing body</summary>
       public double DistanceFIB
       {
          get
@@ -98,7 +83,7 @@ namespace SpaceProgram.Models.Entities
          }
       }
 
-      //local gravity minus centripetal acceleration
+      ///<summary>local gravity minus centripetal acceleration</summary>
       public double EffectiveGravity
       {
          get
@@ -107,11 +92,8 @@ namespace SpaceProgram.Models.Entities
          }
       }
 
-      public CelestialBody InfluencingBody
-      {
-         get => influencingBody;
-         set => influencingBody = value;
-      }
+      //todo infer this from a findInfluencingBody property in StarSystem
+      public CelestialBody InfluencingBody { get; set; }
 
       public double LocalGravity
       {
@@ -122,28 +104,15 @@ namespace SpaceProgram.Models.Entities
          }
       }
 
-      public double Mass
-      {
-         get => mass;
-         set => mass = value;
-      }
+      public double Mass { get; set; }
 
-      public string Name
-      {
-         get { return name; }
-         set { name = value; }
-      }
+      public string Name { get; set; }
 
       /// <summary>
       /// Mass * GravitationalConstant
       /// </summary>
       public double Mu { get => Physics.G * Mass; }
 
-      public Vector2Decimal Position
-      {
-         get => position;
-         set => position = value;
-      }
 
       public Orbit Orbit
       {
@@ -157,12 +126,9 @@ namespace SpaceProgram.Models.Entities
          }
          set => orbit = value;
       }
+      public Vector2Decimal Position { get; set; }
 
-      public double Radius
-      {
-         get => radius;
-         set => radius = value;
-      }
+      public double Radius { get; set; }
 
       public double Rotation
       {
@@ -170,13 +136,14 @@ namespace SpaceProgram.Models.Entities
          set => rotation = value % (double)(2 * Math.PI);
       }
 
-      public StarSystem StarSystem { get => starSystem; set => starSystem = value; }
+      public StarSystem StarSystem { get; set; }
 
       public double TimeElapsed { get => StarSystem.TimeElapsed; }
+      public string Type { get => this.GetType().Name; }
 
       public double Velocity { get => Math.Sqrt(VelocityVector.X * VelocityVector.X + VelocityVector.Y * VelocityVector.Y); }
 
-      public Vector2Decimal VelocityVector { get => velocityVector; set => velocityVector = value; }
+      public Vector2Decimal VelocityVector { get; set; }
       #endregion
 
       #region Methods
@@ -188,34 +155,27 @@ namespace SpaceProgram.Models.Entities
 
       public void ChangeVelocity(Vector2Decimal change)
       {
-         VelocityVector.Add(change);
-
-         //todo proper vector positioning and velocity
-         //increase or decrease horizontal velocity according to 
-         if (change.Y > 0)
-            VelocityVector.X = Math.Sqrt(change.X * change.X - change.Y * change.Y);
-         else
-            VelocityVector.X = Math.Sqrt(change.X * change.X + change.Y * change.Y);
+         //todo implement 3d everything...
       }
 
       /// <summary>
       /// Logs radius, name, mass, density and type of this body
       /// </summary>
       /// <param name="entity"></param>
-      public void ToConsole(Entity entity)
+      public void ToConsole()
       {
          Console.WriteLine(
              string.Format(
-                 "Name            : \"{0}\"\n" +
-                 "Typeof          : {1}\n" +
-                 "Mass            : {2:#.###E+0} kg\n" +
-                 "Radius          : {3:N0} km\n" +
-                 "Density         : {3:##.##, 15} kg/dm^3",
-                 entity.Name,
-                 this.GetType(),
-                 entity.Mass,
-                 entity.Radius / 1e3,
-                 entity.Density / 1e3
+                 "Name    : \"{0}\"\n" +
+                 "Type    : {1}\n" +
+                 "Mass    : {2:#.###E+0} kg\n" +
+                 "Radius  : {3:N0} km\n" +
+                 "Density : {3:N2} kg/dm^3",
+                 Name,
+                 Type,
+                 Mass,
+                 Radius / 1e3,
+                 Density / 1e3
              )
          ); ;
       }
@@ -223,8 +183,8 @@ namespace SpaceProgram.Models.Entities
       public double GetDistance(Entity entity)
       {
          return Math.Sqrt(
-             Math.Pow(Position.X - entity.position.X, 2) +
-             Math.Pow(Position.Y - entity.position.Y, 2)
+             Math.Pow(Position.X - entity.Position.X, 2) +
+             Math.Pow(Position.Y - entity.Position.Y, 2)
          );
       }
       #endregion

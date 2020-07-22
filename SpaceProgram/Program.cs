@@ -22,7 +22,7 @@ namespace KerbalTradingProgram
                 angularMomentum: 0,
                 name: "Sol"
             );
-            star.ToConsole(star);
+            star.ToConsole();
          }
          catch (Exception ex)
          {

@@ -5,11 +5,8 @@ namespace SpaceProgram.Models.Entities
 {
    public class StarSystem
    {
-      #region Fields
-      private Star star;
-      private List<Planet> planets;
-      private List<Ship> ships;
-      private double timeElapsed;
+
+#region Fields
       #endregion
 
       #region Constructor
@@ -21,10 +18,10 @@ namespace SpaceProgram.Models.Entities
       #endregion
 
       #region Properties
-      public Star Star { get => star; set => star = value; }
-      public double TimeElapsed { get => timeElapsed; set => timeElapsed = value; }
-      public List<Planet> Planets { get => planets; set => planets = value; }
-      public List<Ship> Ships { get => ships; set => ships = value; }
+      public Star Star { get; set; }
+      public double TimeElapsed { get; set; }
+      public List<Planet> Planets { get; set; }
+      public List<Ship> Ships { get; set; }
 
       public List<Entity> AllEntities
       {

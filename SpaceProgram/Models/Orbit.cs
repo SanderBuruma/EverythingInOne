@@ -5,12 +5,6 @@ namespace SpaceProgram.Models
 {
    public class Orbit
    {
-      private double semiMajorAxis;
-      private double eccentricity;
-      private double meanAnomaly;
-      private double argumentOfPeriapsis;
-      private bool retrograde = false;
-      private Entity entity;
       private double timeElapsed;
 
       public Orbit(Entity entity, double timeElapsed)
@@ -26,12 +20,12 @@ namespace SpaceProgram.Models
       }
 
       // a = mur / v^2r-2mu 
-      public double SemiMajorAxis { get => semiMajorAxis; set => semiMajorAxis = value; }
-      public double Eccentricity { get => eccentricity; set => eccentricity = value; }
-      public double MeanAnomaly { get => meanAnomaly; set => meanAnomaly = value; }
-      public double ArgumentOfPeriapsis { get => argumentOfPeriapsis; set => argumentOfPeriapsis = value; }
-      public bool Retrograde { get => retrograde; set => retrograde = value; }
-      public Entity Entity { get => entity; set => entity = value; }
+      public double SemiMajorAxis { get; set; }
+      public double Eccentricity { get; set; }
+      public double MeanAnomaly { get; set; }
+      public double ArgumentOfPeriapsis { get; set; }
+      public bool Retrograde { get; set; } = false;
+      public Entity Entity { get; set; }
       public double TimeElapsed { get => timeElapsed; set => timeElapsed = value; }
    }
 }
