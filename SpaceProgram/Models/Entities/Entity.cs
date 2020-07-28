@@ -7,7 +7,7 @@ namespace SpaceProgram.Models.Entities
    public class Entity
    {
 
-#region fields
+      #region Fields
       ///<summary>0 is eastbound, 180 is west; 270 isn't north, it's up.</summary>
       private double rotation;
       private Orbit orbit;
