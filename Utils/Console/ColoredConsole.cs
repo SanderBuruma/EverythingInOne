@@ -13,12 +13,12 @@ namespace Cubit32.ColoredConsole
       public ConsoleColor WarningColor { get; set; }
       public ConsoleColor InputColor { get; set; }
 
-      public ColoredConsole(ConsoleColor standardClr = ConsoleColor.White, ConsoleColor outputClr = ConsoleColor.Green, ConsoleColor warningClr = ConsoleColor.Magenta, ConsoleColor inputClr = ConsoleColor.Red)
+      public ColoredConsole(ConsoleColor standardColor = ConsoleColor.White, ConsoleColor outputColor = ConsoleColor.Green, ConsoleColor warningColor = ConsoleColor.Magenta, ConsoleColor inputColor = ConsoleColor.Red)
       {
-         StandardColor = standardClr;
-         OutputColor = outputClr;
-         WarningColor = warningClr;
-         InputColor = inputClr;
+         StandardColor = standardColor;
+         OutputColor = outputColor;
+         WarningColor = warningColor;
+         InputColor = inputColor;
       }
 
       /// <summary>
