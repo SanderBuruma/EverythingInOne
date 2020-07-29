@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace Cubit32.ColoredConsole
 {
-   class ColoredConsole
+   public class ColoredConsole
    {
       public ConsoleColor StandardColor { get; set; }
       public ConsoleColor OutputColor { get; set; }
       public ConsoleColor WarningColor { get; set; }
       public ConsoleColor InputColor { get; set; }
 
-      public ColoredConsole(ConsoleColor standardColor = ConsoleColor.White, ConsoleColor outputColor = ConsoleColor.Green, ConsoleColor warningColor = ConsoleColor.Magenta, ConsoleColor inputColor = ConsoleColor.Red)
+      public ColoredConsole
+      (
+         ConsoleColor standardColor = ConsoleColor.White,
+         ConsoleColor outputColor = ConsoleColor.Green,
+         ConsoleColor warningColor = ConsoleColor.Magenta,
+         ConsoleColor inputColor = ConsoleColor.Red
+      )
       {
          StandardColor = standardColor;
          OutputColor = outputColor;
