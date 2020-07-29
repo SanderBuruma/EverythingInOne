@@ -26,7 +26,7 @@ namespace Cubit32.ColoredConsole
       /// </summary>
       /// <param name="msg">The message to prompt the user with</param>
       /// <returns></returns>
-      String GetConsoleInput(String msg = "")
+      public String GetConsoleInput(String msg = "")
       {
          Console.ForegroundColor = StandardColor;
          Console.Write(msg);
@@ -42,7 +42,7 @@ namespace Cubit32.ColoredConsole
       /// <param name="info">The message to show to the user</param>
       /// <param name="noLine">Whether or not following console writes should appear on a new line</param>
       /// <returns></returns>
-      void OutputToConsole(String info, Boolean noLine = false)
+      public void OutputToConsole(String info, Boolean noLine = false)
       {
          Console.ForegroundColor = OutputColor;
          if (noLine) Console.Write(info);
@@ -55,12 +55,12 @@ namespace Cubit32.ColoredConsole
       /// <param name="msg">The message to show to the user in standard coloring</param>
       /// <param name="info">The information to be provided</param>
       /// <param name="noLine">Whether or not a later message should appear on a new line</param>
-      void OutputToConsole(String msg, String info, Boolean noLine = false)
+      public void OutputToConsole(String msg, String info, Boolean noLine = false)
       {
          Console.Write(msg);
          OutputToConsole(info, noLine);
       }
-      void WarningToConsole(String msg, Boolean noLine = false)
+      public void WarningToConsole(String msg, Boolean noLine = false)
       {
          Console.ForegroundColor = WarningColor;
          if (noLine) Console.Write(msg);
