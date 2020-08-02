@@ -24,7 +24,6 @@ namespace SnakeGame
         // the first index represents connection layer (the fist involve perceptrons, the last 
         // involve output neurons and the others involve intra-hidden layer connections)
         private double[][] NeuronConnections { get; set; }
-        private Random rng = new Random();
 
         public Brain(
             int perceptrons,
@@ -112,7 +111,7 @@ namespace SnakeGame
         /// <param name="chanceOfMutation">Determines the chance of a mutation in a connection or neuron.<br/>10 = 10% chance, 100 = 1% chance, 1000 = 0.1% chance.</param>
         public void Mutate(double degree, int normalRangeRepeats = 4, int chanceOfMutation = 10)
         {
-            rng = new Random((int)DateTime.Now.Ticks);
+            Random rng = new Random((int)DateTime.Now.Ticks);
             for (int i = 0; i < HiddenLayerWidth; i++)
                 for (int j = 0; j < HiddenLayerHeight; j++)
                 {
@@ -135,6 +134,7 @@ namespace SnakeGame
         }
         public double RandomDouble(double range = 1)
         {
+            Random rng = new Random();
             return (double)rng.Next(5)-2;
         }
 
