@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Cubit32.Numbers;
 using Cubit32.Physics;
@@ -11,7 +12,6 @@ namespace SpaceProgram.Models.Entities
       #region Fields
       ///<summary>0 is eastbound, 180 is west; 270 isn't north, it's up.</summary>
       private double rotation;
-      private Orbit orbit;
       #endregion
 
       #region Constructor
@@ -21,10 +21,9 @@ namespace SpaceProgram.Models.Entities
           Vector3 position,
           StarSystem starSystem,
           double rotation = 270,
-          double angularMomentum = 0,
+          Vector3 angularMomentum = new Vector3(),
           double mass = 1,
           double radius = 0.5,
-          CelestialBody influencingBody = null,
           string name = ""
       )
       {
@@ -35,28 +34,16 @@ namespace SpaceProgram.Models.Entities
          AngularMomentum = angularMomentum;
          Mass = mass;
          Radius = radius;
-         InfluencingBody = influencingBody;
          VelocityVector = velocity;
          Name = name;
          StarSystem = starSystem;
-         if (influencingBody != null)
-            orbit = new Orbit(this, TimeElapsed);
       }
       #endregion
 
       #region Properties
 
 
-      public double AngularMomentum { get; set; }
-
-      /// <summary>Radius from influencing body's center of mass</summary>
-      public double Altitude
-      {
-         get
-         {
-            return DistanceFIB - InfluencingBody.Radius;
-         }
-      }
+      public Vector3 AngularMomentum { get; set; }
 
       /// <summary>density of the entity in tons/m^3</summary>
       public double Density
@@ -75,36 +62,6 @@ namespace SpaceProgram.Models.Entities
          }
       }
 
-      ///<summary>distance from influencing body</summary>
-      public double DistanceFIB
-      {
-         get
-         {
-            return GetDistance(InfluencingBody);
-         }
-      }
-
-      ///<summary>local gravity minus centripetal acceleration</summary>
-      public double EffectiveGravity
-      {
-         get
-         {
-            return LocalGravity - VelocityVector.X * VelocityVector.X / InfluencingBody.Radius;
-         }
-      }
-
-      //todo infer this from a findInfluencingBody property in StarSystem
-      public CelestialBody InfluencingBody { get; set; }
-
-      public double LocalGravity
-      {
-         get
-         {
-            double ratio = InfluencingBody.Radius / (InfluencingBody.Radius + Position.Y);
-            return ratio * ratio * InfluencingBody.SurfaceGravity;
-         }
-      }
-
       public double Mass { get; set; }
 
       public string Name { get; set; }
@@ -114,19 +71,6 @@ namespace SpaceProgram.Models.Entities
       /// </summary>
       public double Mu { get => Physics.G * Mass; }
 
-
-      public Orbit Orbit
-      {
-         get
-         {
-            if (orbit.TimeElapsed != StarSystem.TimeElapsed)
-            {
-               orbit = new Orbit(this, StarSystem.TimeElapsed);
-            }
-            return orbit;
-         }
-         set => orbit = value;
-      }
       public Vector3 Position { get; set; }
 
       public double Radius { get; set; }

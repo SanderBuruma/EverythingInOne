@@ -23,13 +23,12 @@ namespace SpaceProgram.Models.Entities
           double exhVelocityMs,
           Planet currentPlanet,
           double radius,
-          CelestialBody influencingBody,
           double fuelMassKg = 0,
           double thrustN = 0,
           Ship secondStage = null,
           int fuelFraction = 30,
           double rotation = 270,
-          double angularMomentum = 0,
+          Vector3 angularMomentum = new Vector3(),
           string name = ""
       )
           : base
@@ -41,7 +40,6 @@ namespace SpaceProgram.Models.Entities
           angularMomentum: angularMomentum,
           mass: dryMassKg * (1 + 1 / fuelFraction),
           radius: radius,
-          influencingBody: influencingBody,
           name: name
       )
       {
@@ -60,7 +58,6 @@ namespace SpaceProgram.Models.Entities
          ExhaustVelocity = exhVelocityMs;
          Thrust = thrustN;
          Status = ShipStatus.Landed;
-         InfluencingBody = currentPlanet;
          SecondStage = secondStage;
       }
       #endregion
@@ -86,8 +83,6 @@ namespace SpaceProgram.Models.Entities
             return FuelMass + DryMass + SecondStage.TotalMass;
          }
       }
-
-      public double TWR { get { return Acceleration / EffectiveGravity; } }
       #endregion
 
       #region Methods

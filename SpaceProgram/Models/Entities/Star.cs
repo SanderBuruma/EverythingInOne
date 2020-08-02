@@ -32,7 +32,7 @@ namespace SpaceProgram.Models.Entities
           StarSystem starSystem,
           double radius = 0.5,
           double rotation = 270,
-          double angularMomentum = 0,
+          Vector3 angularMomentum = new Vector3(),
           string name = ""
       )
           : base

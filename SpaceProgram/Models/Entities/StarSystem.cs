@@ -22,7 +22,7 @@ namespace SpaceProgram.Models.Entities
       public double TimeElapsed { get; set; }
       public List<Planet> Planets { get; set; }
       public List<Ship> Ships { get; set; }
-
+      
       public List<Entity> AllEntities
       {
          get
@@ -34,18 +34,26 @@ namespace SpaceProgram.Models.Entities
             return list;
          }
       }
+      public List<CelestialBody> AllCelestialBodies
+      {
+         get
+         {
+            List<CelestialBody> list = new List<CelestialBody>();
+            list.Add(Star);
+            list.AddRange(Planets);
+            return list;
+         }
+      }
       #endregion
 
       #region Methods
       public void AddPlanet(Planet planet)
       {
-         planet.InfluencingBody = Star;
          Planets.Add(planet);
       }
 
       public void AddShip(Ship ship)
       {
-         ship.InfluencingBody = Star;
          Ships.Add(ship);
       }
 

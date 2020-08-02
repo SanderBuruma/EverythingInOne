@@ -15,8 +15,7 @@ namespace SpaceProgram.Models.Entities
           double mass = 1,
           double radius = 0.5,
           double rotation = 270,
-          double angularMomentum = 0,
-          CelestialBody influencingBody = null
+          Vector3 angularMomentum = new Vector3()
       )
           : base
       (
@@ -26,8 +25,7 @@ namespace SpaceProgram.Models.Entities
           mass: mass,
           radius: radius,
           rotation: rotation,
-          angularMomentum: angularMomentum,
-          influencingBody: influencingBody
+          angularMomentum: angularMomentum
       )
       { }
 
@@ -38,8 +36,7 @@ namespace SpaceProgram.Models.Entities
           StarSystem starSystem,
           double radius = 0.5,
           double rotation = 270,
-          double angularMomentum = 0,
-          CelestialBody influencingBody = null
+          Vector3 angularMomentum = new Vector3()
       )
           : base
       (
@@ -49,8 +46,7 @@ namespace SpaceProgram.Models.Entities
           rotation: rotation,
           angularMomentum: angularMomentum,
           mass: surfaceGravity * radius * radius / Physics.G,
-          radius: radius,
-          influencingBody: influencingBody
+          radius: radius
       )
       { }
    }

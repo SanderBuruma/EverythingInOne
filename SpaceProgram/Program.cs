@@ -9,7 +9,7 @@ namespace KerbalTradingProgram
 {
    class Program
    {
-      static void Main(string[] args)
+      static void Main()
       {
          try
          {
@@ -21,10 +21,19 @@ namespace KerbalTradingProgram
                 system,
                 radius: 3e7,
                 rotation: 0,
-                angularMomentum: 0,
+                angularMomentum: new Vector3(),
                 name: "Sol"
             );
             star.ToConsole();
+
+            system.AddPlanet(new Planet(
+                  new Vector3(4e3f, 0f, 0f),
+                  9.81,
+                  new Vector3(1e9f, 1e9f, 0),
+                  system,
+                  radius: 6.35e6
+               )
+            );
 
          }
          catch (Exception ex)
