@@ -16,24 +16,30 @@ namespace KerbalTradingProgram
             StarSystem system = new StarSystem();
             Star star = new Star(
                 velocity: new Vector3(),
-                surfaceGravity: 25.2,
+                surfaceGravity: 28*9.81,
                 position: new Vector3(),
-                system,
-                radius: 3e7,
+                starSystem: system,
+                radius: 6.96e8,
                 rotation: 0,
                 angularMomentum: new Vector3(),
                 name: "Sol"
             );
-            star.ToConsole();
 
             system.AddPlanet(new Planet(
-                  new Vector3(4e3f, 0f, 0f),
-                  9.81,
-                  new Vector3(1e9f, 1e9f, 0),
-                  system,
-                  radius: 6.35e6
-               )
-            );
+               velocity: new Vector3(4e3f, 0f, 0f),
+               surfaceGravity: 9.81,
+               position: new Vector3(1e9f, 1e9f, 0),
+               starSystem: system,
+               radius: 6.371e6,
+               name: "Earth"
+            ));
+
+            foreach (CelestialBody body in system.AllCelestialBodies)
+            {
+               body.ToConsole();
+               body.PrintSurfaceGravity();
+               Console.WriteLine();
+            }
 
          }
          catch (Exception ex)

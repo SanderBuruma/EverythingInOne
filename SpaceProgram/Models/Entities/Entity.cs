@@ -45,12 +45,13 @@ namespace SpaceProgram.Models.Entities
 
       public Vector3 AngularMomentum { get; set; }
 
-      /// <summary>density of the entity in tons/m^3</summary>
+      /// <summary>density of the entity into g/cm^3</summary>
       public double Density
       {
          get
          {
-            return Mass / (Radius * Radius * Radius * 4 / 3);
+            double volume = Math.Pow(Radius, 3) * Math.PI * 4d/3d;
+            return Mass / volume;
          }
       }
 
@@ -116,7 +117,7 @@ namespace SpaceProgram.Models.Entities
                  "Type    : {1}\n" +
                  "Mass    : {2:#.###E+0} kg\n" +
                  "Radius  : {3:N0} km\n" +
-                 "Density : {3:N2} kg/dm^3",
+                 "Density : {4:N2} g/dm^3",
                  Name,
                  Type,
                  Mass,

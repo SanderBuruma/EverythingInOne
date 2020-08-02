@@ -6,8 +6,6 @@ namespace SpaceProgram.Models.Entities
 {
    public class Star : CelestialBody
    {
-      private StarSystem starSystem;
-
       public Star
       (
           CelestialBody cb

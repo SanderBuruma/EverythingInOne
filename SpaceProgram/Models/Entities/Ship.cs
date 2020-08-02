@@ -21,7 +21,6 @@ namespace SpaceProgram.Models.Entities
           StarSystem starSystem,
           double dryMassKg,
           double exhVelocityMs,
-          Planet currentPlanet,
           double radius,
           double fuelMassKg = 0,
           double thrustN = 0,

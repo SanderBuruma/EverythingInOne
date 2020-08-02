@@ -6,12 +6,11 @@ namespace SpaceProgram.Models.Entities
 {
    public class Planet : CelestialBody
    {
-      private StarSystem starSystem;
-
       public Planet(
           Vector3 velocity,
           Vector3 position,
           StarSystem starSystem,
+          string name,
           double mass = 1,
           double radius = 0.5,
           double rotation = 270,
@@ -22,6 +21,7 @@ namespace SpaceProgram.Models.Entities
           velocity: velocity,
           position: position,
           starSystem: starSystem,
+          name: name,
           mass: mass,
           radius: radius,
           rotation: rotation,
@@ -34,6 +34,7 @@ namespace SpaceProgram.Models.Entities
           double surfaceGravity,
           Vector3 position,
           StarSystem starSystem,
+          string name,
           double radius = 0.5,
           double rotation = 270,
           Vector3 angularMomentum = new Vector3()
@@ -46,7 +47,8 @@ namespace SpaceProgram.Models.Entities
           rotation: rotation,
           angularMomentum: angularMomentum,
           mass: surfaceGravity * radius * radius / Physics.G,
-          radius: radius
+          radius: radius,
+          name: name
       )
       { }
    }

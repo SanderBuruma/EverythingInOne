@@ -59,5 +59,15 @@ namespace SpaceProgram.Models.Entities
             return Physics.G * Mass / (Radius * Radius);
          }
       }
+
+      public void PrintSurfaceGravity()
+      {
+         Console.WriteLine(
+             string.Format(
+                 "Gravity : {0:N2} m/s^2", SurfaceGravity
+             )
+         );
+      }
+
    }
 }
