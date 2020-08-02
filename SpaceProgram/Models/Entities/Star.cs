@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Cubit32.Physics;
 
 namespace SpaceProgram.Models.Entities
@@ -25,9 +26,9 @@ namespace SpaceProgram.Models.Entities
 
       public Star
       (
-          Vector2Decimal velocity,
+          Vector3 velocity,
           double surfaceGravity,
-          Vector2Decimal position,
+          Vector3 position,
           StarSystem starSystem,
           double radius = 0.5,
           double rotation = 270,
@@ -39,12 +40,14 @@ namespace SpaceProgram.Models.Entities
           velocity: velocity,
           position: position,
           starSystem: starSystem,
-          mass: surfaceGravity * radius * radius / Physics.G,
+          mass: surfaceGravity * radius * radius / Physics.G, //pass in mass based on surface gravity
           rotation: rotation,
           angularMomentum: angularMomentum,
           radius: radius,
           name: name
       )
-      { }
+      {
+         StarSystem.Star = this;
+      }
    }
 }

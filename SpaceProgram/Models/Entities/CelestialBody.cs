@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Cubit32.Physics;
 
 namespace SpaceProgram.Models.Entities
@@ -6,8 +7,8 @@ namespace SpaceProgram.Models.Entities
    public class CelestialBody : Entity
    {
       public CelestialBody(
-          Vector2Decimal velocity,
-          Vector2Decimal position,
+          Vector3 velocity,
+          Vector3 position,
           StarSystem starSystem,
           double mass = 1,
           double radius = 0.5,
@@ -31,9 +32,9 @@ namespace SpaceProgram.Models.Entities
       { }
 
       public CelestialBody(
-          Vector2Decimal velocity,
+          Vector3 velocity,
           double surfaceGravity,
-          Vector2Decimal position,
+          Vector3 position,
           StarSystem starSystem,
           double radius = 0.5,
           double rotation = 270,

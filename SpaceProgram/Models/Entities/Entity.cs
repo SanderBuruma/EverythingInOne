@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Cubit32.Numbers;
 using Cubit32.Physics;
 
@@ -16,8 +17,8 @@ namespace SpaceProgram.Models.Entities
       #region Constructor
       public Entity
       (
-          Vector2Decimal velocity,
-          Vector2Decimal position,
+          Vector3 velocity,
+          Vector3 position,
           StarSystem starSystem,
           double rotation = 270,
           double angularMomentum = 0,
@@ -126,7 +127,7 @@ namespace SpaceProgram.Models.Entities
          }
          set => orbit = value;
       }
-      public Vector2Decimal Position { get; set; }
+      public Vector3 Position { get; set; }
 
       public double Radius { get; set; }
 
@@ -143,17 +144,18 @@ namespace SpaceProgram.Models.Entities
 
       public double Velocity { get => Math.Sqrt(VelocityVector.X * VelocityVector.X + VelocityVector.Y * VelocityVector.Y); }
 
-      public Vector2Decimal VelocityVector { get; set; }
+      public Vector3 VelocityVector { get; set; }
       #endregion
 
       #region Methods
-      public void Move(Vector2Decimal change)
+      public void Move(Vector3 change)
       {
-         Position.X += change.X * InfluencingBody.Radius / Position.X;
-         Position.Y += change.Y;
+         //todo: fix me
+         //Position.X += change.X * InfluencingBody.Radius / Position.X;
+         //Position.Y += change.Y;
       }
 
-      public void ChangeVelocity(Vector2Decimal change)
+      public void ChangeVelocity(Vector3 change)
       {
          //todo implement 3d everything...
       }
@@ -180,11 +182,16 @@ namespace SpaceProgram.Models.Entities
          ); ;
       }
 
-      public double GetDistance(Entity entity)
+      /// <summary>
+      /// Get the current distance in meters to the target entity. Center of Mass to Center of Mass.
+      /// </summary>
+      /// <param name="target"></param>
+      /// <returns></returns>
+      public double GetDistance(Entity target)
       {
          return Math.Sqrt(
-             Math.Pow(Position.X - entity.Position.X, 2) +
-             Math.Pow(Position.Y - entity.Position.Y, 2)
+             Math.Pow(Position.X - target.Position.X, 2) +
+             Math.Pow(Position.Y - target.Position.Y, 2)
          );
       }
       #endregion

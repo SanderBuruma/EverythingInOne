@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Cubit32.Numbers;
 using Cubit32.Physics;
 using SpaceProgram.Enums;
@@ -8,15 +9,15 @@ namespace SpaceProgram.Models.Entities
    public class Ship : Entity
    {
 
-#region Fields
+      #region Fields
       private double thrustKn;
       #endregion
 
       #region Constructor
       public Ship
       (
-          Vector2Decimal velocity,
-          Vector2Decimal position,
+          Vector3 velocity,
+          Vector3 position,
           StarSystem starSystem,
           double dryMassKg,
           double exhVelocityMs,
