@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XorEncoding;
+using Cubit32.ColoredConsole;
 
 namespace XorEncoding
 {
    class Program
    {
-      enum Colors
-      {
-         Standard = ConsoleColor.White,
-         Output = ConsoleColor.Green,
-         Warning = ConsoleColor.Magenta,
-         Input = ConsoleColor.Red,
-      };
+      public static ColoredConsole ColoredConsole { get; set; } = new ColoredConsole();
 
       enum Config
       {
@@ -32,37 +24,36 @@ namespace XorEncoding
       [STAThread]
       static void Main()
       {
-         Console.ForegroundColor = (ConsoleColor)Colors.Standard;
          while (true)
          {
             Console.WriteLine("\n");
-            String msg = GetConsoleInput("Input text to be encoded: ");
+            String msg = ColoredConsole.GetConsoleInput("Input text to be encoded: ");
             if (String.IsNullOrWhiteSpace(msg))
             {
-               WarningToConsole("Please input a message with some content next time");
+               ColoredConsole.WarningToConsole("Please input a message with some content next time");
                continue;
             }
             if (!msg.CheckStr())
             {
-               WarningToConsole("Please use only legal characters:", true);
-               OutputToConsole(EncoderDecoder.CharsString);
+               ColoredConsole.WarningToConsole("Please use only legal characters:", true);
+               ColoredConsole.OutputToConsole(EncoderDecoder.CharsString);
                continue;
             }
-            String key = GetConsoleInput("Encryption Key: ");
+            String key = ColoredConsole.GetConsoleInput("Encryption Key: ");
             if (String.IsNullOrWhiteSpace(key))
             {
-               WarningToConsole("Please input a key with some content next time");
+               ColoredConsole.WarningToConsole("Please input a key with some content next time");
                continue;
             }
             if (!key.CheckStr())
             {
-               WarningToConsole("Please use only legal characters:", true);
-               OutputToConsole(EncoderDecoder.CharsString);
+               ColoredConsole.WarningToConsole("Please use only legal characters:", true);
+               ColoredConsole.OutputToConsole(EncoderDecoder.CharsString);
                continue;
             }
             if (key.Length > (Int32)Config.MaxKeyLength)
             {
-               WarningToConsole($"Please make the key less than {(Int32)Config.MaxKeyLength} chars long");
+               ColoredConsole.WarningToConsole($"Please make the key less than {(Int32)Config.MaxKeyLength} chars long");
                continue;
             }
 
@@ -126,59 +117,12 @@ namespace XorEncoding
             repeats += 0b11_00000_0000_0000;
             String encoded = msg.EnOrDecode(key, repeats);
 
-            OutputToConsole("Encryption Repeats: ", repeats.ToString("N0"));
+            ColoredConsole.OutputToConsole("Encryption Repeats: ", repeats.ToString("N0"));
             Console.Write("Encoded string: \"");
-            OutputToConsole(encoded, true);
+            ColoredConsole.OutputToConsole(encoded, true);
             Console.Write("\".\ntype 'y' to copy to clipboard:");
             if (Console.ReadKey().KeyChar == 'y') System.Windows.Clipboard.SetText(encoded);
          }
-      }
-
-      /// <summary>
-      /// Gets String input from the user
-      /// </summary>
-      /// <param name="msg">The message to prompt the user with</param>
-      /// <returns></returns>
-      static String GetConsoleInput(String msg = "")
-      {
-         Console.ForegroundColor = (ConsoleColor)Colors.Standard;
-         Console.Write(msg);
-         Console.ForegroundColor = (ConsoleColor)Colors.Input;
-         String input = Console.ReadLine();
-         Console.ForegroundColor = (ConsoleColor)Colors.Standard;
-
-         return input;
-      }
-      /// <summary>
-      /// Show a colored message to the user
-      /// </summary>
-      /// <param name="info">The message to show to the user</param>
-      /// <param name="noLine">Whether or not following console writes should appear on a new line</param>
-      /// <returns></returns>
-      static void OutputToConsole(String info, Boolean noLine = false)
-      {
-         Console.ForegroundColor = (ConsoleColor)Colors.Output;
-         if (noLine) Console.Write(info);
-         else Console.WriteLine(info);
-         Console.ForegroundColor = (ConsoleColor)Colors.Standard;
-      }
-      /// <summary>
-      /// Show a colored message to the user, giving standard coloring to the msg parameter.
-      /// </summary>
-      /// <param name="msg">The message to show to the user in standard coloring</param>
-      /// <param name="info">The information to be provided</param>
-      /// <param name="noLine">Whether or not a later message should appear on a new line</param>
-      static void OutputToConsole(String msg, String info, Boolean noLine = false)
-      {
-         Console.Write(msg);
-         OutputToConsole(info, noLine);
-      }
-      static void WarningToConsole(String msg, Boolean noLine = false)
-      {
-         Console.ForegroundColor = (ConsoleColor)Colors.Warning;
-         if (noLine) Console.Write(msg);
-         else Console.WriteLine(msg);
-         Console.ForegroundColor = (ConsoleColor)Colors.Standard;
       }
    }
 }
