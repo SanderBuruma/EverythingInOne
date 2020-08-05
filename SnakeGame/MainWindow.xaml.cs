@@ -189,6 +189,7 @@ namespace SnakeGame
                     FieldRectangles[t].Fill = ReturnFieldBrush(Board1.Fields[t]);
                 }
         }
+
         private void RunBrain()
         {
 
@@ -268,10 +269,12 @@ namespace SnakeGame
         {
             SnakeBrain = new Brain(4, hlWidth, hlHeight, 3);
         }
+
         private void NewBoard(int i = -1)
         {
             Board1 = new Board(BoardWH, i);
         }
+
         private Brush ReturnFieldBrush(Board.Field field)
         {
 
@@ -288,6 +291,7 @@ namespace SnakeGame
             }
             return Brushes.White;
         }
+
         private void Pause()
         {
             if (MyTimer.Enabled)
@@ -307,6 +311,7 @@ namespace SnakeGame
         private void Restart()
         {
             Process.Start(Application.ResourceAssembly.Location);
+            Thread.Sleep(100);
             Application.Current.Shutdown();
         }
 
@@ -526,7 +531,7 @@ namespace SnakeGame
         /// Makes an independent deep copy of a class instance<br/>
         /// https://stackoverflow.com/a/1031062/10055628
         /// </summary>
-        /// <typeparam name="T">The Class instance</typeparam>
+        /// <typeparam name="T">The Class type</typeparam>
         /// <param name="other"></param>
         /// <returns></returns>
         public static T DeepCopy<T>(T other)

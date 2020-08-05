@@ -12,12 +12,12 @@ namespace XorEncoding
 		/// <summary>
 		/// The Base64 base chars
 		/// </summary>
-		public static readonly String CharsString;
+		private static readonly String CharsString;
 
 		/// <summary>
 		/// special char translation to and from base64compliant baseword
 		/// </summary>
-		public static readonly Dictionary<String, String> WordSpecialCodes;
+		private static readonly Dictionary<String, String> WordSpecialCodes;
 
 		static EncoderDecoder()
 		{
@@ -106,6 +106,8 @@ namespace XorEncoding
 				repeats++;
 			Int32[] msgInts = msg.ToEncodedIntArr();
 			Int32[] keyInts = key.ToEncodedIntArr();
+
+			//encode||decode
 			Int32 maxLen = Math.Max(msg.Length, key.Length);
 			for (Int32 i = 0; i < maxLen * repeats; i++)
 			{
