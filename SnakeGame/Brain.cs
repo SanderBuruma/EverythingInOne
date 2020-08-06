@@ -108,9 +108,11 @@ namespace SnakeGame
         /// </summary>
         /// <param name="degree">determines the amount by which a neuron can change.</param>
         /// <param name="normalRangeRepeats">normalRangeRepeats determines how much the random number approaches a normal distribution.</param>
-        /// <param name="chanceOfMutation">Determines the chance of a mutation in a connection or neuron.<br/>10 = 10% chance, 100 = 1% chance, 1000 = 0.1% chance.</param>
+        /// <param name="chanceOfMutation">Determines the numbber of mutations there will be on average</param>
         public void Mutate(double degree, int normalRangeRepeats = 4, int chanceOfMutation = 10)
         {
+            chanceOfMutation = (Perceptrons * HiddenLayerHeight + HiddenLayerHeight * (HiddenLayerWidth-1) + HiddenLayerHeight * OutputNeurons) / chanceOfMutation;
+
             Random rng = new Random((int)DateTime.Now.Ticks);
             for (int i = 0; i < HiddenLayerWidth; i++)
                 for (int j = 0; j < HiddenLayerHeight; j++)

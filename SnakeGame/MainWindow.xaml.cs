@@ -152,9 +152,9 @@ namespace SnakeGame
         /// <param name="iterations">The number of times the snake plays the game before returning the average score.</param>
         /// <param name="mutateNRR">Determines how much mutation magnitude distrubution conforms to a normal distribution.</param>
         /// <returns>the average score</returns>
-        private double ModeTrainAI(double mutateMagnitude = .1, int mutateNRR = 4, int iterations = 100, int mutationChance = 5)
+        private double ModeTrainAI(double mutateMagnitude = .1, int mutateNRR = 4, int iterations = 100, int nrOfMutations = 2)
         {
-            SnakeBrain.Mutate(mutateMagnitude, mutateNRR, mutationChance);
+            SnakeBrain.Mutate(mutateMagnitude, mutateNRR, nrOfMutations);
             double averageScore = 0;
 
             for (int i = 0; i < iterations; i++)
