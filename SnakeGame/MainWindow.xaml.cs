@@ -17,12 +17,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 using System.Diagnostics;
+using Cubit32;
+using System.Threading.Tasks;
 
 namespace SnakeGame
 {
     public partial class MainWindow : Window
     {
-        private readonly int BoardWH = 16;
+        private readonly int BoardWH = 15;
         internal Board Board1 { get; set; }
         private Rectangle[] FieldRectangles { get; set; }
         private Brain SnakeBrain { get; set; }
@@ -36,6 +38,7 @@ namespace SnakeGame
         private readonly BinaryFormatter Formatter = new BinaryFormatter();
         private int savedFilesCount = 0;
         private int savedFilesMax = 10000;
+        public Task AvgScoreTask { get; set; }
 
         public MainWindow()
         {
@@ -86,7 +89,7 @@ namespace SnakeGame
                 {
                     if (Board1.Progress1Tick())
                     {
-                        RunBrain();
+                        RunBrain(Board1, SnakeBrain);
                         gameOver = false;
                     }
                     else
@@ -100,7 +103,7 @@ namespace SnakeGame
 
                 Board1.GameOver = true;
                 //gameover
-                double score = CalculateScore();
+                double score = CalculateScore(Board1);
 
                 if (score > ScoreTreshold)
                 {
@@ -158,8 +161,8 @@ namespace SnakeGame
             {
                 NewBoard(i);
                 while (Board1.Progress1Tick())
-                    RunBrain();
-                averageScore += CalculateScore();
+                    RunBrain(Board1, SnakeBrain);
+                averageScore += CalculateScore(Board1);
             }
             return averageScore / iterations;
         }
@@ -174,7 +177,7 @@ namespace SnakeGame
         {
             RedrawField();
             if (Board1.Progress1Tick())
-                RunBrain();
+                RunBrain(Board1, SnakeBrain);
             else
             {//gameOver
                 NewBoard();
@@ -190,63 +193,54 @@ namespace SnakeGame
                 }
         }
 
-        private void RunBrain()
+        private void RunBrain(Board board, Brain brain)
         {
 
             double[] tailDistances = new double[4] {
-                Board1.WidthHeight-1,
-                Board1.WidthHeight-1,
-                Board1.WidthHeight-1,
-                Board1.WidthHeight-1 };
-            for (int i = 0; i < Board1.TailLength; i++)
+                board.WidthHeight-1,
+                board.WidthHeight-1,
+                board.WidthHeight-1,
+                board.WidthHeight-1 };
+
+            for (int i = 0; i < board.TailLength; i++)
             {
-                if (Board1.TailY[i] == Board1.SnakeHeadY)
+                if (board.TailY[i] == board.SnakeHeadY)
                 {
-                    tailDistances[0] = Math.Min(tailDistances[0], Board1.DistanceLeft(Board1.SnakeHeadX, Board1.TailX[i]));
-                    tailDistances[2] = Math.Min(tailDistances[2], Board1.DistanceRight(Board1.SnakeHeadX, Board1.TailX[i]));
+                    tailDistances[0] = Math.Min(tailDistances[0], board.DistanceLeft(board.SnakeHeadX, board.TailX[i]));
+                    tailDistances[2] = Math.Min(tailDistances[2], board.DistanceRight(board.SnakeHeadX, board.TailX[i]));
                 }
-                if (Board1.TailX[i] == Board1.SnakeHeadX)
+                if (board.TailX[i] == board.SnakeHeadX)
                 {
-                    tailDistances[1] = Math.Min(tailDistances[1], Board1.DistanceUp(Board1.SnakeHeadY, Board1.TailY[i]));
-                    tailDistances[3] = Math.Min(tailDistances[3], Board1.DistanceDown(Board1.SnakeHeadY, Board1.TailY[i]));
+                    tailDistances[1] = Math.Min(tailDistances[1], board.DistanceUp(board.SnakeHeadY, board.TailY[i]));
+                    tailDistances[3] = Math.Min(tailDistances[3], board.DistanceDown(board.SnakeHeadY, board.TailY[i]));
                 }
             }
-            int[] foodDistances = new int[4] {
-                Board1.DistanceLeft(Board1.SnakeHeadX, Board1.FoodX),
-                Board1.DistanceUp(Board1.SnakeHeadY, Board1.FoodY),
-                Board1.DistanceRight(Board1.SnakeHeadX, Board1.FoodX),
-                Board1.DistanceDown(Board1.SnakeHeadY, Board1.FoodY)
-            };
 
+            double[,] perceptronValues =  new double[BoardWH,BoardWH];
 
-
-            int k = (int)Board1.SnakeDirection;
-
-            int horizontalDistance;
-            int verticalDistance;
-            if (foodDistances[k] > foodDistances[(k + 2) % 4])
-                verticalDistance = -foodDistances[(k + 2) % 4];
-            else
-                verticalDistance = foodDistances[k];
-            if (foodDistances[(k + 1) % 4] > foodDistances[(k + 3) % 4])
-                horizontalDistance = -foodDistances[(k + 3) % 4];
-            else
-                horizontalDistance = foodDistances[(k + 1) % 4];
-
-
-            double[] perceptronsValues = new double[4]
+            int counter = 0;
+            foreach (var field in board.Fields)
             {
-                //a bearing value to the next food piece relative to the current snake heading.
-                //vertical goes into the x argument to make sure that a dead ahead food direction leads to a value of 0
-                Math.Atan2(horizontalDistance, verticalDistance),
-                //whether or not a tail piece is ahead of, to the left of or to the right of the snake head
-                tailDistances[k],
-                tailDistances[(k+3)%4],
-                tailDistances[(k+1)%4],
-            };
+               perceptronValues[counter%BoardWH, counter/BoardWH] = (double)field;
+               counter++;
+            }
+
+            perceptronValues = Arrays.RotateHorizontally(perceptronValues, BoardWH/2 - board.SnakeHeadX < 0 ? BoardWH/2 - board.SnakeHeadX + BoardWH : BoardWH/2 - board.SnakeHeadX);
+            perceptronValues = Arrays.RotateVertically(perceptronValues, BoardWH/2 - board.SnakeHeadY < 0 ? BoardWH/2 - board.SnakeHeadY + BoardWH : BoardWH/2 - board.SnakeHeadY);
+
+            for (int i = 0; i < (int)board.SnakeDirection; i++)
+            {
+               perceptronValues = Arrays.RotateMatrix(perceptronValues, BoardWH);
+            }
+
+            List<double> perceptronsOutput = new List<double>();
+            foreach (var val in perceptronValues)
+            {
+               perceptronsOutput.Add(val);
+            }
 
             //calculate what the brain "thinks" that it should do
-            double[] brainThoughts = SnakeBrain.InputToOutput(perceptronsValues);
+            double[] brainThoughts = brain.InputToOutput(perceptronsOutput.ToArray());
 
             double maxvalue = brainThoughts.Max();
             for (int i = 0; i < 3; i++)
@@ -255,19 +249,56 @@ namespace SnakeGame
                 {
                     if (i == 1)
                     {
-                        Board1.ChangeDirection(Board.Direction.right);
+                        board.ChangeDirection(Board.Direction.Right);
                     }
                     else if (i == 2)
                     {
-                        Board1.ChangeDirection(Board.Direction.left);
+                        board.ChangeDirection(Board.Direction.Left);
                     }
                 }
             }
         }
 
+        /// <summary> Calculates an average score for a given brain and reports it to a label </summary>
+        /// <param name="brain"></param>
+        private void GetAvgScore(Brain brain)
+        {
+            
+            AvgScoreTask = Task.Run(()=>{
+
+                double totalScore = 0;
+                Board board;
+                int iterations = 0;
+               
+                while (true)
+                {
+                    board = new Board(BoardWH);
+                    iterations++;
+                    while (board.Progress1Tick())
+                    {
+                       RunBrain(board, brain);
+                    }
+                    totalScore += CalculateScore(board);
+                  
+                    if (iterations % 100 == 0)
+                       Dispatcher.Invoke(() =>
+                       {
+                           Temp123(totalScore/iterations);
+                       });
+
+                    NewBoard();
+                }
+            });
+        }
+
         private void NewBrain(int hlWidth, int hlHeight)
         {
-            SnakeBrain = new Brain(4, hlWidth, hlHeight, 3);
+            SnakeBrain = new Brain(Board1.FieldsCount, hlWidth, hlHeight, 3);
+        }
+
+        private void Temp123(double score)
+        {
+            ModeGetAvgScoreLabel.Content = Math.Floor(score*100)/100;
         }
 
         private void NewBoard(int i = -1)
@@ -280,13 +311,13 @@ namespace SnakeGame
 
             switch (field)
             {
-                case Board.Field.empty:
+                case Board.Field.Empty:
                     return Brushes.White;
-                case Board.Field.head:
+                case Board.Field.Head:
                     return Brushes.Black;
-                case Board.Field.tail:
+                case Board.Field.Tail:
                     return Brushes.Green;
-                case Board.Field.food:
+                case Board.Field.Food:
                     return Brushes.LightGreen;
             }
             return Brushes.White;
@@ -299,10 +330,10 @@ namespace SnakeGame
             else
                 MyTimer.Enabled = true;
         }
-
-        private double CalculateScore()
+      
+        private double CalculateScore(Board board)
         {
-            return Board1.TailLength * 1e2 / Math.Log(Board1.Tick);
+            return board.TailLength * 1e2 / Math.Log(board.Tick);
         }
         
         /// <summary>
@@ -428,50 +459,18 @@ namespace SnakeGame
                 MessageBox.Show("Invalid mutation chance value, please input an integer");
                 return;
             }
-            mutationChance = 100 / mutationChance;
             if (!int.TryParse(ModeTrainAINRRBox.Text, out int nrr))
             {
                 MessageBox.Show("Invalid NRR value, please input an integer");
                 return;
             }
-            if (!double.TryParse(ModeTrainAITresholdBox.Text, out double treshold))
+            if (!double.TryParse(ModeTrainAITresholdBox.Text, out double threshold))
             {
                 MessageBox.Show("Invalid treshold value, please input a double");
                 return;
             }
 
-            OpenFileDialog dlg = new OpenFileDialog
-            {
-                DefaultExt = ".dat",
-                Filter = "Data Files (*.dat)|*.dat"
-            };
-
-            bool? result = dlg.ShowDialog();
-            if (result != true)
-            {
-                MessageBox.Show("Couldn't recover file path");
-                return;
-            }
-
-
-            if (!File.Exists(dlg.FileName))
-            {
-                MessageBox.Show("Couldn't find that file");
-                return;
-            }
-
-            try
-            {
-                FileStream SnakeBrainInstanceFromFile = new FileStream(dlg.FileName, FileMode.Open, FileAccess.Read);
-                SnakeBrain = (Brain)Formatter.Deserialize(SnakeBrainInstanceFromFile);
-                SnakeBrainInstanceFromFile.Close();
-            }
-            catch (Exception err)
-            {
-                MessageBox.Show("Could not load selected snake brain file for this demo");
-                MessageBox.Show(err.Message);
-                return;
-            }
+            SnakeBrain = GetBrainFromFile();
 
             int len = MainGrid.Children.Count;
             for (int i = 0; i < len; i++)
@@ -482,21 +481,21 @@ namespace SnakeGame
 
             Brain prevBrain = DeepCopy(SnakeBrain);
             double prevScore = 0;
-            for (int i = 0; i < iterations; i++)
+            for (int i = 0; i < iterations*10; i++)
             {
                 NewBoard();
                 while (Board1.Progress1Tick())
-                    RunBrain();
-                prevScore += CalculateScore();
+                    RunBrain(Board1, SnakeBrain);
+                prevScore += CalculateScore(Board1);
             }
-            prevScore /= iterations;
+            prevScore /= iterations*10;
             MinScore = prevScore * 0.75;
 
             int count = 1000000000;
             while (--count > 0)
             {
                 double score = ModeTrainAI(degree, nrr, iterations, mutationChance);
-                if (score/treshold > prevScore && score > MinScore)
+                if (score/threshold > prevScore && score > MinScore)
                 {
                     if (score * .75 > MinScore)
                     {
@@ -527,6 +526,45 @@ namespace SnakeGame
                     break;
             }
         }
+
+        private Brain GetBrainFromFile()
+        {
+            OpenFileDialog dlg = new OpenFileDialog
+            {
+                DefaultExt = ".dat",
+                Filter = "Data Files (*.dat)|*.dat"
+            };
+
+            bool? result = dlg.ShowDialog();
+            if (result != true)
+            {
+                MessageBox.Show("Couldn't recover file path");
+                return null;
+            }
+
+
+            if (!File.Exists(dlg.FileName))
+            {
+                MessageBox.Show("Couldn't find that file");
+                return null;
+            }
+
+            try
+            {
+                FileStream SnakeBrainInstanceFromFile = new FileStream(dlg.FileName, FileMode.Open, FileAccess.Read);
+                Brain brain = (Brain)Formatter.Deserialize(SnakeBrainInstanceFromFile);
+                SnakeBrainInstanceFromFile.Close();
+                return brain;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Could not load selected snake brain file for this demo");
+                MessageBox.Show(err.Message);
+                return null;
+            }
+
+        }
+
         /// <summary>
         /// Makes an independent deep copy of a class instance<br/>
         /// https://stackoverflow.com/a/1031062/10055628
@@ -553,6 +591,11 @@ namespace SnakeGame
         private void ModeNewBrainHelpButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Generates new brains that can be input into the training function. The first number in the file represents its obtained score (given only 1 run)");
+        }
+
+        private void ModeGetAvgScore_Click(object sender, RoutedEventArgs e)
+        {
+            GetAvgScore(GetBrainFromFile());
         }
     }
 }

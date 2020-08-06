@@ -115,21 +115,16 @@ namespace SnakeGame
             for (int i = 0; i < HiddenLayerWidth; i++)
                 for (int j = 0; j < HiddenLayerHeight; j++)
                 {
-                    if (rng.Next(chanceOfMutation) != 0) continue;
-                    HiddenNeuronsBiasVals[i, j] += MutationMagnitude(normalRangeRepeats, degree);
+                    HiddenNeuronsBiasVals[i, j] += MutationMagnitude(normalRangeRepeats, degree) * Convert.ToInt32(rng.Next(chanceOfMutation) == 0);
                 }
-
             for (int i = 0; i < OutputNeurons; i++)
                 {
-                    if (rng.Next(chanceOfMutation) != 0) continue;
-                    OutputNeuronsBiasValues[i] += MutationMagnitude(normalRangeRepeats, degree);
+                    OutputNeuronsBiasValues[i] += MutationMagnitude(normalRangeRepeats, degree) * Convert.ToInt32(rng.Next(chanceOfMutation) == 0);
                 }
-
             for (int i = 0; i < NeuronConnections.Length; i++)
                 for (int j = 0; j < NeuronConnections[i].Length; j++)
                 {
-                    if (rng.Next(chanceOfMutation) != 0) continue;
-                    NeuronConnections[i][j] += MutationMagnitude(normalRangeRepeats, degree);
+                    NeuronConnections[i][j] += MutationMagnitude(normalRangeRepeats, degree) * Convert.ToInt32(rng.Next(chanceOfMutation) == 0);
                 }
         }
         public double RandomDouble(double range = 1)

@@ -27,11 +27,9 @@ namespace SnakeGame
         private readonly Random rng = new Random();
         public Board(int widthHeight, int i = -1)
         {
-            if (widthHeight % 2 != 0)
-                widthHeight++;
             WidthHeight = widthHeight;
 
-            SnakeDirection = Direction.right;
+            SnakeDirection = Direction.Right;
             SnakeHeadX = (int)Math.Floor((double)WidthHeight / 2);
             SnakeHeadY = (int)Math.Floor((double)WidthHeight / 2);
 
@@ -56,9 +54,9 @@ namespace SnakeGame
         {
             int k = (int)SnakeDirection;
             if (CanSwitchDir)
-                if (dir == Direction.right)
+                if (dir == Direction.Right)
                     SnakeDirection = (Direction)((k + 1) % 4);
-                if (dir == Direction.left)
+                if (dir == Direction.Left)
                     SnakeDirection = (Direction)((k + 3) % 4);
         }
         public bool Progress1Tick()
@@ -83,25 +81,24 @@ namespace SnakeGame
 
             switch (SnakeDirection)
             {
-                case Direction.up:
+                case Direction.Up:
                     SnakeHeadY++;
                     if (SnakeHeadY >= WidthHeight) SnakeHeadY = 0;
                     break;
-                case Direction.right:
+                case Direction.Right:
                     SnakeHeadX++;
                     if (SnakeHeadX >= WidthHeight) SnakeHeadX = 0;
                     break;
-                case Direction.down:
+                case Direction.Down:
                     SnakeHeadY--;
                     if (SnakeHeadY < 0) SnakeHeadY = WidthHeight - 1;
                     break;
-                case Direction.left:
+                case Direction.Left:
                     SnakeHeadX--;
                     if (SnakeHeadX < 0) SnakeHeadX = WidthHeight - 1;
                     break;
-                default:
-                    break;
             }
+
 
             if (SnakeHeadX == FoodX && SnakeHeadY == FoodY)
             {
@@ -136,13 +133,13 @@ namespace SnakeGame
         private void RedrawFields()
         {
             for (int i = 0; i < FieldsCount; i++)
-                Fields[i] = Field.empty;
+                Fields[i] = Field.Empty;
 
             for (int i = 0; i < TailLength; i++)
-                Fields[TailX[i] + TailY[i] * WidthHeight] = Field.tail;
+                Fields[TailX[i] + TailY[i] * WidthHeight] = Field.Tail;
 
-            Fields[SnakeHeadX + SnakeHeadY * WidthHeight] = Field.head;
-            Fields[FoodX + FoodY * WidthHeight] = Field.food;
+            Fields[SnakeHeadX + SnakeHeadY * WidthHeight] = Field.Head;
+            Fields[FoodX + FoodY * WidthHeight] = Field.Food;
         }
         private int FindEmptyField()
         {//randomly finds empty field
@@ -220,17 +217,17 @@ namespace SnakeGame
         }
         internal enum Field
         {
-            empty,
-            head,
-            tail,
-            food
+            Empty,
+            Head,
+            Tail,
+            Food = -10
         }
         internal enum Direction
         {
-            left,
-            up,
-            right,
-            down
+            Left,
+            Up,
+            Right,
+            Down
         }
     }
 
