@@ -24,9 +24,10 @@ namespace SnakeGame
         public int TicksLeft { get; set; } = 100;
         public bool GameOver = false;
         private bool CanSwitchDir = true;
-        private readonly Random rng = new Random();
+        private readonly Random Rng = new Random();
         public Board(int widthHeight, int i = -1)
         {
+            if (i > -1) Rng = new Random(i);
             WidthHeight = widthHeight;
 
             SnakeDirection = Direction.Right;
@@ -46,8 +47,6 @@ namespace SnakeGame
             FieldsCount = widthHeight * widthHeight;
             Fields = new Field[FieldsCount];
 
-            if (i > -1) rng = new Random(i);
-
             RedrawFields();
         }
         public void ChangeDirection(Direction dir)
@@ -59,6 +58,8 @@ namespace SnakeGame
                 if (dir == Direction.Left)
                     SnakeDirection = (Direction)((k + 3) % 4);
         }
+        ///<summary> Progresses the board by 1 tick </summary>
+        /// <returns> true if the game is not in a defeat state </returns>
         public bool Progress1Tick()
         {
             CanSwitchDir = true;
@@ -100,6 +101,7 @@ namespace SnakeGame
             }
 
 
+            //check if we're eating food
             if (SnakeHeadX == FoodX && SnakeHeadY == FoodY)
             {
                 int ef = FindEmptyField();
@@ -121,10 +123,11 @@ namespace SnakeGame
             {
                 if (TailX[i] == SnakeHeadX && TailY[i] == SnakeHeadY)
                 {
+                    //return defeat if we crash into our tail
                     return false;
                 }
             }
-            //timeout
+            //return defaet (because of timeout)
             if (--TicksLeft < 1)
                 return false;
 
@@ -149,7 +152,7 @@ namespace SnakeGame
 
             while (true)
             {
-                randomField = rng.Next(max);
+                randomField = Rng.Next(max);
 
                 bool isEmpty = true;
                 if (SnakeHeadX == X(randomField) ||

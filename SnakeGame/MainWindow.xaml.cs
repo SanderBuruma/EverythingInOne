@@ -39,6 +39,7 @@ namespace SnakeGame
         private int savedFilesCount = 0;
         private int savedFilesMax = 10000;
         public Task AvgScoreTask { get; set; }
+        public int Counter { get; set; }
 
         public MainWindow()
         {
@@ -137,11 +138,11 @@ namespace SnakeGame
         /// </summary>
         private void ModeDemoAi()
         {
-            NewBoard();
+            NewBoard(Counter);
             DrawFieldRectangles();
 
             MyTimer = new System.Timers.Timer();
-            MyTimer.Elapsed += new ElapsedEventHandler(DemoAIEvent);
+            MyTimer.Elapsed += DemoAIEvent;
             MyTimer.Interval = TimerInterval;
             MyTimer.Enabled = true;
         }
@@ -180,7 +181,8 @@ namespace SnakeGame
                 RunBrain(Board1, SnakeBrain);
             else
             {//gameOver
-                NewBoard();
+                Counter++;
+                NewBoard(Counter);
             }
         }
         private void RedrawField()
@@ -261,7 +263,7 @@ namespace SnakeGame
 
         /// <summary> Calculates an average score for a given brain and reports it to a label </summary>
         /// <param name="brain"></param>
-        private void GetAvgScore(Brain brain)
+        private void ModeAvgScore(Brain brain)
         {
             
             AvgScoreTask = Task.Run(()=>{
@@ -270,25 +272,24 @@ namespace SnakeGame
                 Board board;
                 int iterations = 0;
                
-                while (true)
+                while (iterations<100)
                 {
-                    board = new Board(BoardWH);
-                    iterations++;
+                    board = new Board(BoardWH, iterations % 100);
                     while (board.Progress1Tick())
                     {
                        RunBrain(board, brain);
                     }
                     totalScore += CalculateScore(board);
                   
-                    if (iterations % 100 == 0)
+                    if (iterations == 99)
                        Dispatcher.Invoke(() =>
                        {
-                           Temp123(totalScore/iterations);
+                           MoveScoreToLabel(totalScore/iterations);
                        });
-
-                    NewBoard();
+                    iterations++;
                 }
             });
+
         }
 
         private void NewBrain(int hlWidth, int hlHeight)
@@ -296,7 +297,7 @@ namespace SnakeGame
             SnakeBrain = new Brain(Board1.FieldsCount, hlWidth, hlHeight, 3);
         }
 
-        private void Temp123(double score)
+        private void MoveScoreToLabel(double score)
         {
             ModeGetAvgScoreLabel.Content = Math.Floor(score*100)/100;
         }
@@ -398,42 +399,17 @@ namespace SnakeGame
         {
             if (!int.TryParse(ModeDemoAIInterval.Text, out int interval))
             {
-                MessageBox.Show("Invalid interval value, please input an integer");
+                MessageBox.Show("Invalid value for interval, please input an integer");
                 return;
             }
+            if (!int.TryParse(ModeDemoAISeed.Text, out int Counter) || Counter < 0)
+            {
+                MessageBox.Show("Invalid seed or too small seed, please input an integer >= 0");
+                return;
+            }
+
             TimerInterval = interval;
-            OpenFileDialog dlg = new OpenFileDialog
-            {
-                DefaultExt = ".dat",
-                Filter = "Data Files (*.dat)|*.dat"
-            };
-
-            bool? result = dlg.ShowDialog();
-            if (result != true)
-            {
-                MessageBox.Show("Couldn't recover file path");
-                return;
-            }
-
-
-            if (!File.Exists(dlg.FileName))
-            {
-                MessageBox.Show("Couldn't find that file");
-                return;
-            }
-
-            try
-            {
-                FileStream SnakeBrainInstanceFromFile = new FileStream(dlg.FileName, FileMode.Open, FileAccess.Read);
-                SnakeBrain = (Brain)Formatter.Deserialize(SnakeBrainInstanceFromFile);
-                SnakeBrainInstanceFromFile.Close();
-            }
-            catch (Exception err)
-            {
-                MessageBox.Show("Could not load selected snake brain file for this demo");
-                MessageBox.Show(err.Message);
-                return;
-            }
+            SnakeBrain = GetBrainFromFile();
 
             int len = MainGrid.Children.Count;
             for (int i = 0; i < len; i++)
@@ -444,6 +420,7 @@ namespace SnakeGame
 
         private void ModeTrainAIButton_Click(object sender, RoutedEventArgs e)
         {
+            // trust but verify
             if (!double.TryParse(ModeTrainAIDegreeBox.Text, out double degree))
             {
                 MessageBox.Show("Invalid interval value, please input a double (aka. decimal) value");
@@ -481,14 +458,14 @@ namespace SnakeGame
 
             Brain prevBrain = DeepCopy(SnakeBrain);
             double prevScore = 0;
-            for (int i = 0; i < iterations*10; i++)
+            for (int i = 0; i < iterations; i++)
             {
-                NewBoard();
+                NewBoard(i);
                 while (Board1.Progress1Tick())
                     RunBrain(Board1, SnakeBrain);
                 prevScore += CalculateScore(Board1);
             }
-            prevScore /= iterations*10;
+            prevScore /= iterations;
             MinScore = prevScore * 0.75;
 
             int count = 1000000000;
@@ -595,7 +572,7 @@ namespace SnakeGame
 
         private void ModeGetAvgScore_Click(object sender, RoutedEventArgs e)
         {
-            GetAvgScore(GetBrainFromFile());
+            ModeAvgScore(GetBrainFromFile());
         }
     }
 }
