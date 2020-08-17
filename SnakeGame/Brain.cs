@@ -110,8 +110,12 @@ namespace SnakeGame
         /// <param name="normalRangeRepeats">normalRangeRepeats determines how much the random number approaches a normal distribution.</param>
         /// <param name="chanceOfMutation">Determines the numbber of mutations there will be on average</param>
         public void Mutate(double degree, int normalRangeRepeats = 4, int chanceOfMutation = 10)
-        {
-            chanceOfMutation = (Perceptrons * HiddenLayerHeight + HiddenLayerHeight * (HiddenLayerWidth-1) + HiddenLayerHeight * OutputNeurons) / chanceOfMutation;
+        {   //todo make a method that instead of mutating deterministically instead varies each element of the brain and re-scores at every variation and saves when it       finds an improvement.
+            chanceOfMutation = (
+            Perceptrons * HiddenLayerHeight +
+            HiddenLayerHeight * (HiddenLayerWidth-1) +
+            HiddenLayerHeight * OutputNeurons)
+            / chanceOfMutation;
 
             Random rng = new Random((int)DateTime.Now.Ticks);
             for (int i = 0; i < HiddenLayerWidth; i++)

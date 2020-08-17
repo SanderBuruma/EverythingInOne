@@ -24,7 +24,7 @@ namespace SnakeGame
 {
     public partial class MainWindow : Window
     {
-        private readonly int BoardWH = 15;
+        private int BoardWH = 15;
         internal Board Board1 { get; set; }
         private Rectangle[] FieldRectangles { get; set; }
         private Brain SnakeBrain { get; set; }
@@ -71,6 +71,7 @@ namespace SnakeGame
                 }
 
         }
+
         /**
          * <summary>Generates new brains, the size of the brain is determined by height * width</summary>
          * <param name="hlHeight">determines thd width of the hidden layer</param>
@@ -78,7 +79,10 @@ namespace SnakeGame
          */
         private void ModeGenerateNewBrains(int hlWidth, int hlHeight)
         {
-            NewBoard();
+            int iterator = 0;
+            
+            BoardWH = 5;
+            NewBoard(iterator);
             DrawFieldRectangles();
             NewBrain(hlWidth, hlHeight);
 
@@ -127,17 +131,20 @@ namespace SnakeGame
                     //MessageBox.Show("You crashed into your own tail and died or you ran out of time, your final score was " + string.Format("{0:N2}", score) + "\n\nGrow more quickly and grow larger to gain a larger score");
                 }
 
-                NewBoard();
+                iterator++;
+                NewBoard(iterator);
                 NewBrain(hlWidth, hlHeight);
             }
             MessageBox.Show("End of program, " + savedFilesCount.ToString() + " brain files generated.\nReview the executables' folder to see the brain files");
             Restart();
         }
+
         /// <summary>
         /// this mode is intended to demonstrate an AI (aka. snake brain) from a file
         /// </summary>
         private void ModeDemoAi()
         {
+            BoardWH = 5;
             NewBoard(Counter);
             DrawFieldRectangles();
 
@@ -146,6 +153,7 @@ namespace SnakeGame
             MyTimer.Interval = TimerInterval;
             MyTimer.Enabled = true;
         }
+
         /// <summary>
         /// runs the main brain a few times after mutating it and returns its average score
         /// </summary>
@@ -167,6 +175,7 @@ namespace SnakeGame
             }
             return averageScore / iterations;
         }
+
         private void DemoAIEvent(object source, ElapsedEventArgs e)
         {
             Dispatcher.Invoke(() =>
@@ -174,6 +183,7 @@ namespace SnakeGame
                 DemoAICycle();
             });
         }
+
         private void DemoAICycle()
         {
             RedrawField();
@@ -185,6 +195,7 @@ namespace SnakeGame
                 NewBoard(Counter);
             }
         }
+
         private void RedrawField()
         {
             for (int i = 0; i < BoardWH; i++)
@@ -236,7 +247,7 @@ namespace SnakeGame
             }
 
             List<double> perceptronsOutput = new List<double>();
-            foreach (var val in perceptronValues)
+            foreach (double val in perceptronValues)
             {
                perceptronsOutput.Add(val);
             }
@@ -452,6 +463,8 @@ namespace SnakeGame
             int len = MainGrid.Children.Count;
             for (int i = 0; i < len; i++)
                 MainGrid.Children.RemoveAt(0);
+            
+            BoardWH = 5;
 
             NewBoard();
             DrawFieldRectangles();
@@ -572,6 +585,7 @@ namespace SnakeGame
 
         private void ModeGetAvgScore_Click(object sender, RoutedEventArgs e)
         {
+            BoardWH = 5;
             ModeAvgScore(GetBrainFromFile());
         }
     }
