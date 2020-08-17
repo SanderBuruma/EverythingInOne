@@ -24,6 +24,24 @@ namespace Cubit32.Neurals
       // the first index represents connection layer (the fist involve perceptrons, the last 
       // involve output neurons and the others involve intra-hidden layer connections)
       private double[][] NeuronConnections { get; set; }
+      /// <summary>Counts the number of neurons and connectors</summary>
+      private int NeuronsPlusConnectionsCount {
+         get
+         {
+            return HiddenNeuronsBiasVals.Length + OutputNeuronsBiasValues.Length+NeuronConnectionsCount;
+         }
+      }
+      private int NeuronConnectionsCount {
+         get
+         {
+            int count = 0;
+            foreach (var neuronLayer in NeuronConnections)
+            {
+               count+=neuronLayer.Length;
+            }
+            return count;
+         }
+      }
 
       public Brain(
           int perceptrons,
@@ -153,8 +171,49 @@ namespace Cubit32.Neurals
          return tempDouble;
       }
 
-      public void MutateDeterministically(int num, double magnide, bool multOrAdd)
+      /// <summary>
+      /// Changes the value of a neuron connection or neuron base value. Starts with perceptron connectors and ends with output bias values. Finally it starts over depending no the 'increment' value.
+      /// </summary>
+      /// <param name="increment">An integer 0 or above. If 0 it changes the first neuron connection (from perceptron to middle layer neuron). Once increment it moves on to the next neuron or neuron connection from beginning to end starting at the perceptron connectors and finally returns (through a modulo function) to the perceptron connectors.</param>
+      /// <param name="magnitude">By how much to change the target neuron</param>
+      /// <param name="add">if false, multiplies the modified value with the magnitude, otherwise adds</param>
+      public void MutateDeterministically(int increment, double magnitude, bool add)
       {
+         if (increment < 0) throw new ArgumentException("increment may not be smaller than 0");
+         increment %= NeuronsPlusConnectionsCount;
+
+         //change a perceptron connection value
+         if (NeuronConnectionsCount < increment)
+         {
+            increment -= NeuronConnectionsCount;
+         }
+         else
+         {
+            //select layer
+            int layerDepth = 0;
+            while (NeuronConnections[layerDepth].Length < increment) increment -= NeuronConnections[layerDepth++].Length;
+
+            //change value
+            if (add) NeuronConnections[layerDepth][increment%NeuronConnections[layerDepth].Length] += magnitude;
+            else NeuronConnections[layerDepth][increment%NeuronConnections[layerDepth].Length] *= magnitude;
+            return;
+         }
+
+         //or change a hidden neuron bias value
+         if (HiddenNeuronsBiasVals.Length < increment)
+         {
+            increment -= HiddenNeuronsBiasVals.Length;
+         }
+         else
+         {
+            if (add) HiddenNeuronsBiasVals[increment%HiddenLayerWidth, increment%HiddenLayerHeight] += magnitude;
+            else HiddenNeuronsBiasVals[increment%HiddenLayerWidth, increment%HiddenLayerHeight] *= magnitude;
+            return;
+         }
+
+         //or an output neuron bias value
+         if (add) OutputNeuronsBiasValues[increment%OutputNeuronsBiasValues.Length] += magnitude;
+         else OutputNeuronsBiasValues[increment%OutputNeuronsBiasValues.Length] *= magnitude;
 
       }
    }

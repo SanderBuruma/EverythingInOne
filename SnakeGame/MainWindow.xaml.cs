@@ -161,10 +161,19 @@ namespace SnakeGame
         /// <param name="mutateMagnitude">The magnitude by which mutations can happen</param>
         /// <param name="iterations">The number of times the snake plays the game before returning the average score.</param>
         /// <param name="mutateNRR">Determines how much mutation magnitude distrubution conforms to a normal distribution.</param>
+        /// <param name="randomly">Whether or not to use deterministic brain changes</param>
+        /// <param name="incrementor">if non-random then this must should increment by 1 each call</param>
         /// <returns>the average score</returns>
-        private double ModeTrainAI(double mutateMagnitude = .1, int mutateNRR = 4, int iterations = 100, int nrOfMutations = 2)
+        private double ModeTrainAI(double mutateMagnitude = .1, int mutateNRR = 4, int iterations = 100, int nrOfMutations = 2, bool randomly = false, int incrementor = 0)
         {
-            SnakeBrain.Mutate(mutateMagnitude, mutateNRR, nrOfMutations);
+            if (randomly) SnakeBrain.Mutate(mutateMagnitude, mutateNRR, nrOfMutations);
+            else {
+               SnakeBrain.MutateDeterministically(
+                  incrementor/4, 
+                  incrementor/2%2 == 0 ? mutateMagnitude : 1/mutateMagnitude,
+                  incrementor%2 == 0
+               );
+            }
             double averageScore = 0;
 
             for (int i = 0; i < iterations; i++)
@@ -483,9 +492,9 @@ namespace SnakeGame
             MinScore = prevScore * 0.75;
 
             int count = 1000000000;
-            while (--count > 0)
+            while (--count >= 0)
             {
-                double score = ModeTrainAI(degree, nrr, iterations, mutationChance);
+                double score = ModeTrainAI(degree, nrr, iterations, mutationChance, randomly: !TrainAiDeterministically.IsEnabled, count);
                 if (score/threshold > prevScore && score > MinScore)
                 {
                     if (score * .75 > MinScore)
