@@ -255,11 +255,11 @@ namespace SnakeGame
                 {
                     if (i == 1)
                     {
-                        Board1.ChangeDirection(Board.Direction.right);
+                        Board1.ChangeDirection(Board.Direction.Right);
                     }
                     else if (i == 2)
                     {
-                        Board1.ChangeDirection(Board.Direction.left);
+                        Board1.ChangeDirection(Board.Direction.Left);
                     }
                 }
             }
@@ -280,13 +280,13 @@ namespace SnakeGame
 
             switch (field)
             {
-                case Board.Field.empty:
+                case Board.Field.Empty:
                     return Brushes.White;
-                case Board.Field.head:
+                case Board.Field.Head:
                     return Brushes.Black;
-                case Board.Field.tail:
+                case Board.Field.Tail:
                     return Brushes.Green;
-                case Board.Field.food:
+                case Board.Field.Food:
                     return Brushes.LightGreen;
             }
             return Brushes.White;
