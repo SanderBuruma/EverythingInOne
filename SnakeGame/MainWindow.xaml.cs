@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Diagnostics;
 using Cubit32;
+using Cubit32.Neurals;
 using System.Threading.Tasks;
 
 namespace SnakeGame
