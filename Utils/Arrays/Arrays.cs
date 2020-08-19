@@ -10,7 +10,7 @@ namespace Cubit32
       /// Rotates a 2D array
       /// </summary>
       /// <param name="matrix">the 2D array</param>
-      /// <param name="n">Number of times to rotate clockwise</param>
+      /// <param name="n">Width and height of the array</param>
       /// <returns></returns>
       //credit to https://stackoverflow.com/a/42535/10055628 & https://stackoverflow.com/a/20351411/10055628
       public static T[,] RotateMatrix<T>(T[,] matrix, int n) {

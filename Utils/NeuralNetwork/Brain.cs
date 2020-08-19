@@ -180,6 +180,7 @@ namespace Cubit32.Neurals
       public void MutateDeterministically(int increment, double magnitude, bool add)
       {
          if (increment < 0) throw new ArgumentException("increment may not be smaller than 0");
+         magnitude = Math.Pow(magnitude, 10 - increment % (NeuronsPlusConnectionsCount * 10)/NeuronsPlusConnectionsCount);
          increment %= NeuronsPlusConnectionsCount;
 
          //change a perceptron connection value
@@ -199,21 +200,21 @@ namespace Cubit32.Neurals
             return;
          }
 
-         //or change a hidden neuron bias value
-         if (HiddenNeuronsBiasVals.Length < increment)
+         //or an output neuron bias value
+         if (OutputNeuronsBiasValues.Length < increment)
          {
-            increment -= HiddenNeuronsBiasVals.Length;
+            increment -= OutputNeuronsBiasValues.Length;
          }
          else
          {
-            if (add) HiddenNeuronsBiasVals[increment%HiddenLayerWidth, increment%HiddenLayerHeight] += magnitude;
-            else HiddenNeuronsBiasVals[increment%HiddenLayerWidth, increment%HiddenLayerHeight] *= magnitude;
+            if (add) OutputNeuronsBiasValues[increment%OutputNeuronsBiasValues.Length] += magnitude;
+            else OutputNeuronsBiasValues[increment%OutputNeuronsBiasValues.Length] *= magnitude;
             return;
          }
-
-         //or an output neuron bias value
-         if (add) OutputNeuronsBiasValues[increment%OutputNeuronsBiasValues.Length] += magnitude;
-         else OutputNeuronsBiasValues[increment%OutputNeuronsBiasValues.Length] *= magnitude;
+         
+         //or change a hidden neuron bias value
+         if (add) HiddenNeuronsBiasVals[increment%HiddenLayerWidth, increment%HiddenLayerHeight] += magnitude;
+         else HiddenNeuronsBiasVals[increment%HiddenLayerWidth, increment%HiddenLayerHeight] *= magnitude;
 
       }
    }
