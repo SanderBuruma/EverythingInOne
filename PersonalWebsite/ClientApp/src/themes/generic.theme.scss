@@ -1,0 +1,112 @@
+// This defines the default theme
+
+//http://mcg.mbitson.com/#!?mcgpalette0=%23c0afd0
+$primary-color: (
+  50 : #f7f5f9,
+  100 : #ece7f1,
+  200 : #e0d7e8,
+  300 : #d3c7de,
+  400 : #c9bbd7,
+  500 : #c0afd0,
+  600 : #baa8cb,
+  700 : #b29fc4,
+  800 : #aa96be,
+  900 : #9c86b3,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #eddcff,
+  A700 : #e0c3ff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #000000,
+      800 : #000000,
+      900 : #000000,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$secondary-color: (
+  50 : #eee6f0,
+  100 : #d4c2db,
+  200 : #b799c3,
+  300 : #9a70aa,
+  400 : #845198,
+  500 : #6e3286,
+  600 : #662d7e,
+  700 : #5b2673,
+  800 : #511f69,
+  900 : #3f1356,
+  A100 : #d590ff,
+  A200 : #c25dff,
+  A400 : #af2aff,
+  A700 : #a510ff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #ffffff,
+      A700 : #ffffff,
+  )
+);
+
+$tertiary-color: (
+  50 : #f6faea,
+  100 : #e8f2cb,
+  200 : #d9eaa8,
+  300 : #cae185,
+  400 : #beda6a,
+  500 : #b3d450,
+  600 : #accf49,
+  700 : #a3c940,
+  800 : #6f9d00,
+  900 : #537900,
+  A100 : #faeedd, //I know this color is pink and that it's hacky but idk how else to make the di-scan-round angular materials progressbar use two colors -Sander
+  A200 : #ebffc4,
+  A400 : #daff91,
+  A700 : #d1ff78,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+
+$primary: mat-palette($primary-color, 50, 200, A100);
+$accent: mat-palette($secondary-color, 500, 800, A100);
+$warn: mat-palette($tertiary-color, 500, A100, A400);
+
+$theme: mat-light-theme(
+  $primary,
+  $accent,
+  $warn
+);

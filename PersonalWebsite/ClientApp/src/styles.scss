@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+html, body { height: 100%; }
+
+body { margin: 0; }
+
+* {
+  font-family: galano_grotesquealt , Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+//make some standard margins and padding available.
+@each $v in (0, 1, 2, 3, 4, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60, 70, 100, 150, 200, 250, 300) {
+  .m-t-#{$v} {
+    margin-top: $v+px;
+  }
+  .m-b-#{$v} {
+    margin-bottom: $v+px;
+  }
+  .m-r-#{$v} {
+    margin-right: $v+px;
+  }
+  .m-l-#{$v} {
+    margin-left: $v+px;
+  }
+  .m-#{$v} {
+    margin: $v+px;
+  }
+  .p-t-#{$v} {
+    padding-top: $v+px;
+  }
+  .p-b-#{$v} {
+    padding-bottom: $v+px;
+  }
+  .p-r-#{$v} {
+    padding-right: $v+px;
+  }
+  .p-l-#{$v} {
+    padding-left: $v+px;
+  }
+  .p-#{$v} {
+    padding: $v+px;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
