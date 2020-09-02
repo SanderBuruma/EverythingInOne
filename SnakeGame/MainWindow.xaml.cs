@@ -282,6 +282,7 @@ namespace SnakeGame
                {
                   board.ChangeDirection(Board.Direction.Left);
                }
+               break;
             }
          }
       }
@@ -297,6 +298,9 @@ namespace SnakeGame
             double totalScore = 0;
             Board board;
             int iterations = 0;
+            double minScore = 999999999;
+            double avgTime = 0;
+            double avgTurns = 0;
 
             while (iterations < 100)
             {
@@ -305,8 +309,11 @@ namespace SnakeGame
                {
                   RunBrain(board, brain);
                }
+               minScore = Math.Min(CalculateScore(board), minScore);
+               avgTime += board.Tick;
+               avgTurns += board.Turns;
                totalScore += CalculateScore(board);
-
+               
                if (iterations == 99)
                   Dispatcher.Invoke(() =>
                   {
@@ -314,6 +321,13 @@ namespace SnakeGame
                   });
                iterations++;
             }
+
+            avgTime /= 100;
+            avgTurns /= 100;
+         
+            Console.WriteLine(minScore);
+            Console.WriteLine(avgTime);
+            Console.WriteLine(avgTurns);
          });
 
       }
@@ -360,7 +374,7 @@ namespace SnakeGame
 
       private double CalculateScore(Board board)
       {
-         return board.TailLength * 1e3 / Math.Log(board.Tick) / Math.Log(board.Turns);
+         return board.TailLength * 1e3 / Math.Log(board.Tick) / Math.Log(board.Turns) / board.FieldsCount * board.TailLength;
       }
 
       /// <summary>
@@ -535,7 +549,7 @@ namespace SnakeGame
          Brain newBrain = DeepCopy(SnakeBrain);
          while (count++ < 2_000_000_000)
          {
-            foreach (double magnitude in new double[]{ 0.1, 0.25, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.05, 1.1, 1.2, 1.3, 1.4, 1.5, 2, 3, 4, 8 })
+            foreach (double magnitude in new double[]{ 0.1, 0.5, 0.8, 0.95, -1, 1.05, 1.3, 1.5, 2, 4, 8 })
             {
                for (int i = 0; i < 2; i++)
                {
@@ -571,14 +585,25 @@ namespace SnakeGame
       /// <returns></returns>
       private double AverageScore(Brain brain, int runs)
       {
+         double minScore = 999999999;
+         double avgTime = 0;
          double prevScore = 0;
+         double avgTurns = 0;
          for (int i = 0; i < runs; i++)
          {
             NewBoard(i);
             while (Board1.Progress1Tick())
                RunBrain(Board1, brain);
             prevScore += CalculateScore(Board1);
+            minScore = Math.Min(CalculateScore(Board1), minScore);
+            avgTime += Board1.Tick;
+            avgTurns += Board1.Turns;
          }
+         avgTime /= runs;
+         avgTurns /= runs;
+         Console.WriteLine(minScore);
+         Console.WriteLine(avgTime);
+         Console.WriteLine(avgTurns);
          return prevScore / runs;
       }
 

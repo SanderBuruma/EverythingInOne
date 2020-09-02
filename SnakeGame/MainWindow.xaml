@@ -36,6 +36,8 @@
       <Button x:Name="ModeNewBrainHelpButton" Content="?" HorizontalAlignment="Left" Margin="90,8,0,0" VerticalAlignment="Top" Width="17" Background="White" Click="ModeNewBrainHelpButton_Click"/>
       <Button x:Name="ModeGetAvgScoreButtton" Content="Avg Score" ToolTip="Train an AI, requires the selection of a snake brain." HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="75" Background="White" Click="ModeGetAvgScore_Click"/>
       <Label x:Name="ModeGetAvgScoreLabel" Content="Avg Score" HorizontalAlignment="Left" Margin="95,271,0,0" VerticalAlignment="Top" Height="19" Padding="0" HorizontalContentAlignment="Right" Width="137"/>
+      <Label x:Name="ModeGetAvgTimeLabel" Content="" HorizontalAlignment="Left" Margin="95,286,0,0" VerticalAlignment="Top" Height="19" Padding="0" HorizontalContentAlignment="Right" Width="137"/>
+      <Label x:Name="ModeGetAvgTurnsLabel" Content="" HorizontalAlignment="Left" Margin="95,301,0,0" VerticalAlignment="Top" Height="19" Padding="0" HorizontalContentAlignment="Right" Width="137"/>
       <CheckBox x:Name="TrainAiDeterministically" ToolTip="If checked changes the snakebrain non-randomly" Content="Deterministically" HorizontalAlignment="Left" Margin="10,188,0,0" VerticalAlignment="Top" IsChecked="True"/>
    </Grid>
 </Window>

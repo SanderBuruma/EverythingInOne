@@ -123,8 +123,11 @@ namespace SnakeGame
             int ef = FindEmptyField();
             TailX[TailLength] = TailX[TailLength - 1];
             TailY[TailLength] = TailY[TailLength - 1];
-            if (TailLength < FieldsCount)
+            if (TailLength < FieldsCount-2)
                TailLength++;
+            else 
+               // game over, no room left over
+               return false;
             Score += 10;
             FoodX = X(ef);
             FoodY = Y(ef);
