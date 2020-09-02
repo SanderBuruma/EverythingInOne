@@ -7,6 +7,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D2E3AE41-7560-41A4-B883-5AED9CC5B640}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cubit32", "Utils\Cubit32.csproj", "{ECD640E2-722F-4E26-B541-EC16A0BE4540}"
@@ -55,5 +56,11 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DAAE4E1-2B5C-4A07-B9DD-BB8A517C4E9D}
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {785DFF89-008E-4D07-A0F0-A084A891BE85}
 	EndGlobalSection
 EndGlobal

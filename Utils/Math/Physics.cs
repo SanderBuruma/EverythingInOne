@@ -2,24 +2,24 @@
 
 namespace Cubit32.Physics
 {
-    public static class Physics
-    {
-        private static decimal _gravitationalConstant = 6.67430e-11m;
+   public static class Physics
+   {
+      private static double _gravitationalConstant = 6.67430e-11;
 
-        public static decimal G
-        {
-            get
-            {
-                return _gravitationalConstant;
-            }
-        }
+      public static double G
+      {
+         get
+         {
+            return _gravitationalConstant;
+         }
+      }
 
-        /// <param name="bodyMass">the mass in kilograms of the body generating the gravity</param>
-        /// <param name="radius">In meters</param>
-        /// <returns>m/s^2</returns>
-        public static decimal GetGravity(decimal bodyMass, decimal radius)
-        {
-            return bodyMass * G / radius / radius;
-        }
-    }
+      /// <param name="bodyMass">the mass in kilograms of the body generating the gravity</param>
+      /// <param name="radius">In meters</param>
+      /// <returns>m/s^2</returns>
+      public static double GetGravity(double bodyMass, double radius)
+      {
+         return bodyMass * G / radius / radius;
+      }
+   }
 }
