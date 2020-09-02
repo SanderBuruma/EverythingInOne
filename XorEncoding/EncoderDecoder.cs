@@ -12,12 +12,12 @@ namespace XorEncoding
 		/// <summary>
 		/// The Base64 base chars
 		/// </summary>
-		private static readonly String CharsString;
+		public static readonly String CharsString;
 
 		/// <summary>
 		/// special char translation to and from base64compliant baseword
 		/// </summary>
-		private static readonly Dictionary<String, String> WordSpecialCodes;
+		public static readonly Dictionary<String, String> WordSpecialCodes;
 
 		static EncoderDecoder()
 		{
