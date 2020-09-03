@@ -6,11 +6,10 @@ import { RouterModule }            from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent }            from './app.component';
-import { NavMenuComponent }        from './nav-menu/nav-menu.component';
 import { HomeComponent }           from './home/home.component';
-import { CounterComponent }        from './counter/counter.component';
-import { FetchDataComponent }      from './fetch-data/fetch-data.component';
+import { BigPrimeComponent }       from './big-prime-component/big-prime.component';
 
+import { FlexLayoutModule }        from '@angular/flex-layout';
 import { MatCheckboxModule }       from '@angular/material/checkbox';
 import { MatButtonModule }         from '@angular/material/button';
 import { MatToolbarModule }        from '@angular/material/toolbar';
@@ -19,27 +18,25 @@ import { MatDividerModule }        from '@angular/material/divider';
 import { MatIconModule }           from '@angular/material/icon';
 import { MatProgressBarModule }    from '@angular/material/progress-bar';
 import { MatSnackBarModule }       from '@angular/material/snack-bar';
+import { MatInputModule }          from '@angular/material/input';
 import { OverlayModule }           from '@angular/cdk/overlay';
 
 import { HttpService }             from './shared/services/Http.service';
 import { ThemesService }           from './shared/services/Themes.service';
 
-import { routes }                 from './app.routing'
+import { routes }                  from './app.routing'
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    BigPrimeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    BrowserAnimationsModule,
     OverlayModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -48,8 +45,10 @@ import { routes }                 from './app.routing'
     MatDividerModule,
     MatIconModule,
     MatProgressBarModule,
+    MatInputModule,
     MatSnackBarModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FlexLayoutModule
   ],
   providers: [HttpService, ThemesService],
   bootstrap: [AppComponent]

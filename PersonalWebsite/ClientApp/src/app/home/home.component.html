@@ -1,5 +1,22 @@
-<h1 class="text-center primary-400 accent-bg-900">Sander Buruma's website</h1>
-<p class="text-center accent-700 primary-bg-50">This is a place for my personal experiments and ramblings; here I may show off my l33t coding skills and/or shamelessly advertise for me to meet nice woman folk.</p>
-<button mat-raised-button (click)="_themesService.IncrementTheme()" color="primary">Increment Theme</button>
-<button mat-raised-button color="accent">Accent</button>
-<button mat-raised-button color="warn">Warn</button>
+<div fxFlexLayout="row">
+  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
+  <div fxFlex.gt-sm="60%">
+    <h1 class="text-center primary-400 accent-bg-900 p-4">Sander Buruma's website</h1>
+    <p class="text-center accent-700 primary-bg-50 p-4">This is a place for my personal experiments and ramblings; here I may show off my l33t coding skills and/or shamelessly advertise for me to meet nice woman folk.</p>
+  </div>
+</div>
+
+<div fxFlexLayout="row" fxFlexLayout.lt-md="column" fxFlexAlign="center center" class="p-4">
+  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
+  <div fxFlex.gt-sm="60%" fxFlex.lt-md="100%" fxFlexAlign="center center" fxLayout="column">
+    <button fxFlex="33%" mat-raised-button (click)="_themesService.IncrementTheme()" color="primary">Increment Theme</button>
+    <button fxFlex="33%" mat-raised-button color="accent">Accent</button>
+    <button fxFlex="34%" mat-raised-button color="warn">Warn</button>
+  </div>
+</div>
+
+<div fxFlexLayout="row">
+    <a class="text-center p-4" fxFlex="100%" fxFlexFill [routerLink]="['/big-prime']">
+      Big Prime Calculator
+    </a>
+</div>

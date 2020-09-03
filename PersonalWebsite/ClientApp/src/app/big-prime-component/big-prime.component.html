@@ -1,0 +1,21 @@
+<div fxLayout="row">
+
+  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
+
+  <div fxFlex="60%">
+
+    <p>
+      <mat-form-field class="example-full-width">
+        <mat-label>Digits</mat-label>
+        <input matInput [(ngModel)]="_digitsToGet">
+      </mat-form-field>
+    </p>
+
+    <button mat-raised-button color="accent" (click)="GetPrime(_digitsToGet)">Generate BigPrime</button>
+
+    <p>prime: {{_prime}}</p>
+
+  </div>
+
+</div>
+
