@@ -24,6 +24,8 @@ import { OverlayModule }           from '@angular/cdk/overlay';
 import { HttpService }             from './shared/services/Http.service';
 import { ThemesService }           from './shared/services/Themes.service';
 
+import { routes }                 from './app.routing'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,11 +38,7 @@ import { ThemesService }           from './shared/services/Themes.service';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ]),
+    RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     OverlayModule,
     MatCheckboxModule,
