@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs';
-import { ThemeIndices } from '../enums/themes.enum'
+import { ThemeIndices } from '../../enums/themes.enum'
 
 @Injectable({
   providedIn: 'root', // ensures this service is used as a singleton
@@ -38,6 +38,7 @@ export class ThemesService {
     this._currentThemeIndex++;
     this._currentThemeIndex %= this._listOfThemes.length;
     this._themeSubject.next(this._listOfThemes[this._currentThemeIndex]);
+    console.log({theme: this._themeSubject.value})
   }
   //#endregion
 

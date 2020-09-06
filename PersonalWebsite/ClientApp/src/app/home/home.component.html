@@ -1,22 +1,22 @@
+<app-header></app-header>
+
 <div fxFlexLayout="row">
   <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
   <div fxFlex.gt-sm="60%">
-    <h1 class="text-center primary-400 accent-bg-900 p-4">Sander Buruma's website</h1>
-    <p class="text-center accent-700 primary-bg-50 p-4">This is a place for my personal experiments and ramblings; here I may show off my l33t coding skills and/or shamelessly advertise for me to meet nice woman folk.</p>
+    <h1 class="text-center accent-900 p-4">Sander Buruma's website</h1>
+    <p class="text-center accent-900 p-4">This is a place for my personal experiments and ramblings; here I may show off my l33t coding skills and/or shamelessly advertise for me to meet nice woman folk.</p>
+    <p class="text-center primary-900 p-4">I prefer woman folk over men because I'm a gentleman with warm red blood. I prefer woman best in pretty light flowery colors.</p>
+    <p class="text-center warn-900 p-4">It behooves <span class="warn-border-50">all people</span> to present themselves fashionably and decently, intending to be a cure to sore eyes; inspiring hope and confidence in one's fellow man.</p>
   </div>
 </div>
 
-<div fxFlexLayout="row" fxFlexLayout.lt-md="column" fxFlexAlign="center center" class="p-4">
-  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
-  <div fxFlex.gt-sm="60%" fxFlex.lt-md="100%" fxFlexAlign="center center" fxLayout="column">
-    <button fxFlex="33%" mat-raised-button (click)="_themesService.IncrementTheme()" color="primary">Increment Theme</button>
-    <button fxFlex="33%" mat-raised-button color="accent">Accent</button>
-    <button fxFlex="34%" mat-raised-button color="warn">Warn</button>
-  </div>
+<div
+  fxFlexLayout="column"
+  fxLayoutAlign="center center"
+  class="m-t-10 m-b-10">
+  <button mat-raised-button (click)="_themesService.IncrementTheme()" color="primary">Increment Theme</button>
 </div>
 
-<div fxFlexLayout="row">
-    <a class="text-center p-4" fxFlex="100%" fxFlexFill [routerLink]="['/big-prime']">
-      Big Prime Calculator
-    </a>
+<div fxFlexLayout="row" fxLayoutAlign="space-evenly none">
+  <button fxFlexAlign="center" mat-raised-button color="primary" (click)="NavigateTo('big-prime')">Prime Calculator</button>
 </div>

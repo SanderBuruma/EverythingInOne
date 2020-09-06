@@ -1,0 +1,10 @@
+<!-- Bar showing if a fetch request is in progress -->
+<mat-progress-bar
+  *ngIf="(_httpService.RunningRequestsCountObservable | async) != 0"
+  mode="indeterminate"
+  color="primary"
+  class="m-b-10">
+</mat-progress-bar>
+<div
+  *ngIf="(_httpService.RunningRequestsCountObservable | async) == 0"
+  class="nothing-bar m-b-10"></div>

@@ -25,12 +25,14 @@ import { HttpService }             from './shared/services/Http.service';
 import { ThemesService }           from './shared/services/Themes.service';
 
 import { routes }                  from './app.routing'
+import { HeaderComponent }         from './shared/components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    BigPrimeComponent
+    BigPrimeComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

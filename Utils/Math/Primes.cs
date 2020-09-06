@@ -34,7 +34,7 @@ namespace Cubit32.Primes
       public static BigInteger Generate(int digits)
       {
          //do not permit too large requests
-         if (digits < 20) return new BigInteger();
+         if (digits < 6) return new BigInteger();
          if (digits > 1000) return new BigInteger();
 
          BigInteger p;
