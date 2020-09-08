@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using Cubit32.Primes;
+using System.Threading;
 
 namespace PersonalWebsite.Controllers
 {
@@ -15,9 +10,9 @@ namespace PersonalWebsite.Controllers
    {
 
       [HttpGet("bigPrime")]
-      public object BigPrime(int digits)
+      public object BigPrime(int digits, CancellationToken cToken)
       {
-         return new { prime = Primes.Generate(digits).ToString("N0") };
+         return new { prime = Primes.Generate(digits, cToken).ToString("N0") };
       }
    }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Cubit32.Numbers;
 
 namespace Cubit32.Primes
@@ -31,7 +33,7 @@ namespace Cubit32.Primes
       /// Generates a big prime number with the target nr of digits
       /// </summary>
       /// <returns></returns>
-      public static BigInteger Generate(int digits)
+      public static BigInteger Generate(int digits, CancellationToken cToken)
       {
          //do not permit too large requests
          if (digits < 6) return new BigInteger();
@@ -39,7 +41,6 @@ namespace Cubit32.Primes
 
          BigInteger p;
          RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-         Console.Write("Input the number of bytes the prime number needs to have: ");
          int primeByteSize = digits * 101/241;
          byte[] bytes = new byte[primeByteSize];
 
@@ -51,6 +52,7 @@ namespace Cubit32.Primes
             
 
          goto2:;
+         if (cToken.IsCancellationRequested) return new BigInteger(131);
          rng.GetBytes(bytes);
          p = baseP + BigInteger.Abs(new BigInteger(bytes) - 1);
          foreach (int prime in _primes)
