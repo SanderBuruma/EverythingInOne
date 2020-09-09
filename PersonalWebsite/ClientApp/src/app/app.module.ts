@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent }            from './app.component';
 import { HomeComponent }           from './home/home.component';
 import { BigPrimeComponent }       from './big-prime-component/big-prime.component';
+import { HeaderComponent }         from './shared/components/header/header.component';
+import { ScriboAlacritoComponent } from './scribo-alacrito/scribo-alacrito.component';
 
 import { FlexLayoutModule }        from '@angular/flex-layout';
 import { MatCheckboxModule }       from '@angular/material/checkbox';
@@ -25,14 +27,14 @@ import { HttpService }             from './shared/services/Http.service';
 import { ThemesService }           from './shared/services/Themes.service';
 
 import { routes }                  from './app.routing'
-import { HeaderComponent }         from './shared/components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     BigPrimeComponent,
-    HeaderComponent
+    HeaderComponent,
+    ScriboAlacritoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

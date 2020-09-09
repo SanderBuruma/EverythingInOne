@@ -1,0 +1,32 @@
+<app-header></app-header>
+
+<div
+fxFlexLayout="column"
+fxLayoutAlign="center center"
+class="m-t-10 m-b-10">
+
+  <div fxFlex="50%"
+  fxLayoutAlign="center center">
+    <p>
+      Something Here
+    </p>
+  </div>
+
+  <div fxFlex="50%"
+  fxLayoutAlign="center center">
+    <button
+      [disabled]="(_httpService.RunningRequestsCountObservable | async) > 0"
+      mat-raised-button
+      color="accent"
+      (click)="GetText()">
+      Get Text
+    </button>
+  </div>
+
+</div>
+
+<div fxFlexLayout="row">
+  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
+  <p fxFlex.gt-sm="60%" class="text-center">{{_text}}</p>
+</div>
+
