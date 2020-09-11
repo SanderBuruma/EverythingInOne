@@ -1,0 +1,26 @@
+.title {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.input-error {
+  background-color: #daa;
+}
+
+.displayed-text {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+span {
+  &.correct {
+    background-color: #dfd;
+  }
+  &.false {
+    background-color: #daa;
+  }
+  &.remaining {
+    background-color: #fff;
+  }
+}

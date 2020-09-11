@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Cubit32.Primes;
+using PersonalWebsite.Controllers;
 
 namespace PersonalWebsite
 {
@@ -59,8 +60,9 @@ namespace PersonalWebsite
                    pattern: "{controller}/{action=Index}/{id?}");
          });
 
-         //initialize custom libraries
+         //initialize custom  and controllers
          Primes.Initialize();
+         ScriboAlacritoController.Initialize();
 
          app.UseSpa(spa =>
          {

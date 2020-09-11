@@ -10,6 +10,14 @@
   </div>
 </div>
 
+
+<div fxFlexLayout="row" class="m-t-20">
+  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
+  <div fxFlex.gt-sm="60%" class="text-center">
+    <h3 class="accent-900 p-4">A few mini projects:</h3>
+  </div>
+</div>
+
 <div
   fxFlexLayout="column"
   fxLayoutAlign="space-evenly none"
@@ -37,14 +45,4 @@
     fxFlexAlign="center"
     mat-raised-button color="primary"
     (click)="NavigateTo('scribo-alacrito')">Scribo Alacrito</button>
-</div>
-
-<div
-  fxFlexLayout="row"
-  fxLayoutAlign="space-evenly none"
-  class="m-t-10 m-b-10">
-  <button
-    fxFlexAlign="center"
-    mat-raised-button color="primary"
-    class="special-button-class">Very long text which should be contained within a strictly limited width but expanding downward when necessary</button>
 </div>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,58 +13,42 @@ namespace PersonalWebsite.Controllers
    [Route("[controller]")]
    public class ScriboAlacritoController
    {
-      public static List<string> _books;
+      private static string[] _lines;
+      private static Random _rng;
 
-      public void Initialize()
+      public static void Initialize()
       {
-         List<string> books = new List<string>();
-         string meumProelium = "";
+         List<string> text = DataFiles.MeumProelium.Text.Split("\n").ToList();
+         List<string> linesNew = new List<string>();
+         Regex rgx = new Regex(@".{150}.*?\s+", RegexOptions.None);
+         foreach (string line in text)
+         {
+            if (line.Length < 300) linesNew.Add(line.Trim());
+            else
+            {
+               string line2 = line;
+               while (line2.Length > 150)
+               {
+                  string match = rgx.Match(line2).Value;
+                  line2 = line2.Substring(match.Length);
+                  if (match.Length < 15) break;
+                  linesNew.Add(match.Trim());
+               }
+               if (line2.Length > 15)
+                  linesNew.Add(line2.Trim());
+            }
+         }
+         _lines = linesNew.ToArray();
+         _rng = new Random();
       }
 
       [HttpGet("getText")]
-      public object GetText(CancellationToken cToken)
+      public object GetText(int i)
       {
-         //return Environment.CurrentDirectory;
+         if (i < 0)
+             i = _rng.Next(_lines.Length);
 
-         //DirectoryInfo d = new DirectoryInfo(Environment.CurrentDirectory);//Assuming Test is your Folder
-         //FileInfo[] Files = d.GetFiles("*.*"); //Getting Text files
-         //string str = "";
-         //foreach(FileInfo file in Files )
-         //{
-         //  str = str + ", " + file.Name;
-         //}
-
-         List<string> directories = new List<string>();
-         
-         Directory.GetDirectories(Environment.CurrentDirectory).ToList().ForEach(direc=>{
-            if (!direc.StartsWith(".")) directories.Add(direc);
-         });
-         for (int i = 0; i < directories.Count && directories.Count < 10000; i++)
-         {
-            Directory.GetDirectories(directories[i]).ToList().ForEach(direc=>{
-               if (!direc.StartsWith(".")) directories.Add(direc);
-            });
-         }
-
-
-         List<string> str = new List<string>();
-         foreach (var directory in directories)
-         {
-            DirectoryInfo d = new DirectoryInfo(directory);//Assuming Test is your Folder
-            FileInfo[] Files = d.GetFiles("*.*"); //Getting Text files
-            foreach (FileInfo file in Files)
-            {
-              str.Add(file.FullName);
-            }
-         }
-
-         return new { str };
-
-         string readContents;
-         using (StreamReader streamReader = new StreamReader(@"C:\"))
-         {
-              readContents = streamReader.ReadToEnd();
-         }
+         return new { str = _lines[i%_lines.Length], i };
       }
    }
 }
