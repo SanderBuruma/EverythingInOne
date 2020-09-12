@@ -8,14 +8,12 @@ import { HttpService } from './shared/services/Http.service';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  _theme: Observable<string>;
-  title = 'app';
+  title = 'Sander Buruma\'s laboratory';
 
   constructor(
     public _themesService: ThemesService,
     public _httpService: HttpService)
   {
-    this._theme = this._themesService.ThemeObservable;
   }
 
   //#region Listeners

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
 import { ThemeIndices } from '../../enums/themes.enum'
 
@@ -9,16 +10,15 @@ import { ThemeIndices } from '../../enums/themes.enum'
 /**Should handle all theming everywhere in the application. Different clients should each be able to use different ones than another. This service is supposed to control that.*/
 export class ThemesService {
   //#region Fields
-  private _currentThemeIndex: number;
   /**This is supposed to list all themes put into the system at /src/themes/themes.scss*/
   private _listOfThemes: string[];
   private _themeSubject: BehaviorSubject<string>;
   //#endregion
 
   //#region Construtor
-  constructor() {
-    this._currentThemeIndex = ThemeIndices.Generic;
-
+  constructor(
+    public _cookieService: CookieService
+  ) {
     this._listOfThemes = [
       //default theme
       "generic-theme",
@@ -28,16 +28,16 @@ export class ThemesService {
       "jungle-theme"
     ];
 
-    this._themeSubject = new BehaviorSubject<string>(this._listOfThemes[this._currentThemeIndex]);
+    this._themeSubject = new BehaviorSubject<string>(this._listOfThemes[this.ThemeIndex]);
   }
   //#endregion
 
   //#region Methods
   /**Predictably increments the theme index*/ //for dev-testing purposes
   public IncrementTheme() {
-    this._currentThemeIndex++;
-    this._currentThemeIndex %= this._listOfThemes.length;
-    this._themeSubject.next(this._listOfThemes[this._currentThemeIndex]);
+    this.ThemeIndex = this.ThemeIndex+1;
+    this.ThemeIndex = this.ThemeIndex%this._listOfThemes.length;
+    this._themeSubject.next(this._listOfThemes[this.ThemeIndex]);
   }
   //#endregion
 
@@ -46,8 +46,20 @@ export class ThemesService {
     return this._themeSubject.asObservable();
   }
 
+
   public get ThemeIndex(){
-    return this._currentThemeIndex;
+    let cookie = this._cookieService.get("theme-index");
+    if (cookie == "NaN") {
+      this.ThemeIndex = 0;
+      return 0;
+    }
+    else{
+      return parseInt(cookie);
+    }
+  }
+
+  public set ThemeIndex(value: number){
+    this._cookieService.set("theme-index", value.toString(), 7)
   }
   //#endregion
 

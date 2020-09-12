@@ -24,7 +24,7 @@
   class="m-t-10 m-b-10">
   <button
     mat-raised-button
-    (click)="_themesService.IncrementTheme()" color="primary">Increment Theme</button>
+    (click)="IncrementTheme()" color="primary">Increment Theme</button>
 </div>
 
 <div
@@ -45,4 +45,14 @@
     fxFlexAlign="center"
     mat-raised-button color="primary"
     (click)="NavigateTo('scribo-alacrito')">Scribo Alacrito</button>
+</div>
+
+<div
+  fxFlexLayout="row"
+  fxLayoutAlign="space-evenly none"
+  class="m-t-10 m-b-10">
+  <button
+    fxFlexAlign="center"
+    mat-raised-button color="primary"
+    (click)="Increment()">Cookie Counter ( {{_count}} )</button>
 </div>

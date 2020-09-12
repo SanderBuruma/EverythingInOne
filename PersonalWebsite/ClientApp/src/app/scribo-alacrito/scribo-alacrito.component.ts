@@ -2,6 +2,8 @@ import { Component, SimpleChanges }  from '@angular/core';
 import { HttpService }                          from '../shared/services/Http.service';
 import { BaseComponent }                        from '../shared/base-component/base.component';
 import { ActivatedRoute, Router }               from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { ThemesService } from '../shared/services/Themes.service';
 
 @Component({
   selector: 'app-big-prime-component',
@@ -21,9 +23,11 @@ export class ScriboAlacritoComponent extends BaseComponent {
   constructor(
     _router: Router,
     _route: ActivatedRoute,
-    public _httpService: HttpService
+    public _httpService: HttpService,
+    _cookieService: CookieService,
+    _themesSerice: ThemesService
   ) {
-    super(_router, _route);
+    super(_router, _route, _cookieService, _themesSerice);
     this.GetText();
   }
 
