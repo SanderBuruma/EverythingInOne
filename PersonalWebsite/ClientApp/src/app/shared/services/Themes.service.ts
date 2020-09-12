@@ -38,7 +38,6 @@ export class ThemesService {
     this._currentThemeIndex++;
     this._currentThemeIndex %= this._listOfThemes.length;
     this._themeSubject.next(this._listOfThemes[this._currentThemeIndex]);
-    console.log({theme: this._themeSubject.value})
   }
   //#endregion
 

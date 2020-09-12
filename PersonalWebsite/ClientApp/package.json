@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ngserve",
     "build": "ng build",
     "build:ssr": "ng run PersonalWebsite:server:dev",
     "test": "ng test",
@@ -28,6 +28,7 @@
     "aspnet-prerendering": "^3.0.1",
     "core-js": "^3.3.3",
     "jquery": "3.4.1",
+    "ngx-cookie-service": "^10.0.1",
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
     "rxjs": "^6.6.2",

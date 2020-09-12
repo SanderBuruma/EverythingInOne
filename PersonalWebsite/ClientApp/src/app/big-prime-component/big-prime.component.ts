@@ -22,7 +22,6 @@ export class BigPrimeComponent extends BaseComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log({changes})
   }
 
   public async GetPrime(digits: number){

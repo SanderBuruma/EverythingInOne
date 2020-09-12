@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Cubit32.Primes;
+using PersonalWebsite.Controllers;
 
 namespace PersonalWebsite
 {
@@ -21,6 +22,7 @@ namespace PersonalWebsite
       // This method gets called by the runtime. Use this method to add services to the container.
       public void ConfigureServices(IServiceCollection services)
       {
+         services.AddHttpContextAccessor();
          services.AddControllersWithViews();
          // In production, the Angular files will be served from this directory
          services.AddSpaStaticFiles(configuration =>
@@ -59,8 +61,9 @@ namespace PersonalWebsite
                    pattern: "{controller}/{action=Index}/{id?}");
          });
 
-         //initialize custom libraries
+         //initialize custom  and controllers
          Primes.Initialize();
+         ScriboAlacritoController.Initialize();
 
          app.UseSpa(spa =>
          {

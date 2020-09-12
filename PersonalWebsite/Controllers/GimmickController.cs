@@ -4,9 +4,7 @@ using System.Threading;
 
 namespace PersonalWebsite.Controllers
 {
-   [ApiController]
-   [Route("[controller]")]
-   public class GimmickController : ControllerBase
+   public class GimmickController : BaseController
    {
 
       [HttpGet("bigPrime")]
