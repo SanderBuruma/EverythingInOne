@@ -1,0 +1,109 @@
+// Define a selectable dark theme
+$primary-color: (
+  50 : #eef0ff,
+  100 : #d4d9ff,
+  200 : #b7c0ff,
+  300 : #9aa6ff,
+  400 : #8593ff,
+  500 : #6f80ff,
+  600 : #6778ff,
+  700 : #5c6dff,
+  800 : #5263ff,
+  900 : #4050ff,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #e8eaff,
+  A700 : #cfd2ff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$secondary-color: (
+  50 : #f5ecff,
+  100 : #e7cfff,
+  200 : #d7b0ff,
+  300 : #c790ff,
+  400 : #bb78ff,
+  500 : #af60ff,
+  600 : #a858ff,
+  700 : #9f4eff,
+  800 : #9644ff,
+  900 : #8633ff,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ebdeff,
+  A700 : #dbc4ff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$tertiary-color: (
+  50 : #eef5eb,
+  100 : #d5e7ce,
+  200 : #b9d7ae,
+  300 : #9cc68d,
+  400 : #87ba74,
+  500 : #72ae5c,
+  600 : #6aa754,
+  700 : #5f9d4a,
+  800 : #559441,
+  900 : #428430,
+  A100 : #d7ffcd,
+  A200 : #aeff9a,
+  A400 : #85ff67,
+  A700 : #71ff4d,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #000000,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$primary: mat-palette($primary-color, 50, 200, A100);
+$accent: mat-palette($secondary-color, 500, 800, A100);
+$warn: mat-palette($tertiary-color, 500, A100, A400);
+
+$theme: mat-light-theme(
+  $primary,
+  $accent,
+  $warn
+);

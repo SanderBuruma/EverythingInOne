@@ -21,9 +21,10 @@ export class ThemesService {
   ) {
     this._listOfThemes = [
       //default theme
-      "generic-theme",
+      "cubit-theme",
 
       //custom themes
+      "generic-theme",
       "fire-theme",
       "jungle-theme"
     ];

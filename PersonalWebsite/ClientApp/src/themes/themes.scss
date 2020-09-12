@@ -43,3 +43,6 @@ $intensities: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400
 
 @import 'jungle.theme.scss';
 .jungle-theme { @include theme-mixin($theme, $primary, $accent, $warn); }
+
+@import 'cubit.theme.scss';
+.cubit-theme { @include theme-mixin($theme, $primary, $accent, $warn); }
