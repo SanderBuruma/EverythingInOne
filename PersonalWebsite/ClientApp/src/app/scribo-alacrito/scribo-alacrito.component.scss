@@ -15,12 +15,15 @@
 
 span {
   &.correct {
-    background-color: #dfd;
+    background-color: #ada;
   }
   &.false {
     background-color: #daa;
   }
   &.remaining {
+    background-color: #fff;
+  }
+  &.next {
     background-color: #fff;
   }
 }

@@ -1,9 +1,9 @@
-import { Component, SimpleChanges }  from '@angular/core';
-import { HttpService }                          from '../shared/services/Http.service';
-import { BaseComponent }                        from '../shared/base-component/base.component';
-import { ActivatedRoute, Router }               from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { ThemesService } from '../shared/services/Themes.service';
+import { Component }              from '@angular/core';
+import { HttpService }            from '../shared/services/Http.service';
+import { BaseComponent }          from '../shared/base-component/base.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CookieService }          from 'ngx-cookie-service';
+import { ThemesService }          from '../shared/services/Themes.service';
 
 @Component({
   selector: 'app-big-prime-component',
@@ -11,14 +11,19 @@ import { ThemesService } from '../shared/services/Themes.service';
   styleUrls: ['./scribo-alacrito.component.scss']
 })
 export class ScriboAlacritoComponent extends BaseComponent {
-  public _text: string;
-  public _input: string = "";
-  public _inputPrevLength: number = 0;
-  public _i = 0;
-  public _textCorrect: string = "";
-  public _textFalse: string = "";
-  public _textRemaining: string = "";
-  public _correct = true;
+  public _text =            "";
+  public _nextText =        "";
+
+  public _input =           "";
+  public _inputPrevLength = 0;
+  public _i =               0;
+
+  public _textCorrect =     "";
+  public _textFalse =       "";
+  public _textRemaining =   "";
+
+
+  public _correct =         true;
 
   constructor(
     _router: Router,
@@ -28,10 +33,13 @@ export class ScriboAlacritoComponent extends BaseComponent {
     _themesSerice: ThemesService
   ) {
     super(_router, _route, _cookieService, _themesSerice);
-    this.GetText();
+    let cookieVal = parseInt(this._cookieService.get("scribo-i"));
+    console.log({cookieVal})
+    this._i = cookieVal >= 0 ? cookieVal : 0;
+    this.GetText(this._i);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
   }
 
   ChangeEvent(){
@@ -90,11 +98,27 @@ export class ScriboAlacritoComponent extends BaseComponent {
    * @param i the i value to get from the db
    */
   public async GetText(i: number = -1){
-    this._httpService.Get<{ str: string, i }>("scriboAlacrito/getText?i=" + i).then(backendReturnText=>{
+    //don't fetch another while the first is being requested.
+    if (this._httpService.RunningRequestsCount) return;
+
+    //here we are there we go
+    this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + i).then(backendReturnText=>{
       this._correct = true;
       this._input = "";
       this._inputPrevLength = 0;
-      this._text = backendReturnText.str;
+      if (!this._text)
+      {
+        this._text = backendReturnText.str;
+        this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + (i+1)).then(nextTextToBe=>{
+          this._nextText = nextTextToBe.str;
+        })
+      }
+      else
+      {
+        this._text = this._nextText
+        this._nextText = backendReturnText.str;
+      }
+      this._cookieService.set("scribo-i", this._i.toString(), 7);
       this._i = backendReturnText.i;
       this.UpdateTextColors();
     })

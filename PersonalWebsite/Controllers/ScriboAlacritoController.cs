@@ -57,7 +57,7 @@ namespace PersonalWebsite.Controllers
          _ipsRequested.Add(ip);
 
          if (i < 0)
-             i = _rng.Next(_lines.Length);
+             i = 0;
 
          return new { str = _lines[i%_lines.Length], i };
       }
