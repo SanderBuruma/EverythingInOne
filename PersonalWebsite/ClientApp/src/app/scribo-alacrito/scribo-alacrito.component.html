@@ -36,7 +36,7 @@ class="m-t-10 m-b-10">
   <input
     fxFlex="100%"
     fxFlex.gt-sm="60%"
-    [class.input-error]="!_correct"
+    [class]="(_correct ? '' : 'input-error') + ' p-5'"
     (keyup)="ChangeEvent()"
     (change)="ChangeEvent()"
     value=""

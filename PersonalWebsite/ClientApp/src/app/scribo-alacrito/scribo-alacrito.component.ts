@@ -87,6 +87,7 @@ export class ScriboAlacritoComponent extends BaseComponent {
    */
   public async GetText(i: number = -1){
     this._httpService.Get<{ str: string, i }>("scriboAlacrito/getText?i=" + i).then(backendReturnText=>{
+      this._correct = true;
       this._input = "";
       this._inputPrevLength = 0;
       this._text = backendReturnText.str;

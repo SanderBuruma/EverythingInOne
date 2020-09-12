@@ -1,20 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace PersonalWebsite.Controllers
 {
-   [ApiController]
-   [Route("[controller]")]
-   public class ScriboAlacritoController
+   public class ScriboAlacritoController : BaseController
    {
       private static string[] _lines;
       private static Random _rng;
+      private static HashSet<string> _ipsRequested = new HashSet<string>();
+      
+      private readonly IHttpContextAccessor _httpContextAccessor;
+
+       public ScriboAlacritoController(IHttpContextAccessor httpContextAccessor)
+       {
+           _httpContextAccessor = httpContextAccessor;
+       }
 
       public static void Initialize()
       {
@@ -41,14 +47,46 @@ namespace PersonalWebsite.Controllers
          _lines = linesNew.ToArray();
          _rng = new Random();
       }
-
+      
       [HttpGet("getText")]
       public object GetText(int i)
       {
+         var context = _httpContextAccessor.HttpContext;
+
+         string ip = context.Connection.RemoteIpAddress.ToString();
+         _ipsRequested.Add(ip);
+
          if (i < 0)
              i = _rng.Next(_lines.Length);
 
          return new { str = _lines[i%_lines.Length], i };
+      }
+
+      [HttpGet("getIps")]
+      public object GetIps(string password)
+      {
+         // Step 1, calculate MD5 hash from input
+         MD5 md5 = MD5.Create();
+         byte[] inputBytes = Encoding.ASCII.GetBytes(password);
+         byte[] hashBytes = md5.ComputeHash(inputBytes);
+     
+         // Step 2, convert byte array to hex string
+         StringBuilder sb = new StringBuilder();
+         for (int i = 0; i < hashBytes.Length; i++)
+         {
+            sb.Append(hashBytes[i].ToString("X2"));
+         }
+         var str = sb.ToString();
+
+         // Step 3, check if it matches the hash pw
+         if ("27F2E18CCF46D8B3502BECE030B52BDB" == str)//A tiny little MD5 hash for... something...
+         {
+            return new { ips = _ipsRequested };
+         }
+
+         var empty = new HashSet<string>();
+         empty.Add("UNAUTHORIZED: invalid password");
+         return new { ips = empty };
       }
    }
 }

@@ -18,7 +18,7 @@ body { margin: 0; }
 
 
 //make some standard margins and padding available.
-@each $v in (0, 1, 2, 3, 4, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60, 70, 100, 150, 200, 250, 300) {
+@each $v in (0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60, 70, 100, 150, 200, 250, 300) {
   .m-t-#{$v} {
     margin-top: $v+px;
   }
