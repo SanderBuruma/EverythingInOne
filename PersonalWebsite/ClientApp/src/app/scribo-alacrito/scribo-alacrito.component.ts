@@ -11,31 +11,39 @@ import { ThemesService }          from '../shared/services/Themes.service';
   styleUrls: ['./scribo-alacrito.component.scss']
 })
 export class ScriboAlacritoComponent extends BaseComponent {
-  public _text =            "";
-  public _nextText =        "";
+  public _text            = "";
+  public _nextText        = "";
 
-  public _input =           "";
+  public _input           = "";
   public _inputPrevLength = 0;
-  public _i =               0;
+  public _i               = 0;
 
-  public _textCorrect =     "";
-  public _textFalse =       "";
-  public _textRemaining =   "";
+  public _textCorrect     = "";
+  public _textFalse       = "";
+  public _textRemaining   = "";
 
+  /**the last time in unix that typing was started */
+  public _lastTime        = Date.now();
+  public _wpm             = 0;
 
-  public _correct =         true;
+  public _correct         = true;
 
   constructor(
     _router: Router,
     _route: ActivatedRoute,
-    public _httpService: HttpService,
     _cookieService: CookieService,
-    _themesSerice: ThemesService
+    _themesSerice: ThemesService,
+    public _httpService: HttpService
   ) {
     super(_router, _route, _cookieService, _themesSerice);
+
+    //get the index of the text in the que
     let cookieVal = parseInt(this._cookieService.get("scribo-i"));
-    console.log({cookieVal})
+    let wpmVal = parseInt(this._cookieService.get("scribo-wpm"));
+
+    //start everything
     this._i = cookieVal >= 0 ? cookieVal : 0;
+    this._wpm = wpmVal >= 0 ? wpmVal : 0;
     this.GetText(this._i);
   }
 
@@ -44,6 +52,9 @@ export class ScriboAlacritoComponent extends BaseComponent {
 
   ChangeEvent(){
     //if input text length is suddenly a lot longer than the previous length there's been a copy paste
+    if (this._inputPrevLength == 0){
+      this._lastTime = Date.now();
+    }
     if (this._input.length > this._inputPrevLength + 2){
       this._input = "";
       this._correct = this.UpdateTextColors()
@@ -101,11 +112,14 @@ export class ScriboAlacritoComponent extends BaseComponent {
     //don't fetch another while the first is being requested.
     if (this._httpService.RunningRequestsCount) return;
 
-    //here we are there we go
     this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + i).then(backendReturnText=>{
+
+      //reset
       this._correct = true;
       this._input = "";
       this._inputPrevLength = 0;
+
+      //if this is the first call to GetText() then fetch two texts
       if (!this._text)
       {
         this._text = backendReturnText.str;
@@ -113,13 +127,29 @@ export class ScriboAlacritoComponent extends BaseComponent {
           this._nextText = nextTextToBe.str;
         })
       }
+
+      //if a text has just been typed
       else
       {
-        this._text = this._nextText
-        this._nextText = backendReturnText.str;
+        //update wpm by averaging with previous scores and reducing the weight of the previous scores
+        let timeUnit = (Date.now() - this._lastTime) / 12e3
+        let wpm = this._text.length / timeUnit
+
+        this._wpm = Math.floor(
+          this._wpm*24+wpm
+        ) / 25
+        this._cookieService.set("scribo-wpm", this._wpm.toString(), 7);
+
+        //move texts around and fetch a new one
+        this._i++;
+        this._cookieService.set("scribo-i", this._i.toString(), 7);
+        this._text = this._nextText;
+        this._nextText = "";
+        this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + (i+1)).then(nextTextToBe=>{
+          this._nextText = nextTextToBe.str;
+        })
       }
-      this._cookieService.set("scribo-i", this._i.toString(), 7);
-      this._i = backendReturnText.i;
+
       this.UpdateTextColors();
     })
   }
