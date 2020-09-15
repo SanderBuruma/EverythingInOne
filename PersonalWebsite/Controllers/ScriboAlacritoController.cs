@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using System.Security.Cryptography;
 using System.Text;
+using PersonalWebsite.Models;
 
 namespace PersonalWebsite.Controllers
 {
@@ -13,7 +14,7 @@ namespace PersonalWebsite.Controllers
    {
       private static string[] _lines;
       private static Random _rng;
-      private static HashSet<string> _ipsRequested = new HashSet<string>();
+      private static HashSet<UserReport> _ipsRequested = new HashSet<UserReport>();
       
       private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -52,20 +53,21 @@ namespace PersonalWebsite.Controllers
       public object GetText(int i)
       {
          var context = _httpContextAccessor.HttpContext;
-
+         
          string ip = context.Connection.RemoteIpAddress.ToString();
-         _ipsRequested.Add(ip);
-
+         var abc = context.Request.Headers;
          if (i < 0)
              i = 0;
+         i %= _lines.Length;
+         _ipsRequested.Add(new UserReport(ip, i, abc));
 
-         return new { str = _lines[i%_lines.Length], i };
+         return new { str = _lines[i], i };
       }
 
       [HttpGet("getIps")]
       public object GetIps(string password)
       {
-         // Step 1, calculate MD5 hash from input
+         // Step 1, calculate MD5 hash from password
          MD5 md5 = MD5.Create();
          byte[] inputBytes = Encoding.ASCII.GetBytes(password);
          byte[] hashBytes = md5.ComputeHash(inputBytes);
@@ -79,7 +81,7 @@ namespace PersonalWebsite.Controllers
          var str = sb.ToString();
 
          // Step 3, check if it matches the hash pw
-         if ("27F2E18CCF46D8B3502BECE030B52BDB" == str)//A tiny little MD5 hash for... something...
+         if ("27F2E18CCF46D8B3502BECE030B52BDB" == str)//A tiny little MD5 hash which should probably be removed...
          {
             return new { ips = _ipsRequested };
          }
