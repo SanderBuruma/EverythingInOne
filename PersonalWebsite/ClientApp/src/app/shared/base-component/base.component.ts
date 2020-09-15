@@ -22,6 +22,15 @@ export class BaseComponent {
   public async NavigateTo(url: string){
     await this._router.navigateByUrl(url);
   }
+
+  /**
+   *
+   * @param nr the number to be floored
+   * @param decimals the number of decimals to remain
+   */
+  public FloorNumber(nr: number, decimals: number = 0){
+    return Math.floor(nr*10**decimals)/10**decimals
+  }
   //#endregion
 
 }

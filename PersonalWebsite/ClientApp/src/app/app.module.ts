@@ -25,9 +25,9 @@ import { OverlayModule }           from '@angular/cdk/overlay';
 
 import { HttpService }             from './shared/services/Http.service';
 import { ThemesService }           from './shared/services/Themes.service';
+import { CookieService }           from 'ngx-cookie-service';
 
 import { routes }                  from './app.routing'
-import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [

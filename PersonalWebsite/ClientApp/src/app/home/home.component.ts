@@ -3,6 +3,7 @@ import { ThemesService } from '../shared/services/Themes.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../shared/base-component/base.component';
 import { CookieService } from 'ngx-cookie-service';
+import { CookieValues } from '../shared/enums/cookie-values.enum';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent extends BaseComponent {
   ) {
     super(_router, _route, _cookieService, _themesService);
 
-    let cookie = this._cookieService.get("count");
+    let cookie = this._cookieService.get(CookieValues.Count);
     let nr: number;
     if (cookie != 'NaN') nr = parseInt(cookie);
     else nr = 0;

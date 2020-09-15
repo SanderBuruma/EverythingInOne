@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
-import { ThemeIndices } from '../../enums/themes.enum'
+import { CookieValues } from '../enums/cookie-values.enum';
+import { ThemeIndices } from '../enums/themes.enum'
 
 @Injectable({
   providedIn: 'root', // ensures this service is used as a singleton
@@ -49,7 +50,7 @@ export class ThemesService {
 
 
   public get ThemeIndex(){
-    let cookie = this._cookieService.get("theme-index");
+    let cookie = this._cookieService.get(CookieValues.ThemeIndex);
     if (cookie == "NaN") {
       this.ThemeIndex = 0;
       return 0;
@@ -60,7 +61,7 @@ export class ThemesService {
   }
 
   public set ThemeIndex(value: number){
-    this._cookieService.set("theme-index", value.toString(), 7)
+    this._cookieService.set(CookieValues.ThemeIndex, value.toString(), 7)
   }
   //#endregion
 

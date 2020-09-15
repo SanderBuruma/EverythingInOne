@@ -1,7 +1,7 @@
 import { Component }              from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ThemeIndices }           from 'src/app/enums/themes.enum';
+import { ThemeIndices }           from 'src/app/shared/enums/themes.enum';
 import { HttpService } from '../../services/Http.service';
 
 @Component({

@@ -4,6 +4,7 @@ import { BaseComponent }          from '../shared/base-component/base.component'
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService }          from 'ngx-cookie-service';
 import { ThemesService }          from '../shared/services/Themes.service';
+import { CookieValues }           from '../shared/enums/cookie-values.enum';
 
 @Component({
   selector: 'app-big-prime-component',
@@ -25,6 +26,7 @@ export class ScriboAlacritoComponent extends BaseComponent {
   /**the last time in unix that typing was started */
   public _lastTime        = Date.now();
   public _wpm             = 0;
+  public _wpmList: {wpm: number, length: number}[]= []
 
   public _correct         = true;
 
@@ -38,8 +40,8 @@ export class ScriboAlacritoComponent extends BaseComponent {
     super(_router, _route, _cookieService, _themesSerice);
 
     //get the index of the text in the que
-    let cookieVal = parseInt(this._cookieService.get("scribo-i"));
-    let wpmVal = parseInt(this._cookieService.get("scribo-wpm"));
+    let cookieVal = parseInt(this._cookieService.get(CookieValues.ScriboI));
+    let wpmVal = parseInt(this._cookieService.get(CookieValues.ScriboWpm));
 
     //start everything
     this._i = cookieVal >= 0 ? cookieVal : 0;
@@ -138,11 +140,15 @@ export class ScriboAlacritoComponent extends BaseComponent {
         this._wpm = Math.floor(
           this._wpm*24+wpm
         ) / 25
-        this._cookieService.set("scribo-wpm", this._wpm.toString(), 7);
+        this._cookieService.set(CookieValues.ScriboWpm, this._wpm.toString(), 7);
+
+        //expand the local recordings of typing speed
+        this._wpmList.push({ wpm, length: this._text.length })
+        if (this._wpmList.length > 10) this._wpmList.shift();
 
         //move texts around and fetch a new one
         this._i++;
-        this._cookieService.set("scribo-i", this._i.toString(), 7);
+        this._cookieService.set(CookieValues.ScriboI, this._i.toString(), 7);
         this._text = this._nextText;
         this._nextText = "";
         this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + (i+1)).then(nextTextToBe=>{
