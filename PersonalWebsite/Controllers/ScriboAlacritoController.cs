@@ -28,23 +28,35 @@ namespace PersonalWebsite.Controllers
          List<string> text = DataFiles.MeumProelium.Text.Split("\n").ToList();
          List<string> linesNew = new List<string>();
          Regex rgx = new Regex(@".{150}.*?\s+", RegexOptions.None);
-         foreach (string line in text)
+         string leftOverLine = "";
+
+         for (int i = 0; i < text.Count; i++)
          {
-            if (line.Length < 300) linesNew.Add(line.Trim());
+            text[i] = leftOverLine + " " + text[i];
+            leftOverLine = "";
+
+            if (text[i].Length > 150 && text[i].Length < 200)
+            {
+               linesNew.Add(text[i].Trim());
+               continue;
+            }
+            else if (text[i].Length <= 150)
+            {
+               leftOverLine = text[i].Trim();
+            }
             else
             {
-               string line2 = line;
-               while (line2.Length > 150)
+               while (text[i].Length >= 200)
                {
-                  string match = rgx.Match(line2).Value;
-                  line2 = line2.Substring(match.Length);
-                  if (match.Length < 15) break;
+                  var match = rgx.Match(text[i]).Value;
                   linesNew.Add(match.Trim());
+                  text[i] = text[i].Substring(match.Length);
                }
-               if (line2.Length > 15)
-                  linesNew.Add(line2.Trim());
+               leftOverLine = text[i].Trim();
             }
          }
+         linesNew.Add(leftOverLine.Trim());
+
          _lines = linesNew.ToArray();
          _rng = new Random();
       }
