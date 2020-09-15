@@ -150,10 +150,7 @@ export class ScriboAlacritoComponent extends BaseComponent {
         this._i++;
         this._cookieService.set(CookieValues.ScriboI, this._i.toString(), 7);
         this._text = this._nextText;
-        this._nextText = "";
-        this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + (i+1)).then(nextTextToBe=>{
-          this._nextText = nextTextToBe.str;
-        })
+        this._nextText = backendReturnText.str;
       }
 
       this.UpdateTextColors();

@@ -8,14 +8,14 @@ namespace PersonalWebsite.Models
 {
    public class UserReport
    {
-      public UserReport(string internetProtocol, int textIndex, IHeaderDictionary hederDictionary)
+      public UserReport(string internetProtocol, int textIndex, DateTime date)
       {
          InternetProtocol = internetProtocol;
          TextIndex = textIndex;
-         HederDictionary = hederDictionary;
+         Date = date;
       }
       public string InternetProtocol { get; set; }
       public int TextIndex { get; set; }
-      public IHeaderDictionary HederDictionary { get; set; }
+      public DateTime Date { get; set; }
    }
 }

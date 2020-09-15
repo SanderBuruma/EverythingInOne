@@ -55,7 +55,7 @@ namespace PersonalWebsite.Controllers
          var context = _httpContextAccessor.HttpContext;
          
          string ip = context.Connection.RemoteIpAddress.ToString();
-         var abc = context.Request.Headers;
+         var abc = DateTime.Now.ToUniversalTime();
          if (i < 0)
              i = 0;
          i %= _lines.Length;
