@@ -54,7 +54,7 @@ export class ScriboAlacritoComponent extends BaseComponent {
 
   ChangeEvent(){
     //if input text length is suddenly a lot longer than the previous length there's been a copy paste
-    if (this._inputPrevLength == 0){
+    if (this._inputPrevLength == 0 || this._input.length == 0){
       this._lastTime = Date.now();
     }
     if (this._input.length > this._inputPrevLength + 2){
@@ -68,7 +68,7 @@ export class ScriboAlacritoComponent extends BaseComponent {
 
     //TODO if input is in equal length to text then finish
     if (this._input.length >= this._text.length && this._correct){
-      this.GetText(this._i + 1);
+      this.GetText(this._i + 2);
     }
 
     this._inputPrevLength = this._text.length;
@@ -116,24 +116,24 @@ export class ScriboAlacritoComponent extends BaseComponent {
 
     this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + i).then(backendReturnText=>{
 
-      //reset
+      // reset
       this._correct = true;
       this._input = "";
       this._inputPrevLength = 0;
 
-      //if this is the first call to GetText() then fetch two texts
+      // if this is the first call to GetText() then fetch two texts
       if (!this._text)
       {
         this._text = backendReturnText.str;
-        this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + (i+1)).then(nextTextToBe=>{
+        this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + (++i)).then(nextTextToBe=>{
           this._nextText = nextTextToBe.str;
         })
       }
 
-      //if a text has just been typed
+      // if a text has just been typed
       else
       {
-        //update wpm by averaging with previous scores and reducing the weight of the previous scores
+        //u pdate wpm by averaging with previous scores and reducing the weight of the previous scores
         let timeUnit = (Date.now() - this._lastTime) / 12e3
         let wpm = this._text.length / timeUnit
 
@@ -143,8 +143,8 @@ export class ScriboAlacritoComponent extends BaseComponent {
         this._cookieService.set(CookieValues.ScriboWpm, this._wpm.toString(), 7);
 
         //expand the local recordings of typing speed
-        this._wpmList.push({ wpm, length: this._text.length })
-        if (this._wpmList.length > 10) this._wpmList.shift();
+        this._wpmList.unshift({ wpm, length: this._text.length })
+        if (this._wpmList.length > 10) this._wpmList.pop();
 
         //move texts around and fetch a new one
         this._i++;
