@@ -57,7 +57,7 @@ export class ScriboAlacritoComponent extends BaseComponent {
     if (this._inputPrevLength == 0 || this._input.length == 0){
       this._lastTime = Date.now();
     }
-    if (this._input.length > this._inputPrevLength + 2){
+    if (this._input.length > this._inputPrevLength + 10){
       this._input = "";
       this._correct = this.UpdateTextColors()
       alert("No copy pasting!");
@@ -107,7 +107,7 @@ export class ScriboAlacritoComponent extends BaseComponent {
   }
 
   /**
-   * Gets the next text to use from the server side database
+   * Gets the next text to use from the server side database. Also posts local wpm scores to the user.
    * @param i the i value to get from the db
    */
   public async GetText(i: number = -1){
@@ -119,11 +119,34 @@ export class ScriboAlacritoComponent extends BaseComponent {
     {
       // reset
       this._correct = true;
-      this._input = "";
       this._inputPrevLength = 0;
       this._text =  this._nextText + " ";
     }
 
+    if (this._input.length > 10) {
+      this._input = "";
+      // update wpm by averaging with previous scores and reducing the weight of the previous scores
+      let timeUnit = (Date.now() - this._lastTime) / 12e3
+      this._lastTime = Date.now();
+      let wpm = this._text.length / timeUnit
+
+      this._wpm = Math.floor(
+        this._wpm*24+wpm
+      ) / 25
+      this._cookieService.set(CookieValues.ScriboWpm, this._wpm.toString(), 7);
+
+      // expand the local recordings of typing speed
+      this._wpmList.unshift({ wpm, length: this._text.length })
+      if (this._wpmList.length > 10) this._wpmList.pop();
+
+      // move texts around and fetch a new one
+      this._i++;
+      this._cookieService.set(CookieValues.ScriboI, this._i.toString(), 7);
+    }
+    this._input = "";
+
+
+    // here we are
     this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + i).then(backendReturnText=>{
 
       // if this is the first call to GetText() then fetch two texts
@@ -138,22 +161,6 @@ export class ScriboAlacritoComponent extends BaseComponent {
       // if a text has just been typed
       else
       {
-        //u pdate wpm by averaging with previous scores and reducing the weight of the previous scores
-        let timeUnit = (Date.now() - this._lastTime) / 12e3
-        let wpm = this._text.length / timeUnit
-
-        this._wpm = Math.floor(
-          this._wpm*24+wpm
-        ) / 25
-        this._cookieService.set(CookieValues.ScriboWpm, this._wpm.toString(), 7);
-
-        //expand the local recordings of typing speed
-        this._wpmList.unshift({ wpm, length: this._text.length })
-        if (this._wpmList.length > 10) this._wpmList.pop();
-
-        //move texts around and fetch a new one
-        this._i++;
-        this._cookieService.set(CookieValues.ScriboI, this._i.toString(), 7);
         this._nextText = backendReturnText.str;
       }
 
