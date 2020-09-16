@@ -114,17 +114,22 @@ export class ScriboAlacritoComponent extends BaseComponent {
     //don't fetch another while the first is being requested.
     if (this._httpService.RunningRequestsCount) return;
 
-    this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + i).then(backendReturnText=>{
-
+    //if a text was just successfully typed
+    if (this._text)
+    {
       // reset
       this._correct = true;
       this._input = "";
       this._inputPrevLength = 0;
+      this._text =  this._nextText + " ";
+    }
+
+    this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + i).then(backendReturnText=>{
 
       // if this is the first call to GetText() then fetch two texts
       if (!this._text)
       {
-        this._text = backendReturnText.str;
+        this._text = backendReturnText.str + " ";
         this._httpService.Get<{ str: string, i: number }>("scriboAlacrito/getText?i=" + (++i)).then(nextTextToBe=>{
           this._nextText = nextTextToBe.str;
         })
@@ -149,7 +154,6 @@ export class ScriboAlacritoComponent extends BaseComponent {
         //move texts around and fetch a new one
         this._i++;
         this._cookieService.set(CookieValues.ScriboI, this._i.toString(), 7);
-        this._text = this._nextText;
         this._nextText = backendReturnText.str;
       }
 
