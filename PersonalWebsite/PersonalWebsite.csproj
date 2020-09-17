@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SnakeGame\SnakeGame.csproj" />
     <ProjectReference Include="..\Utils\Cubit32.csproj" />
   </ItemGroup>
 

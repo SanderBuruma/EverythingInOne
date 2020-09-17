@@ -10,6 +10,7 @@ import { HomeComponent }           from './home/home.component';
 import { BigPrimeComponent }       from './big-prime-component/big-prime.component';
 import { HeaderComponent }         from './shared/components/header/header.component';
 import { ScriboAlacritoComponent } from './scribo-alacrito/scribo-alacrito.component';
+import { SnakeGameComponent }      from './snake-game/snake-game.component';
 
 import { FlexLayoutModule }        from '@angular/flex-layout';
 import { MatCheckboxModule }       from '@angular/material/checkbox';
@@ -35,7 +36,8 @@ import { routes }                  from './app.routing'
     HomeComponent,
     BigPrimeComponent,
     HeaderComponent,
-    ScriboAlacritoComponent
+    ScriboAlacritoComponent,
+    SnakeGameComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

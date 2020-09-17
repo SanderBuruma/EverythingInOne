@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SnakeGame
 {
-   class Board
+   public class Board
    {
       public int WidthHeight { get; set; }
       public int FieldsCount { get; set; }
@@ -26,6 +26,12 @@ namespace SnakeGame
       public bool GameOver = false;
       private bool CanSwitchDir = true;
       private readonly Random Rng = new Random();
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="widthHeight">Width and height oftheb oard to be created</param>
+      /// <param name="i">the rng initializing factor</param>
       public Board(int widthHeight, int i = -1)
       {
          if (i > -1) Rng = new Random(i);
@@ -238,14 +244,14 @@ namespace SnakeGame
       {// returns the Y position congruent with the value of num
          return (int)Math.Floor((decimal)num / WidthHeight);
       }
-      internal enum Field
+      public enum Field
       {
          Empty,
          Head,
          Tail,
          Food = -10
       }
-      internal enum Direction
+      public enum Direction
       {
          Left = 0,
          Up = 1,
