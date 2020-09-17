@@ -18,10 +18,10 @@ namespace PersonalWebsite.Controllers
       
       private readonly IHttpContextAccessor _httpContextAccessor;
 
-       public ScriboAlacritoController(IHttpContextAccessor httpContextAccessor)
-       {
-           _httpContextAccessor = httpContextAccessor;
-       }
+      public ScriboAlacritoController(IHttpContextAccessor httpContextAccessor)
+      {
+         _httpContextAccessor = httpContextAccessor;
+      }
 
       public static void Initialize()
       {
@@ -101,6 +101,12 @@ namespace PersonalWebsite.Controllers
          var empty = new HashSet<string>();
          empty.Add("UNAUTHORIZED: invalid password");
          return new { ips = empty };
+      }
+
+      [HttpGet("getLinesNr")]
+      public int GetLinesNr()
+      {
+         return _lines.Length;
       }
    }
 }

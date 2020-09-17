@@ -1,4 +1,4 @@
-import { Component }              from '@angular/core';
+import { Component, OnInit }      from '@angular/core';
 import { HttpService }            from '../shared/services/Http.service';
 import { BaseComponent }          from '../shared/base-component/base.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,13 +11,14 @@ import { CookieValues }           from '../shared/enums/cookie-values.enum';
   templateUrl: './scribo-alacrito.component.html',
   styleUrls: ['./scribo-alacrito.component.scss']
 })
-export class ScriboAlacritoComponent extends BaseComponent {
+export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   public _text            = "";
   public _nextText        = "";
 
   public _input           = "";
   public _inputPrevLength = 0;
   public _i               = 0;
+  public _nrOfLines       = 0;
 
   public _textCorrect     = "";
   public _textFalse       = "";
@@ -26,7 +27,7 @@ export class ScriboAlacritoComponent extends BaseComponent {
   /**the last time in unix that typing was started */
   public _lastTime        = Date.now();
   public _wpm             = 0;
-  public _wpmList: {wpm: number, length: number}[]= []
+  public _wpmList: { wpm: number, length: number }[] = []
 
   public _correct         = true;
 
@@ -49,7 +50,11 @@ export class ScriboAlacritoComponent extends BaseComponent {
     this.GetText(this._i);
   }
 
-  ngOnChanges(): void {
+  ngOnInit(): void {
+
+    //get number of lines
+    this._httpService.Get<number>("scriboAlacrito/getLinesNr").then(nr=>this._nrOfLines = nr);
+
   }
 
   ChangeEvent(){
