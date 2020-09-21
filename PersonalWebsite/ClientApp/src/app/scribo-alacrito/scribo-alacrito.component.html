@@ -31,7 +31,10 @@ class="m-t-10 m-b-10">
       [disabled]="(_httpService.RunningRequestsCountObservable | async) > 0"
       mat-raised-button
       color="accent"
-      (click)="GetText(_getTextI, true); _i = _getTextI">
+      (click)="
+        GetText(_getTextI, true);
+        _getTextI = FloorNumber(_getTextI) ;
+        _i = _getTextI">
       Get Text
     </button>
   </div>
@@ -58,16 +61,6 @@ class="m-t-10 m-b-10">
     </button>
 
   </mat-form-field>
-
-  <!-- <input
-    fxFlex="100%"
-    fxFlex.gt-sm="60%"
-    [class]="(_correct ? '' : 'input-error') + ' p-5'"
-    (keyup)="ChangeEvent()"
-    (change)="ChangeEvent()"
-    value=""
-    placeholder="Type here..."
-    [(ngModel)]="_input"/> -->
 </div>
 
 <div
