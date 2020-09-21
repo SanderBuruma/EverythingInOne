@@ -15,10 +15,10 @@
 
 span {
   &.correct {
-    background-color: #ada;
+    background-color: #beb;
   }
   &.false {
-    background-color: #daa;
+    background-color: #ebb;
   }
   &.remaining {
     background-color: #fff;
@@ -29,5 +29,5 @@ span {
 }
 
 .opacity-lower {
-  opacity: 0.8;
+  opacity: 0.5;
 }

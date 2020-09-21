@@ -15,6 +15,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   public _text            = "";
   public _nextText        = "";
 
+  public _getTextI        = 0;
   public _input           = "";
   public _inputPrevLength = 0;
   public _i               = 0;
@@ -115,11 +116,17 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
    * Gets the next text to use from the server side database. Also posts local wpm scores to the user.
    * @param i the i value to get from the db
    */
-  public async GetText(i: number = -1){
+  public async GetText(i: number = -1, reset = false){
     //don't fetch another while the first is being requested.
     if (this._httpService.RunningRequestsCount) return;
+    if (reset){
+      this._text = "";
+      this._input = "";
+      this._nextText = "";
+    }
 
     //if a text was just successfully typed
+    let textLength = this._text.length;
     if (this._text)
     {
       // reset
@@ -129,7 +136,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     }
 
     if (this._input.length > 10) {
-      this._input = "";
+      this._input = this._input.substring(textLength);
       // update wpm by averaging with previous scores and reducing the weight of the previous scores
       let timeUnit = (Date.now() - this._lastTime) / 12e3
       this._lastTime = Date.now();
