@@ -14,7 +14,6 @@ namespace PersonalWebsite.Controllers
    {
       private static string[] _lines;
       private static Random _rng;
-      private static HashSet<UserReport> _ipsRequested = new HashSet<UserReport>();
       
       private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -27,7 +26,7 @@ namespace PersonalWebsite.Controllers
       {
          List<string> text = DataFiles.MeumProelium.Text.Split("\n").ToList();
          List<string> linesNew = new List<string>();
-         Regex rgx = new Regex(@".{150}.*?\s+", RegexOptions.None);
+         Regex rgx = new Regex(@"(.{90,180}\s*?\.\s+)|(.{150}.*?\s+)", RegexOptions.None);
          string leftOverLine = "";
 
          for (int i = 0; i < text.Count; i++)
@@ -67,11 +66,11 @@ namespace PersonalWebsite.Controllers
          var context = _httpContextAccessor.HttpContext;
          
          string ip = context.Connection.RemoteIpAddress.ToString();
-         var abc = DateTime.Now.ToUniversalTime();
+         var currentDate = DateTime.Now.ToUniversalTime();
          if (i < 0)
              i = 0;
          i %= _lines.Length;
-         _ipsRequested.Add(new UserReport(ip, i, abc));
+         UserReports.Add(ip, i, currentDate);
 
          return new { str = _lines[i], i };
       }
@@ -95,12 +94,30 @@ namespace PersonalWebsite.Controllers
          // Step 3, check if it matches the hash pw
          if ("27F2E18CCF46D8B3502BECE030B52BDB" == str)//A tiny little MD5 hash which should probably be removed...
          {
-            return new { ips = _ipsRequested };
+            //make the json string ourselves
+            StringBuilder bldr = new StringBuilder("{");
+            for (int i = 0; i < UserReports.Instances.Count; i++)
+            {
+               if (i>0) bldr.Append("\n,");
+               bldr.Append($"\"{UserReports.Instances[i].Ip}\": [");
+
+               var list = new List<int>();
+               UserReports.Instances[i].Events.ForEach(s=>list.Add(s.TextIndex));
+               bldr.Append(list[0]);
+               list.RemoveAt(0);
+               foreach (var item in list)
+               {
+                  bldr.Append(String.Format(",{0}", item));
+               }
+
+               bldr.Append("]");
+            }
+            bldr.Append("}");
+
+            return new { ips = bldr.ToString() };
          }
 
-         var empty = new HashSet<string>();
-         empty.Add("UNAUTHORIZED: invalid password");
-         return new { ips = empty };
+         return new { wrongPassword = true, tryAgain = false };
       }
 
       [HttpGet("getLinesNr")]

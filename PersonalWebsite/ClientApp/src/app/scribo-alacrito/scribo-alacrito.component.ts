@@ -140,7 +140,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
       // update wpm by averaging with previous scores and reducing the weight of the previous scores
       let timeUnit = (Date.now() - this._lastTime) / 12e3
       this._lastTime = Date.now();
-      let wpm = this._text.length / timeUnit
+      let wpm = textLength / timeUnit
 
       this._wpm = Math.floor(
         this._wpm*24+wpm
@@ -148,7 +148,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
       this._cookieService.set(CookieValues.ScriboWpm, this._wpm.toString(), 7);
 
       // expand the local recordings of typing speed
-      this._wpmList.unshift({ wpm, length: this._text.length })
+      this._wpmList.unshift({ wpm, length: textLength })
       if (this._wpmList.length > 10) this._wpmList.pop();
 
       // move texts around and fetch a new one
