@@ -26,7 +26,7 @@ namespace PersonalWebsite.Controllers
       {
          List<string> text = DataFiles.MeumProelium.Text.Split("\n").ToList();
          List<string> linesNew = new List<string>();
-         Regex rgx = new Regex(@"(.{90,180}\s*?\.\s+)|(.{150}.*?\s+)", RegexOptions.None);
+         Regex rgx = new Regex(@"(.{90,180}?.*?[.;,?!]\s+)|(.{150}.*?\s+)", RegexOptions.None);
          string leftOverLine = "";
 
          for (int i = 0; i < text.Count; i++)
