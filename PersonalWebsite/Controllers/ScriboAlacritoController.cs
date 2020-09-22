@@ -98,8 +98,10 @@ namespace PersonalWebsite.Controllers
             StringBuilder bldr = new StringBuilder("{");
             for (int i = 0; i < UserReports.Instances.Count; i++)
             {
-               if (i>0) bldr.Append("\n,");
-               bldr.Append($"\"{UserReports.Instances[i].Ip}\": [");
+               if (i>0) bldr.Append(",");
+               bldr.Append('"');
+               bldr.Append($"{UserReports.Instances[i].Ip}: [");
+               bldr.Append('"');
 
                var list = new List<int>();
                UserReports.Instances[i].Events.ForEach(s=>list.Add(s.TextIndex));
