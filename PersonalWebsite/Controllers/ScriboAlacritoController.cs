@@ -100,8 +100,9 @@ namespace PersonalWebsite.Controllers
             {
                if (i>0) bldr.Append(",");
                bldr.Append('"');
-               bldr.Append($"{UserReports.Instances[i].Ip}: [");
+               bldr.Append($"{UserReports.Instances[i].Ip}");
                bldr.Append('"');
+               bldr.Append(":[");
 
                var list = new List<int>();
                UserReports.Instances[i].Events.ForEach(s=>list.Add(s.TextIndex));
