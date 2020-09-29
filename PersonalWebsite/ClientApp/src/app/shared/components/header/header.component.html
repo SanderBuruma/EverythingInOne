@@ -1,3 +1,51 @@
+<mat-toolbar
+fxLayout="row"
+fxLayoutAlign="center center"
+>
+
+<div
+  class="m-l-100"
+  fxHide.lt-md="true"
+  fxFlexOrder="0">
+  <!--spacer-->
+</div>
+
+<button
+  fxFlex
+  fxFlexOrder="1"
+  mat-icon-button
+  class="primary-500"
+  aria-label="Example icon button with a home icon"
+  (click)="NavigateTo('/')">
+  <mat-icon>home</mat-icon>
+</button>
+
+<!--Filler div-->
+<div
+  fxFlex="1 1 60%"
+  fxFlexOrder="2"
+  fxHide.lt-sm="true"></div>
+
+<div
+  class=""
+  fxFlexOrder="3"
+  fxHide.lt-md="true">
+</div>
+
+<div
+  class="primary-border-400 accent-500"
+  fxFlexOrder="4">
+</div>
+
+<div
+  class="m-r-100"
+  fxHide.lt-md="true"
+  fxFlexOrder="5">
+  <!--spacer--></div>
+
+</mat-toolbar>
+
+
 <!-- Bar showing if a fetch request is in progress -->
 <mat-progress-bar
   *ngIf="(_httpService.RunningRequestsCountObservable | async) != 0"
