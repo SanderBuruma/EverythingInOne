@@ -1,4 +1,4 @@
-export enum CookieValues {
+export enum CookieKeys {
   ScriboI = 'scribo-i',
   ScriboWpm = 'scribo-wpm',
   Count = 'count',

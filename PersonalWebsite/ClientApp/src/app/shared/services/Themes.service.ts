@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
-import { CookieValues } from '../enums/cookie-values.enum';
-import { ThemeIndices } from '../enums/themes.enum'
+import { CookieKeys } from '../enums/cookie-keys.enum';
+import { ThemeIndices } from '../enums/themes.enum';
 
 @Injectable({
   providedIn: 'root', // ensures this service is used as a singleton
 })
 
+// tslint:disable-next-line: max-line-length
 /**Should handle all theming everywhere in the application. Different clients should each be able to use different ones than another. This service is supposed to control that.*/
 export class ThemesService {
   //#region Fields
@@ -21,13 +22,13 @@ export class ThemesService {
     public _cookieService: CookieService
   ) {
     this._listOfThemes = [
-      //default theme
-      "cubit-theme",
+      // default theme
+      'cubit-theme',
 
-      //custom themes
-      "generic-theme",
-      "fire-theme",
-      "jungle-theme"
+      // custom themes
+      'generic-theme',
+      'fire-theme',
+      'jungle-theme'
     ];
 
     this._themeSubject = new BehaviorSubject<string>(this._listOfThemes[this.ThemeIndex]);
@@ -35,33 +36,32 @@ export class ThemesService {
   //#endregion
 
   //#region Methods
-  /**Predictably increments the theme index*/ //for dev-testing purposes
+  /**Predictably increments the theme index*/ // for dev-testing purposes
   public IncrementTheme() {
-    this.ThemeIndex = this.ThemeIndex+1;
-    this.ThemeIndex = this.ThemeIndex%this._listOfThemes.length;
+    this.ThemeIndex = this.ThemeIndex + 1;
+    this.ThemeIndex = this.ThemeIndex % this._listOfThemes.length;
     this._themeSubject.next(this._listOfThemes[this.ThemeIndex]);
   }
   //#endregion
 
   //#region Properties
-  public get ThemeObservable(){
+  public get ThemeObservable() {
     return this._themeSubject.asObservable();
   }
 
 
-  public get ThemeIndex(){
-    let cookie = this._cookieService.get(CookieValues.ThemeIndex);
-    if (cookie == "NaN") {
+  public get ThemeIndex() {
+    const cookie: any = this._cookieService.get(CookieKeys.ThemeIndex);
+    if (cookie >= 0) {
+      return parseInt(cookie, 10);
+    } else {
       this.ThemeIndex = 0;
       return 0;
     }
-    else{
-      return parseInt(cookie);
-    }
   }
 
-  public set ThemeIndex(value: number){
-    this._cookieService.set(CookieValues.ThemeIndex, value.toString(), 7)
+  public set ThemeIndex(value: number) {
+    this._cookieService.set(CookieKeys.ThemeIndex, value.toString(), 7);
   }
   //#endregion
 

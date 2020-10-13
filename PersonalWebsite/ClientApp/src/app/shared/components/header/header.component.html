@@ -1,6 +1,7 @@
 <mat-toolbar
 fxLayout="row"
 fxLayoutAlign="center center"
+class="primary-bg-800 primary-0"
 >
 
 <div
@@ -11,13 +12,13 @@ fxLayoutAlign="center center"
 </div>
 
 <button
-  fxFlex
+  fxFlex="1 1 100px 100px"
   fxFlexOrder="1"
   mat-icon-button
-  class="primary-500"
   aria-label="Example icon button with a home icon"
-  (click)="NavigateTo('/')">
-  <mat-icon>home</mat-icon>
+  (click)="NavigateTo('/')"
+  class="primary-bg-400">
+  <mat-icon class="primary-0">home</mat-icon>
 </button>
 
 <!--Filler div-->
