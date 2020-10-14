@@ -51,9 +51,9 @@ export class ThemesService {
 
 
   public get ThemeIndex() {
-    const cookie: any = this._cookieService.get(CookieKeys.ThemeIndex);
+    const cookie: any = parseInt(this._cookieService.get(CookieKeys.ThemeIndex), 10);
     if (cookie >= 0) {
-      return parseInt(cookie, 10);
+      return cookie;
     } else {
       this.ThemeIndex = 0;
       return 0;
