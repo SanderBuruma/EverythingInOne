@@ -28,7 +28,6 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
 
   /**the last time in unix that typing was started */
   public _lastTime        = Date.now();
-  public _wpm             = 0;
   public _wpmList: { wpm: number, length: number }[] = [];
 
   public _correct         = true;
@@ -45,12 +44,10 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     super(_router, _route, _cookieService, _themesSerice);
 
     // get the index of the text in the que
-    const wpmVal = super.GetCookievalueNum(CookieKeys.ScriboWpm);
     const cookieVal = super.GetCookievalueNum(CookieKeys.ScriboI);
 
     // start everything
     this._i = cookieVal >= 0 ? cookieVal : 0;
-    this._wpm = wpmVal >= 0 ? wpmVal : 0;
     this.GetText(this._i);
   }
 
@@ -59,6 +56,31 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     // get number of lines
     this._httpService.Get<number>('scriboAlacrito/getLinesNr').then(nr => this._nrOfLines = nr);
 
+  }
+  //#endregion
+
+  //#region Properties
+  /** words Per Minute (chars per second multiplied by 12) to 2 decimals */
+  public get Wpm() {
+    return Math.round(this.SumChars / this.SumTime * 1200) / 100;
+  }
+
+  /** Sum of chars typed */
+  public get SumChars() {
+    return super.GetCookievalueNum(CookieKeys.ScriboCharSum);
+  }
+  /** Sum of chars typed */
+  public set SumChars(value: number) {
+    super.SetCookievalue(CookieKeys.ScriboCharSum, value);
+  }
+
+  /** Sum of seconds used to type texts */
+  public get SumTime() {
+    return super.GetCookievalueNum(CookieKeys.ScriboTimeSum, 60);
+  }
+  /** Sum of seconds used to type texts */
+  public set SumTime(value: number) {
+    super.SetCookievalue(CookieKeys.ScriboTimeSum, value);
   }
   //#endregion
 
@@ -142,18 +164,20 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     if (this._input.length > 10) {
       this._input = this._input.substring(textLength);
       // update wpm by averaging with previous scores and reducing the weight of the previous scores
-      const timeUnit = (Date.now() - this._lastTime) / 12e3;
+      const timeUnit = (Date.now() - this._lastTime) / 1e3;
       this._lastTime = Date.now();
-      const wpm = textLength / timeUnit;
+      const wpm = textLength / timeUnit * 12;
 
-      this._wpm = Math.floor(
-        this._wpm * 24 + wpm
-      ) / 25;
-      super.SetCookievalue(CookieKeys.ScriboWpm, this._wpm.toString());
+      // save to cookies
+      if (wpm > 15) {
+        this.SumTime  = (this.SumTime  * 24) / 25 + timeUnit;
+        this.SumChars = (this.SumChars * 24) / 25 + textLength;
+        
+        // expand the local recordings of typing speed
+        this._wpmList.unshift({ wpm, length: textLength });
+        if (this._wpmList.length > 10) { this._wpmList.pop(); }
+      }
 
-      // expand the local recordings of typing speed
-      this._wpmList.unshift({ wpm, length: textLength });
-      if (this._wpmList.length > 10) { this._wpmList.pop(); }
 
       // move texts around and fetch a new one
       this._i++;

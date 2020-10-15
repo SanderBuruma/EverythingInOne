@@ -2,9 +2,8 @@ export enum CookieKeys {
 
   // scribo
   ScriboI = 'scribo-i',
-  ScriboWpm = 'scribo-wpm',
-  ScriboCharSum = 'scribo-char-sum',
-  ScriboTimeSum = 'scribo-time-sum',
+  ScriboCharSum = 'scribo-sum-chars',
+  ScriboTimeSum = 'scribo-sum-time',
 
   // home
   Count = 'count',

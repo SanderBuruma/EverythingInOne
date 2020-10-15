@@ -34,20 +34,37 @@ export class BaseComponent {
     return Math.floor(nr * 10 ** decimals) / 10 ** decimals;
   }
 
-  public GetCookievalueNum(key: CookieKeys): number {
+  /**
+   *
+   * @param key cookie key used to find the correct cookie
+   * @param dflt default value (0 if unset)
+   */
+  public GetCookievalueNum(key: CookieKeys, dflt = 0): number {
     const value = this.GetCookievalue(key);
     if (value) {
       return parseInt(value, 10);
     } else {
-      return 0;
+      return dflt;
     }
   }
-  public GetCookievalue(key: CookieKeys) {
-    return this._cookieService.get(key);
+
+  /**
+   *
+   * @param key the cookie key of the cookie to get
+   * @param dflt default value
+   */
+  public GetCookievalue(key: CookieKeys, dflt = '') {
+    return this._cookieService.get(key) ?? dflt;
   }
 
-  public SetCookievalue(key: CookieKeys, value) {
-    this._cookieService.set(key, value, 7);
+  /**
+   *
+   * @param key the cookie key of the cookie to get
+   * @param value the value to set the cookie to
+   * @param expires cookie expiry timer (7 days if unset)
+   */
+  public SetCookievalue(key: CookieKeys, value, expires = 7) {
+    this._cookieService.set(key, value, expires);
   }
   //#endregion
 
