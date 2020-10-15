@@ -21,7 +21,9 @@ export class HomeComponent extends BaseComponent {
   ) {
     super(_router, _route, _cookieService, _themesService);
 
-    const cookie = this._cookieService.get(CookieKeys.Count);
+    const cookie = super.GetCookievalue(CookieKeys.Count);
+    console.log({cookie, type: typeof cookie});
+
     let nr: number = parseInt(cookie, 10);
     if (!(nr >= 0)) {
       nr = 0;
@@ -39,6 +41,6 @@ export class HomeComponent extends BaseComponent {
 
   public Increment() {
     this._count++;
-    this._cookieService.set('count', this._count.toString(), 7);
+    super.SetCookievalue(CookieKeys.Count, this._count);
   }
 }

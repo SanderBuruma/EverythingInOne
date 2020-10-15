@@ -12,6 +12,7 @@ import { CookieKeys } from '../shared/enums/cookie-keys.enum';
   styleUrls: ['./scribo-alacrito.component.scss']
 })
 export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
+  //#region Fields
   public _text            = '';
   public _nextText        = '';
 
@@ -31,7 +32,9 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   public _wpmList: { wpm: number, length: number }[] = [];
 
   public _correct         = true;
+  //#endregion
 
+  //#region Constructor & ngOnInit
   constructor(
     _router: Router,
     _route: ActivatedRoute,
@@ -42,8 +45,8 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     super(_router, _route, _cookieService, _themesSerice);
 
     // get the index of the text in the que
-    const cookieVal = parseInt(this._cookieService.get( CookieKeys.ScriboI), 10);
-    const wpmVal = parseInt(this._cookieService.get( CookieKeys.ScriboWpm), 10);
+    const wpmVal = super.GetCookievalueNum(CookieKeys.ScriboWpm);
+    const cookieVal = super.GetCookievalueNum(CookieKeys.ScriboWpm);
 
     // start everything
     this._i = cookieVal >= 0 ? cookieVal : 0;
@@ -57,8 +60,10 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     this._httpService.Get<number>('scriboAlacrito/getLinesNr').then(nr => this._nrOfLines = nr);
 
   }
+  //#endregion
 
-  ChangeEvent() {
+  //#region Methods
+  public ChangeEvent() {
     // if input text length is suddenly a lot longer than the previous length there's been a copy paste
     if (this._inputPrevLength === 0 || this._input.length === 0) {
       this._lastTime = Date.now();
@@ -144,7 +149,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
       this._wpm = Math.floor(
         this._wpm * 24 + wpm
       ) / 25;
-      this._cookieService.set( CookieKeys.ScriboWpm, this._wpm.toString(), 7);
+      super.SetCookievalue(CookieKeys.ScriboWpm, this._wpm.toString());
 
       // expand the local recordings of typing speed
       this._wpmList.unshift({ wpm, length: textLength });
@@ -152,7 +157,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
 
       // move texts around and fetch a new one
       this._i++;
-      this._cookieService.set( CookieKeys.ScriboI, this._i.toString(), 7);
+      super.SetCookievalue(CookieKeys.ScriboI, this._i.toString());
     }
     this._input = '';
 
@@ -173,5 +178,6 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
       this.UpdateTextColors();
     });
   }
+  //#endregion
 
 }
