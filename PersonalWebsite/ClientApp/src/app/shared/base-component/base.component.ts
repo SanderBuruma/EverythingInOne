@@ -35,7 +35,7 @@ export class BaseComponent {
   }
 
   public GetCookievalueNum(key: CookieKeys): number {
-    const value = this._cookieService.get(key);
+    const value = this.GetCookievalue(key);
     if (value) {
       return parseInt(value, 10);
     } else {

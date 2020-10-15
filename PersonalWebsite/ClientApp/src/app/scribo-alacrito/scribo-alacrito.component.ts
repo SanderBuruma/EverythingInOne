@@ -46,7 +46,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
 
     // get the index of the text in the que
     const wpmVal = super.GetCookievalueNum(CookieKeys.ScriboWpm);
-    const cookieVal = super.GetCookievalueNum(CookieKeys.ScriboWpm);
+    const cookieVal = super.GetCookievalueNum(CookieKeys.ScriboI);
 
     // start everything
     this._i = cookieVal >= 0 ? cookieVal : 0;
