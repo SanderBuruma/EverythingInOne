@@ -172,7 +172,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
       if (wpm > 15) {
         this.SumTime  = (this.SumTime  * 24) / 25 + timeUnit;
         this.SumChars = (this.SumChars * 24) / 25 + textLength;
-        
+
         // expand the local recordings of typing speed
         this._wpmList.unshift({ wpm, length: textLength });
         if (this._wpmList.length > 10) { this._wpmList.pop(); }
