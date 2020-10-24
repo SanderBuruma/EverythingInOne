@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Cubit32.Primes;
 using PersonalWebsite.Controllers;
+using Microsoft.AspNetCore.Http;
 
 namespace PersonalWebsite
 {
@@ -23,6 +24,11 @@ namespace PersonalWebsite
       public void ConfigureServices(IServiceCollection services)
       {
          services.AddHttpContextAccessor();
+         services.AddHttpsRedirection(options =>
+         {
+            options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+            options.HttpsPort = 5001;
+         });
          services.AddControllersWithViews();
          // In production, the Angular files will be served from this directory
          services.AddSpaStaticFiles(configuration =>
