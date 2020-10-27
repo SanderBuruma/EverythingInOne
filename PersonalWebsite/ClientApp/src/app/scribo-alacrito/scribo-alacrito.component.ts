@@ -5,11 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ThemesService } from '../shared/services/Themes.service';
 import { CookieKeys } from '../shared/enums/cookie-keys.enum';
+import { fade } from 'src/app/shared/animations/main.animations';
 
 @Component({
   selector: 'app-big-prime-component',
   templateUrl: './scribo-alacrito.component.html',
-  styleUrls: ['./scribo-alacrito.component.scss']
+  styleUrls: ['./scribo-alacrito.component.scss'],
+  animations: [ fade ]
 })
 export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#region Fields
@@ -86,10 +88,13 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
 
   //#region Methods
   public ChangeEvent() {
-    // if input text length is suddenly a lot longer than the previous length there's been a copy paste
+
+    // if the input length is or was 0 reset the timer
     if (this._inputPrevLength === 0 || this._input.length === 0) {
       this._lastTime = Date.now();
     }
+
+    // if input text length is suddenly a lot longer than the previous length there's been a copy paste
     if (this._input.length > this._inputPrevLength + 10) {
       this._input = '';
       this._correct = this.UpdateTextColors();
@@ -100,7 +105,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     this._correct = this.UpdateTextColors();
 
     // TODO if input is in equal length to text then finish
-    if (this._input.length >= this._text.length && this._correct) {
+    if (this._input.length >= this._text.length && !this._textFalse) {
       this.GetText(this._i + 2);
     }
 
@@ -159,6 +164,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
       this._correct = true;
       this._inputPrevLength = 0;
       this._text =  this._nextText + ' ';
+      this._nextText = '';
     }
 
     if (this._input.length > 10) {
@@ -201,6 +207,11 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
 
       this.UpdateTextColors();
     });
+  }
+
+  public GetElapsedTime() {
+    const difference = Date.now() - this._lastTime;
+    return Math.floor(difference / 1000);
   }
   //#endregion
 

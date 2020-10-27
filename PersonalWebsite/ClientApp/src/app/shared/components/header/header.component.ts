@@ -1,8 +1,8 @@
-import { Component }              from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CookieService }          from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
 
-import { ThemeIndices }           from 'src/app/shared/enums/themes.enum';
+import { ThemeIndices } from 'src/app/shared/enums/themes.enum';
 import { BaseComponent } from '../../base-component/base.component';
 import { HttpService } from '../../services/Http.service';
 import { ThemesService } from '../../services/Themes.service';
@@ -13,7 +13,7 @@ import { ThemesService } from '../../services/Themes.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent extends BaseComponent {
-  public _displayMe: boolean = false;
+  public _displayMe = false;
   public _themeIndices = ThemeIndices;
   constructor(
     _router: Router,

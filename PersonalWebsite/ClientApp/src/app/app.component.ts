@@ -12,8 +12,7 @@ export class AppComponent {
 
   constructor(
     public _themesService: ThemesService,
-    public _httpService: HttpService)
-  {
+    public _httpService: HttpService) {
   }
 
   //#region Listeners
