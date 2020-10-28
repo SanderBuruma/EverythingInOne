@@ -8,12 +8,12 @@ import { CookieKeys } from '../shared/enums/cookie-keys.enum';
 import { fade } from 'src/app/shared/animations/main.animations';
 
 @Component({
-  selector: 'app-scribo-alacrito-component',
-  templateUrl: './scribo-alacrito.component.html',
-  styleUrls: ['./scribo-alacrito.component.scss'],
+  selector: 'app-big-prime-component',
+  templateUrl: './mastermind.component.html',
+  styleUrls: ['./mastermind.component.scss'],
   animations: [ fade ]
 })
-export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
+export class MastermindComponent extends BaseComponent implements OnInit {
   //#region Fields
   public _text            = '';
   public _nextText        = '';

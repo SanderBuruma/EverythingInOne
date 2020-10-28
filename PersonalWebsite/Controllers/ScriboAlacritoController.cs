@@ -13,11 +13,10 @@ namespace PersonalWebsite.Controllers
    public class ScriboAlacritoController : BaseController
    {
       private static string[] _lines;
-      private static Random _rng;
       
       private readonly IHttpContextAccessor _httpContextAccessor;
 
-      public ScriboAlacritoController(IHttpContextAccessor httpContextAccessor)
+      public ScriboAlacritoController(IHttpContextAccessor httpContextAccessor): base(httpContextAccessor)
       {
          _httpContextAccessor = httpContextAccessor;
       }
@@ -57,7 +56,6 @@ namespace PersonalWebsite.Controllers
          linesNew.Add(leftOverLine.Trim());
 
          _lines = linesNew.ToArray();
-         _rng = new Random();
       }
       
       [HttpGet("getText")]

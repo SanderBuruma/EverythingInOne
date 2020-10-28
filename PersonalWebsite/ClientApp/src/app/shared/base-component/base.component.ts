@@ -19,7 +19,10 @@ export class BaseComponent {
     public _route: ActivatedRoute,
     public _cookieService: CookieService,
     public _themesSerice: ThemesService
-  ) {}
+  ) {
+    // acts as a sort of user id
+    if (!this.GetCookievalue(CookieKeys.RngId, '')) { this.SetCookievalue(CookieKeys.RngId, Math.random() * 2e9 ); }
+  }
 
   public async NavigateTo(url: string) {
     await this._router.navigateByUrl(url);
