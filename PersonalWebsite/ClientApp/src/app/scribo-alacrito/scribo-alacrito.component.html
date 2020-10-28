@@ -14,7 +14,7 @@ class="m-t-10 m-b-10">
     <p
       class="title" title="WPM = characters per minute divided by 5, averaged over approximately the last 25 typed texts."
       style="line-height: 25px; font-size: 20px">
-      Alacrite Scribo - WPM: {{ _wpm }} - Line ({{_i}}/{{_nrOfLines}})
+      Alacrite Scribo - WPM: {{ Wpm }} - Line ({{_i}}/{{_nrOfLines}}) - {{ GetElapsedTime() }}s
     </p>
   </div>
 
@@ -62,7 +62,7 @@ class="m-t-10 m-b-10">
       (change)="ChangeEvent()"
       autoComplete="off"
       >
-    <button mat-button *ngIf="_input" matSuffix mat-icon-button aria-label="Clear" (click)="_input=''">
+    <button mat-button *ngIf="_input" matSuffix mat-icon-button aria-label="Clear" (click)="_input=''; ChangeEvent()">
       <mat-icon>close</mat-icon>
     </button>
 
@@ -80,9 +80,9 @@ class="m-t-10 m-b-10">
     fxFlex.gt-sm="60%"
     class="displayed-text p-5 m-5">
     <span class="correct">{{ _textCorrect }}</span>
-    <span class="false">{{ _textFalse }}</span>
+    <span class="false" *ngIf="_textFalse">{{ _textFalse }}</span>
     <span class="remaining">{{ _textRemaining }}</span>
-    <span class="next opacity-lower">{{ _nextText }}</span>
+    <span class="next opacity-lower" @fade *ngIf="_nextText">{{ _nextText }}</span>
   </p>
 </div>
 
@@ -98,8 +98,8 @@ class="m-t-10 m-b-10">
 
   <div *ngFor="let item of _wpmList" fxLayout="row">
     <div fxFlex="50%" style="
-    text-align: right;
-    margin-right: 15px;"
+      text-align: right;
+      margin-right: 15px;"
     >{{ FloorNumber(item.wpm, 1) }}</div>
     <div fxFlex="50%">{{ item.length }}</div>
   </div>

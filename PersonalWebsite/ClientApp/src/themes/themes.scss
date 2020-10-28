@@ -6,8 +6,27 @@
 // **Be sure that you only ever include this mixin once!**
 @include mat-core();
 
-$intensities: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700);
+//faux values
+.primary-0 {
+  color: white;
+}
+.primary-bg-0 {
+  background-color: white;
+}
+.primary-border-0 {
+  border-color: white;
+}
+.primary-1000 {
+  color: black;
+}
+.primary-bg-1000 {
+  background-color: black;
+}
+.primary-border-1000 {
+  border-color: black;
+}
 
+$intensities: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700);
 //the below lines use every style and output and in many hues.
 @mixin theme-mixin($theme, $primary, $accent, $warn){
   @include angular-material-theme($theme);
@@ -30,6 +49,11 @@ $intensities: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400
         transition-timing-function: ease-in-out;
       }
 
+      svg.#{$key}-svg-#{$intensity} {
+          stroke: map-get($map: $value, $key: $intensity);
+          fill: map-get($map: $value, $key: $intensity);
+      }
+      
     }
   }
 }

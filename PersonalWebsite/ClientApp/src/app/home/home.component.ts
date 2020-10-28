@@ -3,7 +3,7 @@ import { ThemesService } from '../shared/services/Themes.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../shared/base-component/base.component';
 import { CookieService } from 'ngx-cookie-service';
-import { CookieValues } from '../shared/enums/cookie-values.enum';
+import { CookieKeys } from '../shared/enums/cookie-keys.enum';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +11,7 @@ import { CookieValues } from '../shared/enums/cookie-values.enum';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends BaseComponent {
-  public _count: number = 0;
+  public _count = 0;
 
   constructor(
     _router: Router,
@@ -21,24 +21,26 @@ export class HomeComponent extends BaseComponent {
   ) {
     super(_router, _route, _cookieService, _themesService);
 
-    let cookie = this._cookieService.get(CookieValues.Count);
-    let nr: number;
-    if (cookie != 'NaN') nr = parseInt(cookie);
-    else nr = 0;
+    const cookie = super.GetCookievalue(CookieKeys.Count);
+    console.log({cookie, type: typeof cookie});
+
+    let nr: number = parseInt(cookie, 10);
+    if (!(nr >= 0)) {
+      nr = 0;
+    }
     this._count = nr;
   }
-  public IncrementTheme(){
+
+  public IncrementTheme() {
     this._themesSerice.IncrementTheme();
   }
 
-  public GoToBigPrime(){
-    this._router.navigateByUrl("big-prime")
+  public GoToBigPrime() {
+    this._router.navigateByUrl('big-prime');
   }
 
-  public Increment(){
+  public Increment() {
     this._count++;
-    this._cookieService.set('count', this._count.toString(), 7);
-    let newcookie = parseInt(this._cookieService.get("count"));
-    console.log({cookie: newcookie})
+    super.SetCookievalue(CookieKeys.Count, this._count);
   }
 }
