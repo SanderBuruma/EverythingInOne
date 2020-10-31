@@ -27,6 +27,20 @@ export let fadeInOut = trigger(
   ]
 );
 
+export let upIn = trigger(
+  'upIn',
+  [
+    state('void', style ({transform: 'translateY(30px)'})),
+    state('default', style ({transform: 'translateY(0px)'})),
+    transition('void => *', [
+      animate(
+        AnimationTimers.MoveSomewhere
+      )
+    ])
+  ]
+);
+
+
 export let upInOut = trigger(
   'upInOut',
   [

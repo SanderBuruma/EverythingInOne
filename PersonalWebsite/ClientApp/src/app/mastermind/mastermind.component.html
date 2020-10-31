@@ -10,19 +10,19 @@
   >
 
   <!-- Title -->
-  <h2>
-    Code Breaker
+  <h2 class="monospace">
+    Code Breaker <span class="help cursor-hand" title="Input 4 digits between 1 and 8, then press enter to make your guess. The first number shows the number of correct digits in the correct place and the next shows the remaining number of correct digits that are NOT in the correct place.">?</span>
   </h2>
 
   <div fxLayout="row" fxLayoutGap="5px">
-    <button mat-flat-button color="primary" (click)="MakeGuess()" [disabled]="LockUi">Guess!</button>
-    <button mat-flat-button color="warn" (click)="NewGame()" [disabled]="_httpService.RunningRequestsCount > 0">New Code</button>
+    <button mat-flat-button color="primary" (click)="MakeGuess()" [disabled]="LockUi" class="monospace">Guess!</button>
+    <button mat-flat-button color="primary" (click)="NewGame()" [disabled]="_httpService.RunningRequestsCount > 0" class="monospace">New Code</button>
   </div>
 
   <!-- Feedback -->
-  <mat-form-field class="guess-code">
+  <mat-form-field class="guess-code monospace" title="4 digits between 1 and 8">
     <mat-label>Your guess</mat-label>
-    <input matInput class="monospace" type="text" [(ngModel)]="guessCode" (keydown)="OnKeyDown($event)" [disabled]="LockUi">
+    <input matInput type="text" [(ngModel)]="guessCode" (keydown)="OnKeyDown($event)" [disabled]="LockUi">
     <button mat-button *ngIf="guessCode" matSuffix mat-icon-button aria-label="Clear" (click)="guessCode=''">
       <mat-icon>close</mat-icon>
     </button>
