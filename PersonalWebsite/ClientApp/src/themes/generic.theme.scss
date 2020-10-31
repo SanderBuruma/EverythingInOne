@@ -101,9 +101,9 @@ $tertiary-color: (
 );
 
 
-$primary: mat-palette($primary-color, 50, 200, A100);
-$accent: mat-palette($secondary-color, 500, 800, A100);
-$warn: mat-palette($tertiary-color, 500, A100, A400);
+$primary: mat-palette($primary-color, 200, 500, A100);
+$accent: mat-palette($secondary-color, 200, 800, A100);
+$warn: mat-palette($tertiary-color, 400, A100, A400);
 
 $theme: mat-light-theme(
   $primary,

@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { BigPrimeComponent } from './big-prime-component/big-prime.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ScriboAlacritoComponent } from './scribo-alacrito/scribo-alacrito.component';
+import { MastermindComponent } from './mastermind/mastermind.component';
 import { BgheaderComponent } from './shared/components/svg/bgheader/bgheader.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -37,6 +38,7 @@ import { routes } from './app.routing';
     BigPrimeComponent,
     HeaderComponent,
     ScriboAlacritoComponent,
+    MastermindComponent,
     BgheaderComponent
   ],
   imports: [

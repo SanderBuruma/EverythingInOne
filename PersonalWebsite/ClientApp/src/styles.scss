@@ -54,5 +54,13 @@ body {
   text-align: center;
 }
 
+.monospace {
+  font-family: monospace !important;
+}
+
+.cursor-hand {
+  cursor: help;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

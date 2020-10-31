@@ -22,7 +22,6 @@ export class HomeComponent extends BaseComponent {
     super(_router, _route, _cookieService, _themesService);
 
     const cookie = super.GetCookievalue(CookieKeys.Count);
-    console.log({cookie, type: typeof cookie});
 
     let nr: number = parseInt(cookie, 10);
     if (!(nr >= 0)) {

@@ -1,0 +1,36 @@
+<app-header></app-header>
+
+<div
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxLayoutGap="1em"
+  fxFill
+  style="height:100%"
+  class="p-15"
+  >
+
+  <!-- Title -->
+  <h2 class="monospace">
+    Code Breaker <span class="help cursor-hand" title="Input 4 digits between 1 and 8, then press enter to make your guess. The first number shows the number of correct digits in the correct place and the next shows the remaining number of correct digits that are NOT in the correct place.">?</span>
+  </h2>
+
+  <div fxLayout="row" fxLayoutGap="5px">
+    <button mat-flat-button color="primary" (click)="MakeGuess()" [disabled]="LockUi" class="monospace">Guess!</button>
+    <button mat-flat-button color="primary" (click)="NewGame()" [disabled]="_httpService.RunningRequestsCount > 0" class="monospace">New Code</button>
+  </div>
+
+  <!-- Input for any given Guess -->
+  <mat-form-field class="guess-code monospace" title="4 digits between 1 and 8">
+    <mat-label>Your guess</mat-label>
+    <input matInput type="text" [(ngModel)]="guessCode" [class.warn-50]="guessCode.length === 4 && !IsGuessCodeValid(guessCode)" (keydown)="OnKeyDown($event)" [disabled]="LockUi">
+    <button mat-button *ngIf="guessCode" matSuffix mat-icon-button aria-label="Clear" (click)="guessCode=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- Guesses plus feedback -->
+  <div class="monospace">
+    <p *ngFor="let g of guessesPlusFeedback" @fadeInOut @upInOut>{{ g }}</p>
+  </div>
+
+</div>

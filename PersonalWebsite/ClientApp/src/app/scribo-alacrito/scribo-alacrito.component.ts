@@ -5,13 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ThemesService } from '../shared/services/Themes.service';
 import { CookieKeys } from '../shared/enums/cookie-keys.enum';
-import { fade } from 'src/app/shared/animations/main.animations';
+import { fadeIn, upIn } from 'src/app/shared/animations/main.animations';
 
 @Component({
-  selector: 'app-big-prime-component',
+  selector: 'app-scribo-alacrito-component',
   templateUrl: './scribo-alacrito.component.html',
   styleUrls: ['./scribo-alacrito.component.scss'],
-  animations: [ fade ]
+  animations: [ fadeIn, upIn ]
 })
 export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#region Fields
@@ -87,7 +87,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#endregion
 
   //#region Methods
-  public ChangeEvent() {
+  public ChangeEvent(event: string) {
 
     // if the input length is or was 0 reset the timer
     if (this._inputPrevLength === 0 || this._input.length === 0) {

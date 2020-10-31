@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { BigPrimeComponent } from './big-prime-component/big-prime.component';
 import { ScriboAlacritoComponent } from './scribo-alacrito/scribo-alacrito.component';
+import { MastermindComponent } from './mastermind/mastermind.component';
 //#endregion
 //#endregion
 
@@ -16,6 +17,7 @@ const routes: Routes = [
 
   { path: 'big-prime',       component: BigPrimeComponent,        pathMatch: 'full' },
   { path: 'scribo-alacrito', component: ScriboAlacritoComponent,  pathMatch: 'full' },
+  { path: 'codebreaker',     component: MastermindComponent,      pathMatch: 'full' },
 
   { path: '**',              component: NotFoundComponent}
 
