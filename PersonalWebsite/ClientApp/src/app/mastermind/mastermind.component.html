@@ -22,7 +22,7 @@
   <!-- Input for any given Guess -->
   <mat-form-field class="guess-code monospace" title="4 digits between 1 and 8">
     <mat-label>Your guess</mat-label>
-    <input matInput type="text" [(ngModel)]="guessCode" [class.warn-50]="guessCode.length === 4 && !IsGuessCodeValid(guessCode)" (keydown)="OnKeyDown($event)" (ngModelChange)="OnChange($event)" [disabled]="LockUi">
+    <input matInput type="text" [(ngModel)]="guessCode" [class.warn-50]="guessCode.length === 4 && !IsGuessCodeValid(guessCode)" (keydown)="OnKeyDown($event)" [disabled]="LockUi">
     <button mat-button *ngIf="guessCode" matSuffix mat-icon-button aria-label="Clear" (click)="guessCode=''">
       <mat-icon>close</mat-icon>
     </button>

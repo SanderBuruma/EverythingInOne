@@ -75,13 +75,6 @@ export class MastermindComponent extends BaseComponent implements OnInit {
     }
   }
 
-  public OnChange (event: string) {
-    if (event.length < 4) { return; }
-    if (event.length > 4) {
-      this.guessCode = this.guessCode.substr(0, 4);
-    }
-  }
-
   public MakeGuess() {
     const cond1 = this.roundComplete, cond2 = !this.IsGuessCodeValid(this.guessCode);
     if (cond1 || cond2) {
