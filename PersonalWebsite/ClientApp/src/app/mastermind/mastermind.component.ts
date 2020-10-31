@@ -54,11 +54,11 @@ export class MastermindComponent extends BaseComponent implements OnInit {
 
   public OnKeyDown(event: KeyboardEvent) {
     const cond1 = event.key === 'Enter',
-    cond3 = !this._httpService.RunningRequestsCount;
+    cond2 = !this._httpService.RunningRequestsCount;
     if (
-      cond1 && cond3
+      cond1 && cond2
     ) {
-        if (!this.roundComplete) { this.MakeGuess(); } else {this.NewGame(); }
+        if (!this.roundComplete) { this.MakeGuess(); } else { this.NewGame(); }
 
     } else if (event.key === 'Escape') {
 
@@ -72,6 +72,13 @@ export class MastermindComponent extends BaseComponent implements OnInit {
       // reset code if invalid
       if (!this.validCodeRgx.test(this.guessCode)) { this.guessCode = ''; }
 
+    }
+  }
+
+  public OnChange (event: string) {
+    if (event.length < 4) { return; }
+    if (event.length > 4) {
+      this.guessCode = this.guessCode.substr(0, 4);
     }
   }
 

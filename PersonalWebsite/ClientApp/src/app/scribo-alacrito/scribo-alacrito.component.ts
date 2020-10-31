@@ -87,7 +87,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#endregion
 
   //#region Methods
-  public ChangeEvent() {
+  public ChangeEvent(event: string) {
 
     // if the input length is or was 0 reset the timer
     if (this._inputPrevLength === 0 || this._input.length === 0) {

@@ -58,8 +58,7 @@ class="m-t-10 m-b-10">
       [class]="(_correct ? '' : 'input-error')"
       matInput type="text"
       [(ngModel)]="_input"
-      (keyup)="ChangeEvent()"
-      (change)="ChangeEvent()"
+      (ngModelChange)="ChangeEvent($event)"
       autoComplete="off"
     >
     <button mat-button *ngIf="_input" matSuffix mat-icon-button aria-label="Clear" (click)="_input=''; ChangeEvent()">
