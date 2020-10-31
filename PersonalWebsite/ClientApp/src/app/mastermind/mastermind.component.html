@@ -15,8 +15,8 @@
   </h2>
 
   <div fxLayout="row" fxLayoutGap="5px">
-    <button mat-raised-button color="primary" (click)="MakeGuess()" [disabled]="LockUi">Guess!</button>
-    <button mat-raised-button color="warn" (click)="NewGame()" [disabled]="_httpService.RunningRequestsCount > 0">New Code</button>
+    <button mat-flat-button color="primary" (click)="MakeGuess()" [disabled]="LockUi">Guess!</button>
+    <button mat-flat-button color="warn" (click)="NewGame()" [disabled]="_httpService.RunningRequestsCount > 0">New Code</button>
   </div>
 
   <!-- Feedback -->
@@ -30,7 +30,7 @@
 
   <!-- Guesses plus feedback -->
   <div class="monospace">
-    <p *ngFor="let g of guessesPlusFeedback">{{ g }}</p>
+    <p *ngFor="let g of guessesPlusFeedback" @fade>{{ g }}</p>
   </div>
 
 </div>
