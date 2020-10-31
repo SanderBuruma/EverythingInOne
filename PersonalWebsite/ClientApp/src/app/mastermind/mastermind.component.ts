@@ -6,33 +6,22 @@ import { CookieService } from 'ngx-cookie-service';
 import { ThemesService } from '../shared/services/Themes.service';
 import { CookieKeys } from '../shared/enums/cookie-keys.enum';
 import { fade } from 'src/app/shared/animations/main.animations';
+import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-big-prime-component',
+  selector: 'app-codebreaker-component',
   templateUrl: './mastermind.component.html',
   styleUrls: ['./mastermind.component.scss'],
   animations: [ fade ]
 })
 export class MastermindComponent extends BaseComponent implements OnInit {
   //#region Fields
-  public _text            = '';
-  public _nextText        = '';
-
-  public _getTextI        = 0;
-  public _input           = '';
-  public _inputPrevLength = 0;
-  public _i               = 0;
-  public _nrOfLines       = 0;
-
-  public _textCorrect     = '';
-  public _textFalse       = '';
-  public _textRemaining   = '';
-
-  /**the last time in unix that typing was started */
-  public _lastTime        = Date.now();
-  public _wpmList: { wpm: number, length: number }[] = [];
-
-  public _correct         = true;
+  public guessCode = '';
+  public guessedCodes: string[] = [];
+  public validCodeRgx = /^[1-8]{4}$/;
+  public guessesPlusFeedback: string[] = [];
+  public roundComplete = false;
+  public focus = true;
   //#endregion
 
   //#region Constructor & ngOnInit
@@ -44,175 +33,95 @@ export class MastermindComponent extends BaseComponent implements OnInit {
     public _httpService: HttpService
   ) {
     super(_router, _route, _cookieService, _themesSerice);
-
-    // get the index of the text in the que
-    const cookieVal = super.GetCookievalueNum(CookieKeys.ScriboI);
-
-    // start everything
-    this._i = cookieVal >= 0 ? cookieVal : 0;
-    this.GetText(this._i);
+    _httpService.Get('codebreaker/newCode');
   }
 
   ngOnInit(): void {
-
-    // get number of lines
-    this._httpService.Get<number>('scriboAlacrito/getLinesNr').then(nr => this._nrOfLines = nr);
 
   }
   //#endregion
 
   //#region Properties
-  /** words Per Minute (chars per second multiplied by 12) to 2 decimals */
-  public get Wpm() {
-    return Math.round(this.SumChars / this.SumTime * 1200) / 100;
-  }
-
-  /** Sum of chars typed */
-  public get SumChars() {
-    return super.GetCookievalueNum(CookieKeys.ScriboCharSum);
-  }
-  /** Sum of chars typed */
-  public set SumChars(value: number) {
-    super.SetCookievalue(CookieKeys.ScriboCharSum, value);
-  }
-
-  /** Sum of seconds used to type texts */
-  public get SumTime() {
-    return super.GetCookievalueNum(CookieKeys.ScriboTimeSum, 60);
-  }
-  /** Sum of seconds used to type texts */
-  public set SumTime(value: number) {
-    super.SetCookievalue(CookieKeys.ScriboTimeSum, value);
+  /** Locks a few UI elements if the round is complete or a request is in progress */
+  public get LockUi(): boolean {
+    return this.roundComplete || !!this._httpService.RunningRequestsCount;
   }
   //#endregion
 
   //#region Methods
-  public ChangeEvent() {
+  public IsGuessCodeValid(guess: string) {
+    const check = this.validCodeRgx.test(guess);
+    console.log({check, rgx: this.validCodeRgx, guess});
+    return check;
+  }
 
-    // if the input length is or was 0 reset the timer
-    if (this._inputPrevLength === 0 || this._input.length === 0) {
-      this._lastTime = Date.now();
+  public OnKeyDown(event: KeyboardEvent) {
+    const cond1 = event.key === 'Enter',
+    cond3 = !this._httpService.RunningRequestsCount;
+    if (
+      cond1 && cond3
+    ) {
+
+        console.log({msg: 'true', complete: this.roundComplete});
+        if (!this.roundComplete) { this.MakeGuess(); } else {this.NewGame(); }
+
+    } else if (event.key === 'Escape') {
+
+      // reset guess
+      this.guessCode = '';
+
+    } else if (this.guessCode.length > 4) {
+
+      // shorten too long code
+      this.guessCode = this.guessCode.substr(0, 4);
+      // reset code if invalid
+      if (!this.validCodeRgx.test(this.guessCode)) { this.guessCode = ''; }
+
     }
+  }
 
-    // if input text length is suddenly a lot longer than the previous length there's been a copy paste
-    if (this._input.length > this._inputPrevLength + 10) {
-      this._input = '';
-      this._correct = this.UpdateTextColors();
-      alert('No copy pasting!');
+  public MakeGuess() {
+    const cond1 = this.roundComplete, cond2 = !this.IsGuessCodeValid(this.guessCode);
+    if (cond1 || cond2) {
+      console.log({msg: 'not guessing', invalid: cond2, complete: cond1});
       return;
     }
-
-    this._correct = this.UpdateTextColors();
-
-    // TODO if input is in equal length to text then finish
-    if (this._input.length >= this._text.length && !this._textFalse) {
-      this.GetText(this._i + 2);
-    }
-
-    this._inputPrevLength = this._text.length;
-  }
-
-  /**
-   * Updates the coloring of the texts.
-   * @returns true if correct input
-   */
-  public UpdateTextColors() {
-    // find the length of the input congruent text (stored in i)
-    let i = 0;
-    for (; i < this._input.length; i++) {
-      if (this._input.substring(0, this._input.length - i) === this._text.substring(0, this._input.length - i)) {
-        break;
+    console.log({msg: 'next'});
+    this._httpService.Get<GuessFeedback>('codebreaker/makeGuess?guess=' + this.guessCode)
+    .then(feedback => {
+      this.guessesPlusFeedback.push(this.FormatGuessPlusFeedback(this.guessCode, feedback.bulls, feedback.cows));
+      if (feedback.bulls === 4) {
+        this.roundComplete = true;
+        console.log({complete: this.roundComplete});
       }
-    }
-
-    // fill in the three spans
-    this._textRemaining = this._text.substring(this._input.length);
-    if (i === 0) {
-      // Full match between input and current text.
-      this._textCorrect = this._text.substring(0, this._input.length);
-      this._textFalse = '';
-      return true;
-    } else if (i < this._input.length) {
-      // Partial match
-      this._textCorrect = this._text.substring(0, this._input.length - i);
-      this._textFalse = this._text.substring(this._input.length - i, this._input.length);
-    } else {
-      // No match
-      this._textCorrect = '';
-      this._textFalse = this._text.substring(0, this._input.length);
-    }
-    return false;
-  }
-
-  /**
-   * Gets the next text to use from the server side database. Also posts local wpm scores to the user.
-   * @param i the i value to get from the db
-   */
-  public async GetText(i: number = -1, reset = false) {
-    // don't fetch another while the first is being requested.
-    if (this._httpService.RunningRequestsCount) { return; }
-    if (reset) {
-      this._text = '';
-      this._input = '';
-      this._nextText = '';
-    }
-
-    // if a text was just successfully typed
-    const textLength = this._text.length;
-    if (this._text) {
-      // reset
-      this._correct = true;
-      this._inputPrevLength = 0;
-      this._text =  this._nextText + ' ';
-      this._nextText = '';
-    }
-
-    if (this._input.length > 10) {
-      this._input = this._input.substring(textLength);
-      // update wpm by averaging with previous scores and reducing the weight of the previous scores
-      const timeUnit = (Date.now() - this._lastTime) / 1e3;
-      this._lastTime = Date.now();
-      const wpm = textLength / timeUnit * 12;
-
-      // save to cookies
-      if (wpm > 15) {
-        this.SumTime  = (this.SumTime  * 24) / 25 + timeUnit;
-        this.SumChars = (this.SumChars * 24) / 25 + textLength;
-
-        // expand the local recordings of typing speed
-        this._wpmList.unshift({ wpm, length: textLength });
-        if (this._wpmList.length > 10) { this._wpmList.pop(); }
-      }
-
-
-      // move texts around and fetch a new one
-      this._i++;
-      super.SetCookievalue(CookieKeys.ScriboI, this._i.toString());
-    }
-    this._input = '';
-
-
-    // here we are
-    this._httpService.Get<{ str: string, i: number }>('scriboAlacrito/getText?i=' + i).then(backendReturnText => {
-
-      // if this is the first call to GetText() then fetch two texts
-      if (!this._text) {
-        this._text = backendReturnText.str + ' ';
-        this._httpService.Get<{ str: string, i: number }>('scriboAlacrito/getText?i=' + (++i)).then(nextTextToBe => {
-          this._nextText = nextTextToBe.str;
-        });
-      } else {
-        this._nextText = backendReturnText.str;
-      }
-
-      this.UpdateTextColors();
+      this.guessCode = '';
     });
   }
 
-  public GetElapsedTime() {
-    const difference = Date.now() - this._lastTime;
-    return Math.floor(difference / 1000);
+  public GetPreviousFeedback() {
+    this._httpService.Get<{guesses: string[], rScores: {Bulls: string, Cows: string}[]}>('codebreaker/getFeedback').then(fb => {
+      for (let i = 0; i < fb.guesses.length; i++) {
+        this.guessesPlusFeedback.push(this.FormatGuessPlusFeedback(fb[i].guessCode, fb[i].Bulls, fb[i].Cows));
+      }
+    });
+  }
+
+  NewGame() {
+    this._httpService.Get('codebreaker/newCode').then(s => {
+      this.roundComplete = !s;
+      this.guessesPlusFeedback = [];
+      this.roundComplete = false;
+    } );
+  }
+
+  private FormatGuessPlusFeedback(guess: string, bulls: number, cows: number) {
+    return `${guess} - ${bulls} ${cows}`;
   }
   //#endregion
 
+}
+
+class GuessFeedback {
+  public bulls: number;
+  public cows: number;
 }

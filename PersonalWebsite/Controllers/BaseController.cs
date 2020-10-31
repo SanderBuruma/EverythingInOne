@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +17,7 @@ namespace PersonalWebsite.Controllers
          _rng = new Random();
 		}
 
-		public string GetCookieById(string key){
+		protected string GetCookieById(string key){
          string returnString;
          _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(key, out returnString);
          if (String.IsNullOrWhiteSpace(returnString)){

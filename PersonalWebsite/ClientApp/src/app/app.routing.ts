@@ -17,7 +17,7 @@ const routes: Routes = [
 
   { path: 'big-prime',       component: BigPrimeComponent,        pathMatch: 'full' },
   { path: 'scribo-alacrito', component: ScriboAlacritoComponent,  pathMatch: 'full' },
-  { path: 'mastermind',      component: MastermindComponent,      pathMatch: 'full' },
+  { path: 'codebreaker',     component: MastermindComponent,      pathMatch: 'full' },
 
   { path: '**',              component: NotFoundComponent}
 

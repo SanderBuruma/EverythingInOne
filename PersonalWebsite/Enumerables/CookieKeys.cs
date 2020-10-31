@@ -13,6 +13,8 @@ namespace PersonalWebsite.Enumerables
 		public static string Count { get { return "count"; } }
 		public static string ThemeIndex { get { return "theme-index"; } }
 
-		public static string RngId { get { return "rng-id"; } }
+		public static string RngId { get { 
+			return "rng-id"; 
+		} }
 	}
 }
