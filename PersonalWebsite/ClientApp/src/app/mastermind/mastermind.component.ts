@@ -4,15 +4,13 @@ import { BaseComponent } from '../shared/base-component/base.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ThemesService } from '../shared/services/Themes.service';
-import { CookieKeys } from '../shared/enums/cookie-keys.enum';
-import { fade } from 'src/app/shared/animations/main.animations';
-import { FormControl } from '@angular/forms';
+import { fadeIn, fadeInOut, upInOut } from 'src/app/shared/animations/main.animations';
 
 @Component({
   selector: 'app-codebreaker-component',
   templateUrl: './mastermind.component.html',
   styleUrls: ['./mastermind.component.scss'],
-  animations: [ fade ]
+  animations: [ fadeIn, fadeInOut, upInOut ]
 })
 export class MastermindComponent extends BaseComponent implements OnInit {
   //#region Fields
@@ -51,7 +49,6 @@ export class MastermindComponent extends BaseComponent implements OnInit {
   //#region Methods
   public IsGuessCodeValid(guess: string) {
     const check = this.validCodeRgx.test(guess);
-    console.log({check, rgx: this.validCodeRgx, guess});
     return check;
   }
 
@@ -61,8 +58,6 @@ export class MastermindComponent extends BaseComponent implements OnInit {
     if (
       cond1 && cond3
     ) {
-
-        console.log({msg: 'true', complete: this.roundComplete});
         if (!this.roundComplete) { this.MakeGuess(); } else {this.NewGame(); }
 
     } else if (event.key === 'Escape') {
@@ -83,19 +78,26 @@ export class MastermindComponent extends BaseComponent implements OnInit {
   public MakeGuess() {
     const cond1 = this.roundComplete, cond2 = !this.IsGuessCodeValid(this.guessCode);
     if (cond1 || cond2) {
-      console.log({msg: 'not guessing', invalid: cond2, complete: cond1});
       return;
     }
-    console.log({msg: 'next'});
     this._httpService.Get<GuessFeedback>('codebreaker/makeGuess?guess=' + this.guessCode)
     .then(feedback => {
       this.guessesPlusFeedback.push(this.FormatGuessPlusFeedback(this.guessCode, feedback.bulls, feedback.cows));
       if (feedback.bulls === 4) {
-        this.roundComplete = true;
-        console.log({complete: this.roundComplete});
+        this.CompleteRound();
       }
       this.guessCode = '';
     });
+  }
+
+  public CompleteRound() {
+    this.roundComplete = true;
+
+    setTimeout(() => {
+      if (this.CompleteRound) {
+        this.NewGame();
+      }
+    }, 2000);
   }
 
   public GetPreviousFeedback() {

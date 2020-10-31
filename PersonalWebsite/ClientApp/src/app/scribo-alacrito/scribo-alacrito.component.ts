@@ -5,13 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ThemesService } from '../shared/services/Themes.service';
 import { CookieKeys } from '../shared/enums/cookie-keys.enum';
-import { fade } from 'src/app/shared/animations/main.animations';
+import { fadeIn } from 'src/app/shared/animations/main.animations';
 
 @Component({
   selector: 'app-scribo-alacrito-component',
   templateUrl: './scribo-alacrito.component.html',
   styleUrls: ['./scribo-alacrito.component.scss'],
-  animations: [ fade ]
+  animations: [ fadeIn ]
 })
 export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#region Fields
