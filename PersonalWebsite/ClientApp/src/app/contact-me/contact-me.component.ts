@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { BaseComponent } from '../shared/base-component/base.component';
@@ -40,8 +40,11 @@ export class ContactMeComponent extends BaseComponent {
       return;
     }
     this._httpService.Post('dev/', {
-      Sender: 'sanderburuma+test@gmail.com',
+      Sender: this.senderEmail,
       Subject: 'sanderburuma.nl - ' + this.message.substr(0, 30),
-      Body: this.message});
+      Body: this.message
+    }).then(() => {
+      this.NavigateTo('/');
+    });
   }
 }
