@@ -70,6 +70,7 @@ namespace PersonalWebsite
          //initialize custom  and controllers
          Primes.Initialize();
          ScriboAlacritoController.Initialize();
+         DevController.Initialize();
 
          app.UseSpa(spa =>
          {

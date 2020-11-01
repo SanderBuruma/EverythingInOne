@@ -1,0 +1,28 @@
+<div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
+
+  <div fxFlexAlign="center center" class="example-form" fxLayout="column" fxLayoutGap="5px">
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Email</mat-label>
+      <input matInput [formControl]="emailFormControl" placeholder="Ex. johnsmith@skyscraper.com" [(ngModel)]="senderEmail">
+      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="emailFormControl.hasError('required')">
+        Please enter an email
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Message</mat-label>
+      <textarea matInput [formControl]="messageFormControl" placeholder="Ex. Dear Sander Buruma, I have a few ideas for your website" [(ngModel)]="message"></textarea>
+      <mat-error *ngIf="messageFormControl.hasError('minLength')">
+        Type in a message
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" [disabled]="emailFormControl.hasError('email') || emailFormControl.hasError('required') || message.length < 10">Send!</button>
+
+  </div>
+
+</div>
