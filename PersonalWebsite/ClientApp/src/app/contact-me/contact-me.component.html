@@ -21,7 +21,7 @@
       </mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="accent" [disabled]="emailFormControl.hasError('email') || emailFormControl.hasError('required') || message.length < 10 || this._httpService.RunningRequestsCount" (click)="EmailTheDev()">Send!</button>
+    <button mat-raised-button color="accent" [disabled]="emailFormControl.hasError('email') || emailFormControl.hasError('required') || message.length < 10" (click)="EmailTheDev()">Send!</button>
 
   </div>
 
