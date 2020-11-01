@@ -15,7 +15,6 @@ import { ThemesService } from '../shared/services/Themes.service';
 export class ContactMeComponent extends BaseComponent {
 
   public senderEmail = '';
-  public name = '';
   public message = '';
 
   public emailFormControl = new FormControl('', [
@@ -40,6 +39,9 @@ export class ContactMeComponent extends BaseComponent {
     if (this.emailFormControl.hasError('email') || this.emailFormControl.hasError('required')) {
       return;
     }
-    this._httpService.Post('dev/', {Sender: 'sanderburuma+test@gmail.com', Subject: 'personal website test email', Body: 'This body is fresh and not yet room temperature...'});
+    this._httpService.Post('dev/', {
+      Sender: 'sanderburuma+test@gmail.com',
+      Subject: 'sanderburuma.nl - ' + this.message.substr(0, 30),
+      Body: this.message});
   }
 }
