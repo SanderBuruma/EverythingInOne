@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
 import { BaseComponent } from '../shared/base-component/base.component';
 
@@ -30,7 +31,8 @@ export class ContactMeComponent extends BaseComponent {
     _route: ActivatedRoute,
     _cookieService: CookieService,
     _themesSerice: ThemesService,
-    public _httpService: HttpService
+    public _httpService: HttpService,
+    public _snackbar: MatSnackBar
   ) {
     super(_router, _route, _cookieService, _themesSerice);
   }
@@ -41,10 +43,18 @@ export class ContactMeComponent extends BaseComponent {
     }
     this._httpService.Post('dev/', {
       Sender: this.senderEmail,
-      Subject: 'sanderburuma.nl - ' + this.message.substr(0, 30),
+      Subject: `sanderburuma.nl - ${this.senderEmail} - ${this.message.substr(0, 30)}`,
       Body: this.message
     }).then(() => {
+      const config = new MatSnackBarConfig();
+      config.duration = 5000;
+      this._snackbar.open('Email sent!', 'ok', config);
+
       this.NavigateTo('/');
+    }).catch(() => {
+      const config = new MatSnackBarConfig();
+      config.duration = 5000;
+      this._snackbar.open('Error :(', 'dismiss', config);
     });
   }
 }

@@ -20,7 +20,7 @@ namespace PersonalWebsite.Controllers
       }
 
       [HttpPost]
-      public void EmailTheDev([FromBody] EmailtoSend email) {
+      public object EmailTheDev([FromBody] EmailtoSend email) {
 
          var smtpClient = new SmtpClient("smtp.gmail.com")
          {
@@ -31,6 +31,8 @@ namespace PersonalWebsite.Controllers
             
          smtpClient.Send(email.Sender, "sanderburuma+personalwebsite@gmail.com", email.Subject, email.Body);
          
+         var msg = "ok";
+         return new { msg }; // makes the post method on the frontend work correctly because it expects JSON
       }
 
       [HttpGet]
