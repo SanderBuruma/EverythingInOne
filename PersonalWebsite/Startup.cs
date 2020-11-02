@@ -27,7 +27,7 @@ namespace PersonalWebsite
          services.AddHttpsRedirection(options =>
          {
             options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
-            options.HttpsPort = 5001;
+            options.HttpsPort = 443;
          });
          services.AddControllersWithViews();
          // In production, the Angular files will be served from this directory
