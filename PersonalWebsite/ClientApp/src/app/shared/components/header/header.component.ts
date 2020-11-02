@@ -13,8 +13,11 @@ import { ThemesService } from '../../services/Themes.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent extends BaseComponent {
+
   public _displayMe = false;
   public _themeIndices = ThemeIndices;
+  public _showModal = false;
+
   constructor(
     _router: Router,
     _route: ActivatedRoute,
@@ -23,6 +26,10 @@ export class HeaderComponent extends BaseComponent {
     public _httpService: HttpService
   ) {
     super(_router, _route, _cookieService, _themesSerice);
+  }
+
+  public GoToActionForm() {
+    this.NavigateTo('contact-me');
   }
 
 }
