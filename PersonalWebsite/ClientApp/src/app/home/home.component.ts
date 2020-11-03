@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../shared/base-component/base.component';
 import { CookieService } from 'ngx-cookie-service';
 import { CookieKeys } from '../shared/enums/cookie-keys.enum';
+import { HttpService } from '../shared/services/Http.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ export class HomeComponent extends BaseComponent {
     _router: Router,
     _route: ActivatedRoute,
     _themesService: ThemesService,
-    _cookieService: CookieService
+    _cookieService: CookieService,
+    private _httpService: HttpService
   ) {
     super(_router, _route, _cookieService, _themesService);
 
@@ -41,5 +43,9 @@ export class HomeComponent extends BaseComponent {
   public Increment() {
     this._count++;
     super.SetCookievalue(CookieKeys.Count, this._count);
+  }
+
+  public EmailTheDev() {
+    this._httpService.Post('dev/', {Sender: 'sanderburuma+test@gmail.com', Subject: 'personal website test email', Body: 'This body is fresh and not yet room temperature...'});
   }
 }
