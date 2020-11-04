@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
+import { BaseService } from '../base/base.service';
 import { CookieKeys } from '../enums/cookie-keys.enum';
 import { ThemeIndices } from '../enums/themes.enum';
 
@@ -10,7 +11,7 @@ import { ThemeIndices } from '../enums/themes.enum';
 
 // tslint:disable-next-line: max-line-length
 /**Should handle all theming everywhere in the application. Different clients should each be able to use different ones than another. This service is supposed to control that.*/
-export class ThemesService {
+export class ThemesService extends BaseService {
   //#region Fields
   /**This is supposed to list all themes put into the system at /src/themes/themes.scss*/
   private _listOfThemes: string[];
@@ -21,6 +22,7 @@ export class ThemesService {
   constructor(
     public _cookieService: CookieService
   ) {
+    super(_cookieService);
     this._listOfThemes = [
       // default theme
       'cubit-theme',
@@ -51,17 +53,11 @@ export class ThemesService {
 
 
   public get ThemeIndex() {
-    const cookie: any = parseInt(this._cookieService.get(CookieKeys.ThemeIndex), 10);
-    if (cookie >= 0) {
-      return cookie;
-    } else {
-      this.ThemeIndex = 0;
-      return 0;
-    }
+    return super.GetCookievalueNum(CookieKeys.ThemeIndex);
   }
 
   public set ThemeIndex(value: number) {
-    this._cookieService.set(CookieKeys.ThemeIndex, value.toString(), 7);
+    super.SetCookievalue(CookieKeys.ThemeIndex, value);
   }
   //#endregion
 

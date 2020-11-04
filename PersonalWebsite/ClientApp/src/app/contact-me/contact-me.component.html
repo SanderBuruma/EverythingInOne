@@ -3,25 +3,27 @@
   <div fxFlexAlign="center center" class="example-form" fxLayout="column" fxLayoutGap="5px">
 
     <mat-form-field class="example-full-width">
-      <mat-label>Email</mat-label>
-      <input matInput [formControl]="emailFormControl" placeholder="Ex. johnsmith@skyscraper.com" [(ngModel)]="senderEmail">
+      <mat-label>
+        {{ GetLocalization('contact-email') }}</mat-label>
+      <input matInput [formControl]="emailFormControl" [placeholder]="GetLocalization('contact-email-placeholder')" [(ngModel)]="senderEmail">
       <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-        Please enter a valid email address
+        {{ GetLocalization('contact-please-valid-email') }}
       </mat-error>
       <mat-error *ngIf="emailFormControl.hasError('required')">
-        Please enter an email
+        {{ GetLocalization('contact-please-enter-email') }}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-      <mat-label>Message</mat-label>
-      <textarea matInput [formControl]="messageFormControl" placeholder="Ex. Dear Sander Buruma, I have a few ideas for your website" [(ngModel)]="message"></textarea>
+      <mat-label>
+        {{ GetLocalization('contact-content') }}</mat-label>
+      <textarea matInput [formControl]="messageFormControl" [placeholder]="GetLocalization('contact-content-placeholder')" [(ngModel)]="message"></textarea>
       <mat-error *ngIf="messageFormControl.hasError('minLength(10)')">
-        Type in a message
+        {{ GetLocalization('contact-please-write-content') }}
       </mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" [disabled]="emailFormControl.hasError('email') || emailFormControl.hasError('required') || message.length < 10" (click)="EmailTheDev()">Send!</button>
+    <button mat-raised-button color="primary" [disabled]="emailFormControl.hasError('email') || emailFormControl.hasError('required') || message.length < 10" (click)="EmailTheDev()">{{ GetLocalization('contact-send') }}</button>
 
   </div>
 

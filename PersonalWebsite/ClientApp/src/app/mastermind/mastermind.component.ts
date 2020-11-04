@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../shared/services/Http.service';
-import { BaseComponent } from '../shared/base-component/base.component';
+import { BaseComponent } from '../shared/base/base.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ThemesService } from '../shared/services/Themes.service';
 import { fadeIn, fadeInOut, upInOut } from 'src/app/shared/animations/main.animations';
+import { LocalizationService } from '../shared/services/Localization.service';
 
 @Component({
   selector: 'app-codebreaker-component',
@@ -27,10 +28,11 @@ export class MastermindComponent extends BaseComponent implements OnInit {
     _router: Router,
     _route: ActivatedRoute,
     _cookieService: CookieService,
-    _themesSerice: ThemesService,
+    _themesService: ThemesService,
+    _localizationService: LocalizationService,
     public _httpService: HttpService
   ) {
-    super(_router, _route, _cookieService, _themesSerice);
+    super(_router, _route, _cookieService, _themesService, _localizationService);
     _httpService.Get('codebreaker/newCode');
   }
 

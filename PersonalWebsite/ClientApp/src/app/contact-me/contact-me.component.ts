@@ -3,10 +3,11 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
-import { BaseComponent } from '../shared/base-component/base.component';
+import { BaseComponent } from '../shared/base/base.component';
 
 import { HttpService } from '../shared/services/Http.service';
 import { ThemesService } from '../shared/services/Themes.service';
+import { LocalizationService } from '../shared/services/Localization.service';
 
 @Component({
   selector: 'app-contact-me',
@@ -30,11 +31,12 @@ export class ContactMeComponent extends BaseComponent {
     _router: Router,
     _route: ActivatedRoute,
     _cookieService: CookieService,
-    _themesSerice: ThemesService,
+    _themesService: ThemesService,
+    _localizationService: LocalizationService,
     public _httpService: HttpService,
     public _snackbar: MatSnackBar
   ) {
-    super(_router, _route, _cookieService, _themesSerice);
+    super(_router, _route, _cookieService, _themesService, _localizationService);
   }
 
   public EmailTheDev() {
