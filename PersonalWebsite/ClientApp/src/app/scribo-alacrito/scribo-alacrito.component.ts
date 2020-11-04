@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../shared/services/Http.service';
-import { BaseComponent } from '../shared/base-component/base.component';
+import { BaseComponent } from '../shared/base/base.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ThemesService } from '../shared/services/Themes.service';
 import { CookieKeys } from '../shared/enums/cookie-keys.enum';
 import { fadeIn, upIn } from 'src/app/shared/animations/main.animations';
+import { LocalizationService } from '../shared/services/Localization.service';
 
 @Component({
   selector: 'app-scribo-alacrito-component',
@@ -40,10 +41,11 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     _router: Router,
     _route: ActivatedRoute,
     _cookieService: CookieService,
-    _themesSerice: ThemesService,
+    _themesService: ThemesService,
+    _localizationService: LocalizationService,
     public _httpService: HttpService
   ) {
-    super(_router, _route, _cookieService, _themesSerice);
+    super(_router, _route, _cookieService, _themesService, _localizationService);
 
     // get the index of the text in the que
     const cookieVal = super.GetCookievalueNum(CookieKeys.ScriboI);

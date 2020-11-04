@@ -18,9 +18,10 @@ class="primary-bg-800 primary-0"
     fxFlex="1 1 100px 100px"
     fxFlexOrder="1"
     mat-icon-button
-    aria-label="Example icon button with a home icon"
+    aria-label="go to home button"
     (click)="NavigateTo('/')"
-    class="primary-bg-400">
+    class="primary-bg-400"
+    title="Go to home page">
       <mat-icon class="primary-0">home</mat-icon>
     </button>
 
@@ -28,10 +29,33 @@ class="primary-bg-800 primary-0"
       fxFlex="1 1 100px 100px"
       fxFlexOrder="1"
       mat-icon-button
-      aria-label="Example icon button with a home icon"
+      aria-label="contact me button"
       (click)="NavigateTo('/contact-me')"
-      class="primary-bg-400">
+      class="primary-bg-400"
+      title="Contact me">
       <mat-icon class="primary-0">email</mat-icon>
+    </button>
+
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="1"
+      mat-icon-button
+      aria-label="Change language button"
+      (click)="_localizationService.Increment()"
+      class="primary-bg-400"
+      title="Change language">
+      <mat-icon class="primary-0">format_align_center</mat-icon>
+    </button>
+
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="1"
+      mat-icon-button
+      aria-label="Change theme button"
+      (click)="_themesService.IncrementTheme()"
+      class="primary-bg-400"
+      title="Change colour theme">
+      <mat-icon class="primary-0">brush</mat-icon>
     </button>
 
   </div>

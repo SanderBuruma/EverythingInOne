@@ -1,24 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { CookieKeys } from '../enums/cookie-keys.enum';
+import { LocalizationService } from '../services/Localization.service';
 import { ThemesService } from '../services/Themes.service';
 
 // tslint:disable-next-line: max-line-length
 /** The base comonent which contains all fields, properties and methods that all components should contain (except perhaps app.component.ts)*/
-@Component({
-  selector: 'app-base-component',
-  template: '',
-  styles: ['']
-})
 export class BaseComponent {
   //#region Constructor & ngOnInit
   constructor(
     public _router: Router,
     public _route: ActivatedRoute,
     public _cookieService: CookieService,
-    public _themesSerice: ThemesService
+    public _themesService: ThemesService,
+    public _localizationService: LocalizationService
   ) {
     // acts as a sort of user id
     if (!this.GetCookievalue(CookieKeys.RngId, '')) { this.SetCookievalue(CookieKeys.RngId, Math.random() * 2e9 ); }
@@ -26,6 +21,14 @@ export class BaseComponent {
 
   public async NavigateTo(url: string) {
     await this._router.navigateByUrl(url);
+  }
+
+  /**
+   * get a localized text
+   * @param label the label of the text to get
+   */
+  public GetLocalization(label: string) {
+    return this._localizationService.TextByLabel(label);
   }
 
   /**

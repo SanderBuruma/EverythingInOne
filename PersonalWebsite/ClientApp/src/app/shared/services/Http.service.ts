@@ -1,9 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { BaseService } from '../base/base.service';
 
 /**Should handle all http requests*/
 @Injectable()
-export class HttpService {
+export class HttpService extends BaseService {
   //#region Fields
   /** These are associated with all past requests which haven't been cancelled
    *  (regardless of whether or not those requests have been returned) */
@@ -15,7 +17,12 @@ export class HttpService {
   private _areWeConnected: BehaviorSubject<boolean> = new BehaviorSubject(true);
   //#endregion
 
-  constructor(@Inject('BASE_URL') public _baseUrl: string) {}
+  constructor(
+    @Inject('BASE_URL') public _baseUrl: string,
+    _cookieService: CookieService
+  ) {
+    super(_cookieService);
+  }
 
   //#region Properties
   public get RunningRequestsCount() {
