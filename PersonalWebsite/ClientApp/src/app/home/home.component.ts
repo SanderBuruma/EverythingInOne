@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ThemesService } from '../shared/services/Themes.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BaseComponent } from '../shared/base-component/base.component';
+import { BaseComponent } from '../shared/base/base.component';
 import { CookieService } from 'ngx-cookie-service';
 import { CookieKeys } from '../shared/enums/cookie-keys.enum';
 import { HttpService } from '../shared/services/Http.service';
+import { LocalizationService } from '../shared/services/Localization.service';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +20,10 @@ export class HomeComponent extends BaseComponent {
     _route: ActivatedRoute,
     _themesService: ThemesService,
     _cookieService: CookieService,
+    _localizationService: LocalizationService,
     private _httpService: HttpService
   ) {
-    super(_router, _route, _cookieService, _themesService);
+    super(_router, _route, _cookieService, _themesService, _localizationService);
 
     const cookie = super.GetCookievalue(CookieKeys.Count);
 
@@ -30,14 +32,6 @@ export class HomeComponent extends BaseComponent {
       nr = 0;
     }
     this._count = nr;
-  }
-
-  public IncrementTheme() {
-    this._themesSerice.IncrementTheme();
-  }
-
-  public GoToBigPrime() {
-    this._router.navigateByUrl('big-prime');
   }
 
   public Increment() {

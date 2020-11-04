@@ -11,6 +11,9 @@ export enum CookieKeys {
   // all
   ThemeIndex = 'theme-index',
 
+  // localization index
+  LocalizationIndex = 'loc-index',
+
   // should act as a sort of user id (obviously very temporary)
   RngId = 'rng-id'
 }
