@@ -9,7 +9,7 @@
 
   <!-- Title -->
   <h2 class="monospace">
-    Code Breaker <span class="help cursor-hand" title="Input 4 digits between 1 and 8, then press enter to make your guess. The first number shows the number of correct digits in the correct place and the next shows the remaining number of correct digits that are NOT in the correct place.">?</span>
+    Code Breaker <span class="help cursor-hand" title="Input 8 hexadecimal digits and press enter to make your guess. The first number shows the number of correct digits in the correct place and the next shows the remaining number of correct digits that are NOT in the correct place.">?</span>
   </h2>
 
   <div fxLayout="row" fxLayoutGap="5px">
@@ -18,7 +18,7 @@
   </div>
 
   <!-- Input for any given Guess -->
-  <mat-form-field class="guess-code monospace" title="4 digits between 1 and 8">
+  <mat-form-field class="guess-code monospace" title="input 8 hexadecimal digits (from '0123456789abcdef')">
     <mat-label>Your guess</mat-label>
     <input matInput type="text" [(ngModel)]="guessCode" (keydown)="OnKeyDown($event)" [disabled]="LockUi">
     <button mat-button *ngIf="guessCode" matSuffix mat-icon-button aria-label="Clear" (click)="guessCode=''">
@@ -28,7 +28,7 @@
 
   <!-- Guesses plus feedback -->
   <div class="monospace">
-    <p *ngFor="let g of guessesPlusFeedback" @fadeInOut @upInOut>{{ g }}</p>
+    <p *ngFor="let g of guessesPlusFeedback" @fadeInOut @upInOut class="feedbacks">{{ g }} </p>
   </div>
 
 </div>

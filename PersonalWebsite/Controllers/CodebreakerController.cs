@@ -9,30 +9,45 @@ namespace PersonalWebsite.Controllers
 {
    public class CodebreakerController : BaseController
    {
+      #region Fields
+
       private static List<CodebreakerCode> _codes = new List<CodebreakerCode>();
+      private static string _charIndexString = "0123456789abcdef";
+      private static int _codeLength = 8;
+
+      #endregion
+
+      #region Constructor
 
       public CodebreakerController(IHttpContextAccessor httpContextAccessor): base(httpContextAccessor)
       {
       }
 
+      #endregion
+
+      #region Methods
+
       [HttpGet("makeGuess")]
       public ReturnScore MakeGuess(string guess) {
 
-         var guessPieces = guess.ToCharArray();
-         var nums = new List<int>();
+         guess = guess.ToLower();
+         char[] guessPieces = guess.ToCharArray();
+         List<int> nums = new List<int>();
          foreach (char s in guessPieces) {
-            nums.Add(s - 49);
+            int pegIndex = _charIndexString.IndexOf(s.ToString());
+            nums.Add(pegIndex);
          }
          int[] pegs = nums.ToArray();
 
-         if (pegs.Length != 4) throw new ArgumentException("There may be only be 4 pegs submitted to CheckCode");
+         if (pegs.Length != _codeLength) throw new ArgumentException("There may be only be 4 pegs submitted to CheckCode");
 
-         foreach (var peg in pegs){
-            if (peg < 0 || peg > 7){
-               throw new ArgumentException("Wrong peg value, peg values may only be 0 through 7");
+         foreach (int peg in pegs){
+            if (peg < 0 || peg > 15){
+               throw new ArgumentException("Wrong peg value, peg values may only be 0 through 9 and a through f");
             }
          }
 
+         //get the current user's code
          CodebreakerCode code = GetCode();
          if (code == null) {
             NewCode();
@@ -40,27 +55,27 @@ namespace PersonalWebsite.Controllers
          }
 
          // compare the guess and actual code
-         var rScore = new ReturnScore{
+         ReturnScore rScore = new ReturnScore{
             Bulls = 0,
             Cows = 0
          };
 
-         // count bulls
+         // count bulls (correctly positioned pegs)
          for (int i = 0; i < pegs.Length; i++){
             if (pegs[i] == code.Code[i]) rScore.Bulls++;
          }
 
-         // count cows
-         for (int i = 0; i < 8; i++){
-            var count1 = pegs.Count(checkMe => { 
+         // count cows (correct pegs in wrong positions)
+         for (int i = 0; i < _charIndexString.Length; i++){
+            int guessPegCount = pegs.Count(checkMe => { 
                   return checkMe==i; 
                });
-            var count2 = code.Code.Count(checkMe => { 
+            int codePegCount = code.Code.Count(checkMe => { 
                   return checkMe==i; 
                });
-            var countOfCowsForOneColor = Math.Min(
-               count1, 
-               count2
+            int countOfCowsForOneColor = Math.Min(
+               guessPegCount, 
+               codePegCount
             );
             rScore.Cows += countOfCowsForOneColor;
          }
@@ -70,7 +85,7 @@ namespace PersonalWebsite.Controllers
          code.RScores.Add(rScore);
 
          // if correctly guessed, generate new code
-         if (rScore.Bulls == 4) NewCode();
+         if (rScore.Bulls == _codeLength) NewCode();
 
          return rScore;
 
@@ -84,7 +99,7 @@ namespace PersonalWebsite.Controllers
 
          _codes.RemoveAll(pred => pred.CookieId == GetCookieById(CookieKeys.RngId));
 
-         CodebreakerCode newCode = new CodebreakerCode(GetCookieById(CookieKeys.RngId), _rng);
+         CodebreakerCode newCode = new CodebreakerCode(GetCookieById(CookieKeys.RngId), _rng, _charIndexString, _codeLength);
 
          _codes.Add(newCode);
 
@@ -111,13 +126,15 @@ namespace PersonalWebsite.Controllers
 
       private CodebreakerCode GetCode(){
 
-         var index = _codes.FindIndex(0, _codes.Count, s => {
+         int index = _codes.FindIndex(0, _codes.Count, s => {
             return s.CookieId == GetCookieById(CookieKeys.RngId);
          });
          if (index == -1) return null;
 
          return _codes[index];
       }
+
+      #endregion
 
    }
 
@@ -141,14 +158,14 @@ namespace PersonalWebsite.Controllers
       /// Generate a brand new Mastermind Code
       /// </summary>
       /// <param name="cookieId">The cookie id of the user</param>
-		public CodebreakerCode(string cookieId, Random rng)
+		public CodebreakerCode(string cookieId, Random rng, string indexString, int len)
 		{
 			CookieId = cookieId;
 
          List<int> pegs = new List<int>();
 
-         for (int i = 0; i < 4; i++){
-            pegs.Add(rng.Next(8));
+         for (int i = 0; i < len; i++){
+            pegs.Add(rng.Next(indexString.Length));
          }
          Code = pegs.ToArray();
          Guesses = new List<string>{};

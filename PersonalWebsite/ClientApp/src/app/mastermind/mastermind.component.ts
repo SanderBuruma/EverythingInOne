@@ -16,7 +16,7 @@ export class MastermindComponent extends BaseComponent implements OnInit {
   //#region Fields
   public guessCode = '';
   public guessedCodes: string[] = [];
-  public validCodeRgx = /^[1-8]{4}$/;
+  public validCodeRgx = /^[0-9a-f]{8}$/;
   public guessesPlusFeedback: string[] = [];
   public roundComplete = false;
   public focus = true;
@@ -65,10 +65,10 @@ export class MastermindComponent extends BaseComponent implements OnInit {
       // reset guess
       this.guessCode = '';
 
-    } else if (this.guessCode.length > 4) {
+    } else if (this.guessCode.length > 8) {
 
       // shorten too long code
-      this.guessCode = this.guessCode.substr(0, 4);
+      this.guessCode = this.guessCode.substr(0, 8);
       // reset code if invalid
       if (!this.validCodeRgx.test(this.guessCode)) { this.guessCode = ''; }
 
@@ -83,7 +83,7 @@ export class MastermindComponent extends BaseComponent implements OnInit {
     this._httpService.Get<GuessFeedback>('codebreaker/makeGuess?guess=' + this.guessCode)
     .then(feedback => {
       this.guessesPlusFeedback.push(this.FormatGuessPlusFeedback(this.guessCode, feedback.bulls, feedback.cows));
-      if (feedback.bulls === 4) {
+      if (feedback.bulls === 8) {
         this.CompleteRound();
       }
       this.guessCode = '';
