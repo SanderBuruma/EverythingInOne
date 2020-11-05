@@ -13,7 +13,7 @@ namespace PersonalWebsite.Controllers
    public class ScriboAlacritoController : BaseController
    {
       private static string[] _lines;
-      private static List<BookIndices> _bookIndices;
+      private static List<BookIndices> _bookIndices = new List<BookIndices>();
       
       private readonly IHttpContextAccessor _httpContextAccessor;
 
