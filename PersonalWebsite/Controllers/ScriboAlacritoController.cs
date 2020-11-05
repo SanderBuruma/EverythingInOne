@@ -13,6 +13,7 @@ namespace PersonalWebsite.Controllers
    public class ScriboAlacritoController : BaseController
    {
       private static string[] _lines;
+      private static List<BookIndices> _bookIndices = new List<BookIndices>();
       
       private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -23,7 +24,20 @@ namespace PersonalWebsite.Controllers
 
       public static void Initialize()
       {
-         List<string> text = DataFiles.MeumProelium.Text.Split("\n").ToList();
+         List<string> baseLines = new List<string>();
+
+         InitializeText(DataFiles.HumanumGenus
+            .Text.Split("\n").ToList(), baseLines, "Humanum Genus, Leo XIII");
+         InitializeText(DataFiles.MoneyManipulationSocialOrder
+            .Text.Split("\n").ToList(), baseLines, "Money Manipulation and the Social Order, Fr Fahey");
+         InitializeText(DataFiles.MeumProelium
+            .Text.Split("\n").ToList(), baseLines, "Meum Proelium, Artifex Germanus");
+
+         _lines = baseLines.ToArray();
+      }
+
+      private static void InitializeText(List<string> text, List<string> baseLines, string title) {
+         _bookIndices.Add(new BookIndices(baseLines.Count, title));
          List<string> linesNew = new List<string>();
          Regex rgx = new Regex(@"(.{90,180}?.*?[.;,?!]\s+)|(.{150}.*?\s+)", RegexOptions.None);
          string leftOverLine = "";
@@ -35,7 +49,7 @@ namespace PersonalWebsite.Controllers
 
             if (text[i].Length > 150 && text[i].Length < 200)
             {
-               linesNew.Add(text[i].Trim());
+               baseLines.Add(text[i].Trim());
                continue;
             }
             else if (text[i].Length <= 150)
@@ -47,15 +61,13 @@ namespace PersonalWebsite.Controllers
                while (text[i].Length >= 200)
                {
                   var match = rgx.Match(text[i]).Value;
-                  linesNew.Add(match.Trim());
+                  baseLines.Add(match.Trim());
                   text[i] = text[i].Substring(match.Length);
                }
                leftOverLine = text[i].Trim();
             }
          }
-         linesNew.Add(leftOverLine.Trim());
-
-         _lines = linesNew.ToArray();
+         baseLines.Add(leftOverLine.Trim());
       }
       
       [HttpGet("getText")]
@@ -114,5 +126,15 @@ namespace PersonalWebsite.Controllers
       {
          return _lines.Length;
       }
+   }
+
+   public struct BookIndices {
+		public BookIndices(int i, string title)
+		{
+			this.i = i;
+			this.title = title;
+		}
+		public int i;
+      public string title;
    }
 }
