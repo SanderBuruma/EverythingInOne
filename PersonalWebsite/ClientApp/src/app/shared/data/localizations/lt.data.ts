@@ -15,7 +15,7 @@ export let LatinLocalizations: LocalizationUnit[] = [
   //#region home
   {
     label: 'home-title',
-    value: 'Magna Developer et Ecentricus Immortalis'
+    value: 'Programmator Omniorum Digitalum et Ecentricus Immortalis'
   },
   {
     label: 'home-description',
