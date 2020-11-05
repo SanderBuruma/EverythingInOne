@@ -9,7 +9,7 @@
 
   <!-- Title -->
   <h2 class="monospace">
-    {{ GetLocalization('mastermind-title')}}<span class="help cursor-hand" title="GetLocalization('mastermind-help')">?</span>
+    {{ GetLocalization('mastermind-title')}}<span class="help cursor-hand" [title]="GetLocalization('mastermind-help')">?</span>
   </h2>
 
   <div fxLayout="row" fxLayoutGap="5px">
@@ -18,7 +18,7 @@
   </div>
 
   <!-- Input for any given Guess -->
-  <mat-form-field class="guess-code monospace" title="4 digits between 1 and 8">
+  <mat-form-field class="guess-code monospace" [title]="GetLocalization('mastermind-input-help')">
     <mat-label>{{ GetLocalization('mastermind-your-guess') }}</mat-label>
     <input matInput type="text" [(ngModel)]="guessCode" (keydown)="OnKeyDown($event)" [disabled]="LockUi">
     <button mat-button *ngIf="guessCode" matSuffix mat-icon-button aria-label="Clear" (click)="guessCode=''">
