@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { BigPrimeComponent } from './big-prime-component/big-prime.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ScriboAlacritoComponent } from './scribo-alacrito/scribo-alacrito.component';
+import { MastermindComponent } from './mastermind/mastermind.component';
+import { ContactMeComponent } from './contact-me/contact-me.component';
 import { BgheaderComponent } from './shared/components/svg/bgheader/bgheader.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -37,7 +39,9 @@ import { routes } from './app.routing';
     BigPrimeComponent,
     HeaderComponent,
     ScriboAlacritoComponent,
-    BgheaderComponent
+    MastermindComponent,
+    BgheaderComponent,
+    ContactMeComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,7 +59,8 @@ import { routes } from './app.routing';
     MatInputModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    ReactiveFormsModule
   ],
   providers: [HttpService, ThemesService, CookieService],
   bootstrap: [AppComponent]

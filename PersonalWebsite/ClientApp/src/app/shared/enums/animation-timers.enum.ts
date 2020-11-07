@@ -1,3 +1,4 @@
 export enum AnimationTimers {
-  Fade = 500
+  Fade = 500,
+  MoveSomewhere = 250
 }

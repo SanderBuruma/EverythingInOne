@@ -1,5 +1,3 @@
-<app-header></app-header>
-
 <div
 fxFlexLayout="column"
 fxLayoutAlign="center center"
@@ -12,14 +10,14 @@ class="m-t-10 m-b-10">
     fxFlex.gt-sm="30%"
     fxLayoutAlign="center center">
     <p
-      class="title" title="WPM = characters per minute divided by 5, averaged over approximately the last 25 typed texts."
+      class="title" [title]="GetLocalization('scribo-wpm-help')"
       style="line-height: 25px; font-size: 20px">
-      Alacrite Scribo - WPM: {{ Wpm }} - Line ({{_i}}/{{_nrOfLines}}) - {{ GetElapsedTime() }}s
+      Alacrite Scribo - WPM: {{ Wpm }} - {{ GetLocalization('scribo-line')}} ({{_i}}/{{_nrOfLines}})
     </p>
   </div>
 
   <mat-form-field class="example-form-field" fxFlex="10%">
-    <mat-label>Text Nr</mat-label>
+    <mat-label>#</mat-label>
     <input
       matInput
       autoComplete="off"
@@ -58,16 +56,19 @@ class="m-t-10 m-b-10">
       [class]="(_correct ? '' : 'input-error')"
       matInput type="text"
       [(ngModel)]="_input"
-      (keyup)="ChangeEvent()"
-      (change)="ChangeEvent()"
+      (ngModelChange)="ChangeEvent($event)"
       autoComplete="off"
-      >
+    >
     <button mat-button *ngIf="_input" matSuffix mat-icon-button aria-label="Clear" (click)="_input=''; ChangeEvent()">
       <mat-icon>close</mat-icon>
     </button>
 
   </mat-form-field>
 </div>
+
+<h2 class="text-center">
+  {{ _title }}
+</h2>
 
 <div
   fxFlexLayout="row"
@@ -82,7 +83,7 @@ class="m-t-10 m-b-10">
     <span class="correct">{{ _textCorrect }}</span>
     <span class="false" *ngIf="_textFalse">{{ _textFalse }}</span>
     <span class="remaining">{{ _textRemaining }}</span>
-    <span class="next opacity-lower" @fade *ngIf="_nextText">{{ _nextText }}</span>
+    <span class="next opacity-lower" @fadeIn @upIn *ngIf="_nextText">{{ _nextText }}</span>
   </p>
 </div>
 

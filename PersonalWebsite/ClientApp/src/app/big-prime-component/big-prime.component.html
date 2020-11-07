@@ -1,5 +1,3 @@
-<app-header></app-header>
-
 <div
 fxFlexLayout="column"
 fxLayoutAlign="center center"
@@ -9,7 +7,7 @@ class="m-t-10 m-b-10">
   fxLayoutAlign="center center">
     <p>
       <mat-form-field class="example-full-width">
-        <mat-label>Digits</mat-label>
+        <mat-label>{{ GetLocalization('primes-digits') }}</mat-label>
         <input matInput [(ngModel)]="_digitsToGet">
       </mat-form-field>
     </p>
@@ -22,7 +20,7 @@ class="m-t-10 m-b-10">
       mat-raised-button
       color="accent"
       (click)="GetPrime(_digitsToGet)">
-      Generate BigPrime
+      {{ GetLocalization('primes-generate') }}
     </button>
   </div>
 

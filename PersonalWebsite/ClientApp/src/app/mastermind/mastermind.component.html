@@ -1,0 +1,34 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxLayoutGap="1em"
+  fxFill
+  style="height:100%"
+  class="p-15"
+  >
+
+  <!-- Title -->
+  <h2 class="monospace">
+    {{ GetLocalization('mastermind-title')}}<span class="help cursor-hand" [title]="GetLocalization('mastermind-help')">?</span>
+  </h2>
+
+  <div fxLayout="row" fxLayoutGap="5px">
+    <button mat-flat-button color="primary" (click)="MakeGuess()" [disabled]="LockUi" class="monospace">{{ GetLocalization('mastermind-guess') }}</button>
+    <button mat-flat-button color="primary" (click)="NewGame()" [disabled]="_httpService.RunningRequestsCount > 0" class="monospace">{{ GetLocalization('mastermind-new-code') }}</button>
+  </div>
+
+  <!-- Input for any given Guess -->
+  <mat-form-field class="guess-code monospace" [title]="GetLocalization('mastermind-input-help')">
+    <mat-label>{{ GetLocalization('mastermind-your-guess') }}</mat-label>
+    <input matInput type="text" [(ngModel)]="guessCode" (keydown)="OnKeyDown($event)" [disabled]="LockUi">
+    <button mat-button *ngIf="guessCode" matSuffix mat-icon-button aria-label="Clear" (click)="guessCode=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- Guesses plus feedback -->
+  <div class="monospace">
+    <div class="m-0" *ngFor="let g of guessesPlusFeedback" @fadeInOut @upInOut>{{ g }}</div>
+  </div>
+
+</div>

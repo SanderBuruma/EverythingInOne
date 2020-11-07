@@ -1,20 +1,28 @@
-import { Injectable, Inject } from '@angular/core'
+import { Injectable, Inject } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { BaseService } from '../base/base.service';
 
 /**Should handle all http requests*/
 @Injectable()
-export class HttpService {
+export class HttpService extends BaseService {
   //#region Fields
-  /** These are associated with all past requests which haven't been cancelled (regardless of whether or not those requests have been returned) */
+  /** These are associated with all past requests which haven't been cancelled
+   *  (regardless of whether or not those requests have been returned) */
   private _aborts: Array<AbortController> = [];
   private _runningRequests: Promise<Response>[] = [];
   private _runningRequestsCountSubject: BehaviorSubject<number> = new BehaviorSubject(0);
   private _interval: Observable<number>;
-  private _failedRequests: number = 0;
+  private _failedRequests = 0;
   private _areWeConnected: BehaviorSubject<boolean> = new BehaviorSubject(true);
   //#endregion
 
-  constructor(@Inject('BASE_URL') public _baseUrl: string) {}
+  constructor(
+    @Inject('BASE_URL') public _baseUrl: string,
+    _cookieService: CookieService
+  ) {
+    super(_cookieService);
+  }
 
   //#region Properties
   public get RunningRequestsCount() {
@@ -29,9 +37,10 @@ export class HttpService {
     return this._areWeConnected.asObservable();
   }
   public set AreWeConnected(value: boolean) {
-    //only put in a new value if the new value is different
-    if (this._areWeConnected.value != value)
+    // only put in a new value if the new value is different
+    if (this._areWeConnected.value !== value) {
       this._areWeConnected.next(value);
+    }
   }
   //#endregion
 
@@ -43,15 +52,16 @@ export class HttpService {
    */
   public async Get<T>(url: string, trackMe = true): Promise<T> {
 
-    let aborter: AbortController = new AbortController();
+    const aborter: AbortController = new AbortController();
     this._aborts.push(aborter);
-    let init: RequestInit =  { signal: aborter.signal };
+    const init: RequestInit =  { signal: aborter.signal };
 
-    let fetched = fetch(url, init);
-    if (trackMe)
+    const fetched = fetch(url, init);
+    if (trackMe) {
       this.AddRunningFetchRequest(fetched, url);
+    }
 
-    let response = await fetched;
+    const response = await fetched;
     if (!response.ok) {
       throw response.json();
     }
@@ -61,11 +71,11 @@ export class HttpService {
   /**HttpClient does not allow request cancellation so we use fetch instead */
   public async Post<T>(url: string, obj: object): Promise<T> {
 
-    let aborter: AbortController = new AbortController();
+    const aborter: AbortController = new AbortController();
     this._aborts.push(aborter);
-    let init: RequestInit =  { signal: aborter.signal };
+    const init: RequestInit =  { signal: aborter.signal };
 
-    let fetched = fetch(url, {
+    const fetched = fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -74,7 +84,7 @@ export class HttpService {
       signal: init.signal
     });
     this.AddRunningFetchRequest(fetched, url);
-    let response = await fetched;
+    const response = await fetched;
 
     if (!response.ok) {
       throw response.json();
@@ -89,16 +99,15 @@ export class HttpService {
     this._runningRequestsCountSubject.next(this._runningRequests.length);
 
     request.finally(() => {
-      let index = this._runningRequests.findIndex(rq => rq === request);
-      if (index != -1) this._runningRequests.splice(index, 1);
+      const index = this._runningRequests.findIndex(rq => rq === request);
+      if (index !== -1) { this._runningRequests.splice(index, 1); }
       this._runningRequestsCountSubject.next(this._runningRequests.length);
-    })
+    });
   }
 
   /**Cancel all http requests without distinction.*/
-  public CancelRequests()
-  {
-    if (this._aborts.length == 0) return;
+  public CancelRequests() {
+    if (this._aborts.length === 0) { return; }
 
     this._aborts.forEach((abortController, _) => {
       abortController.abort();
@@ -112,29 +121,29 @@ export class HttpService {
    * @param waitMargin the fraction of time to wait between each interval before counting a failed ping as a failure
    * @param failuresTolerated the number of failures to tolerate before popping up the disconnected screen
    */
-  public StartPinging(waitTime = 4e3, waitMargin = 2/3, failuresTolerated = 3)
-  {
-    //start the interval
+  public StartPinging(waitTime = 4e3, waitMargin = 2 / 3, failuresTolerated = 3) {
+    // start the interval
     this._interval = interval(waitTime);
-    this._interval.subscribe(_=>{
+    this._interval.subscribe(_ => {
 
       // This checks if the ping worked or not and increases the failedRequests count if it didn't
       let stillWaiting = true;
-      setTimeout(()=>{
+      setTimeout(() => {
 
         if (stillWaiting) {
 
           this._failedRequests++;
 
-          if (this._failedRequests > failuresTolerated)
+          if (this._failedRequests > failuresTolerated) {
             this.AreWeConnected = false;
+          }
 
         }
 
-      }, waitTime*waitMargin);
+      }, waitTime * waitMargin);
 
       // ping the server itself.
-      this.Get<Boolean>(this._baseUrl + "request/ping", false).then(_=>{
+      this.Get<Boolean>(this._baseUrl + 'request/ping', false).then(() => {
 
         stillWaiting = false;
         this._failedRequests = 0;
@@ -142,7 +151,7 @@ export class HttpService {
 
       });
 
-    })
+    });
   }
   //#endregion
 }

@@ -4,45 +4,78 @@ fxLayoutAlign="center center"
 class="primary-bg-800 primary-0"
 >
 
-<div
-  class="m-l-100"
-  fxHide.lt-md="true"
-  fxFlexOrder="0">
-  <!--spacer-->
-</div>
+  <div
+    class="m-l-100"
+    fxHide.lt-md="true"
+    fxFlexOrder="0">
+    <!--spacer-->
+  </div>
 
-<button
-  fxFlex="1 1 100px 100px"
-  fxFlexOrder="1"
-  mat-icon-button
-  aria-label="Example icon button with a home icon"
-  (click)="NavigateTo('/')"
-  class="primary-bg-400">
-  <mat-icon class="primary-0">home</mat-icon>
-</button>
+  <div fXLayout="row" fxFlexOrder="1">
 
-<!--Filler div-->
-<div
-  fxFlex="1 1 60%"
-  fxFlexOrder="2"
-  fxHide.lt-sm="true"></div>
 
-<div
-  class=""
-  fxFlexOrder="3"
-  fxHide.lt-md="true">
-</div>
+    <button
+    fxFlex="1 1 100px 100px"
+    fxFlexOrder="1"
+    mat-icon-button
+    aria-label="go to home button"
+    (click)="NavigateTo('/')"
+    class="primary-bg-400"
+    title="Go to home page">
+      <mat-icon class="primary-0">home</mat-icon>
+    </button>
 
-<div
-  class="primary-border-400 accent-500"
-  fxFlexOrder="4">
-</div>
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="1"
+      mat-icon-button
+      aria-label="contact me button"
+      (click)="NavigateTo('/contact-me')"
+      class="primary-bg-400"
+      title="Contact me">
+      <mat-icon class="primary-0">email</mat-icon>
+    </button>
 
-<div
-  class="m-r-100"
-  fxHide.lt-md="true"
-  fxFlexOrder="5">
-  <!--spacer--></div>
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="1"
+      mat-icon-button
+      aria-label="Change language button"
+      (click)="_localizationService.Increment()"
+      class="primary-bg-400"
+      title="Change language">
+      <mat-icon class="primary-0">format_align_center</mat-icon>
+    </button>
+
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="1"
+      mat-icon-button
+      aria-label="Change theme button"
+      (click)="_themesService.IncrementTheme()"
+      class="primary-bg-400"
+      title="Change colour theme">
+      <mat-icon class="primary-0">brush</mat-icon>
+    </button>
+
+  </div>
+
+  <!--Filler div-->
+  <div
+    fxFlex="1 1 60%"
+    fxFlexOrder="3"
+    fxHide.lt-sm="true"></div>
+
+  <div
+    class="primary-border-400 accent-500"
+    fxFlexOrder="4">
+  </div>
+
+  <div
+    class="m-r-100"
+    fxHide.lt-md="true"
+    fxFlexOrder="5">
+    <!--spacer--></div>
 
 </mat-toolbar>
 

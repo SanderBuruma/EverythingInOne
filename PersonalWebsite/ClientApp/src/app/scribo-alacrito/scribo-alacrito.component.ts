@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../shared/services/Http.service';
-import { BaseComponent } from '../shared/base-component/base.component';
+import { BaseComponent } from '../shared/base/base.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ThemesService } from '../shared/services/Themes.service';
 import { CookieKeys } from '../shared/enums/cookie-keys.enum';
-import { fade } from 'src/app/shared/animations/main.animations';
+import { fadeIn, upIn } from 'src/app/shared/animations/main.animations';
+import { LocalizationService } from '../shared/services/Localization.service';
 
 @Component({
-  selector: 'app-big-prime-component',
+  selector: 'app-scribo-alacrito-component',
   templateUrl: './scribo-alacrito.component.html',
   styleUrls: ['./scribo-alacrito.component.scss'],
-  animations: [ fade ]
+  animations: [ fadeIn, upIn ]
 })
 export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#region Fields
   public _text            = '';
   public _nextText        = '';
+  public _title           = '';
 
   public _getTextI        = 0;
   public _input           = '';
@@ -40,10 +42,11 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     _router: Router,
     _route: ActivatedRoute,
     _cookieService: CookieService,
-    _themesSerice: ThemesService,
+    _themesService: ThemesService,
+    _localizationService: LocalizationService,
     public _httpService: HttpService
   ) {
-    super(_router, _route, _cookieService, _themesSerice);
+    super(_router, _route, _cookieService, _themesService, _localizationService);
 
     // get the index of the text in the que
     const cookieVal = super.GetCookievalueNum(CookieKeys.ScriboI);
@@ -87,10 +90,11 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#endregion
 
   //#region Methods
-  public ChangeEvent() {
+  public ChangeEvent(event: string) {
 
+    console.log({len: this._input.length});
     // if the input length is or was 0 reset the timer
-    if (this._inputPrevLength === 0 || this._input.length === 0) {
+    if (this._input.length <= 2) {
       this._lastTime = Date.now();
     }
 
@@ -191,14 +195,15 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     }
     this._input = '';
 
-
     // here we are
-    this._httpService.Get<{ str: string, i: number }>('scriboAlacrito/getText?i=' + i).then(backendReturnText => {
+    this._httpService.Get<{ str: string, i: number, title: string }>('scriboAlacrito/getText?i=' + i).then(backendReturnText => {
+      this._title = backendReturnText.title;
 
       // if this is the first call to GetText() then fetch two texts
       if (!this._text) {
         this._text = backendReturnText.str + ' ';
-        this._httpService.Get<{ str: string, i: number }>('scriboAlacrito/getText?i=' + (++i)).then(nextTextToBe => {
+        this._httpService.Get<{ str: string, i: number, title: string }>('scriboAlacrito/getText?i=' + (++i)).then(nextTextToBe => {
+          this._title = nextTextToBe.title;
           this._nextText = nextTextToBe.str;
         });
       } else {

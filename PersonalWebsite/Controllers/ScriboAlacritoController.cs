@@ -13,18 +13,31 @@ namespace PersonalWebsite.Controllers
    public class ScriboAlacritoController : BaseController
    {
       private static string[] _lines;
-      private static Random _rng;
+      private static List<BookIndices> _bookIndices = new List<BookIndices>();
       
       private readonly IHttpContextAccessor _httpContextAccessor;
 
-      public ScriboAlacritoController(IHttpContextAccessor httpContextAccessor)
+      public ScriboAlacritoController(IHttpContextAccessor httpContextAccessor): base(httpContextAccessor)
       {
          _httpContextAccessor = httpContextAccessor;
       }
 
       public static void Initialize()
       {
-         List<string> text = DataFiles.MeumProelium.Text.Split("\n").ToList();
+         List<string> baseLines = new List<string>();
+
+         InitializeText(DataFiles.HumanumGenus
+            .Text.Split("\n").ToList(), baseLines, "Humanum Genus, Leo XIII");
+         InitializeText(DataFiles.MoneyManipulationSocialOrder
+            .Text.Split("\n").ToList(), baseLines, "Money Manipulation and the Social Order, Fr Fahey");
+         InitializeText(DataFiles.MeumProelium
+            .Text.Split("\n").ToList(), baseLines, "Meum Proelium, Artifex Germanus");
+
+         _lines = baseLines.ToArray();
+      }
+
+      private static void InitializeText(List<string> text, List<string> baseLines, string title) {
+         _bookIndices.Add(new BookIndices(baseLines.Count, title));
          List<string> linesNew = new List<string>();
          Regex rgx = new Regex(@"(.{90,180}?.*?[.;,?!]\s+)|(.{150}.*?\s+)", RegexOptions.None);
          string leftOverLine = "";
@@ -36,7 +49,7 @@ namespace PersonalWebsite.Controllers
 
             if (text[i].Length > 150 && text[i].Length < 200)
             {
-               linesNew.Add(text[i].Trim());
+               baseLines.Add(text[i].Trim());
                continue;
             }
             else if (text[i].Length <= 150)
@@ -48,16 +61,13 @@ namespace PersonalWebsite.Controllers
                while (text[i].Length >= 200)
                {
                   var match = rgx.Match(text[i]).Value;
-                  linesNew.Add(match.Trim());
+                  baseLines.Add(match.Trim());
                   text[i] = text[i].Substring(match.Length);
                }
                leftOverLine = text[i].Trim();
             }
          }
-         linesNew.Add(leftOverLine.Trim());
-
-         _lines = linesNew.ToArray();
-         _rng = new Random();
+         baseLines.Add(leftOverLine.Trim());
       }
       
       [HttpGet("getText")]
@@ -72,27 +82,22 @@ namespace PersonalWebsite.Controllers
          i %= _lines.Length;
          UserReports.Add(ip, i, currentDate);
 
-         return new { str = _lines[i], i };
+         string title = "";
+         foreach (BookIndices a in _bookIndices){
+            if (a.i < i) {
+               title = a.title;
+            } else { break; }
+         }
+
+         return new { str = _lines[i], i, title };
       }
 
       [HttpGet("getIps")]
       public object GetIps(string password)
       {
-         // Step 1, calculate MD5 hash from password
-         MD5 md5 = MD5.Create();
-         byte[] inputBytes = Encoding.ASCII.GetBytes(password);
-         byte[] hashBytes = md5.ComputeHash(inputBytes);
-     
-         // Step 2, convert byte array to hex string
-         StringBuilder sb = new StringBuilder();
-         for (int i = 0; i < hashBytes.Length; i++)
-         {
-            sb.Append(hashBytes[i].ToString("X2"));
-         }
-         var str = sb.ToString();
 
          // Step 3, check if it matches the hash pw
-         if ("27F2E18CCF46D8B3502BECE030B52BDB" == str)//A tiny little MD5 hash which should probably be removed...
+         if (CheckSecretPhrase(password))//A tiny little MD5 hash which should probably be removed...
          {
             //make the json string ourselves
             StringBuilder bldr = new StringBuilder("{");
@@ -128,5 +133,15 @@ namespace PersonalWebsite.Controllers
       {
          return _lines.Length;
       }
+   }
+
+   public struct BookIndices {
+		public BookIndices(int i, string title)
+		{
+			this.i = i;
+			this.title = title;
+		}
+		public int i;
+      public string title;
    }
 }
