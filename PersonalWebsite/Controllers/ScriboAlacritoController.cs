@@ -82,7 +82,14 @@ namespace PersonalWebsite.Controllers
          i %= _lines.Length;
          UserReports.Add(ip, i, currentDate);
 
-         return new { str = _lines[i], i };
+         string title = "";
+         foreach (BookIndices a in _bookIndices){
+            if (a.i < i) {
+               title = a.title;
+            } else { break; }
+         }
+
+         return new { str = _lines[i], i, title };
       }
 
       [HttpGet("getIps")]

@@ -18,6 +18,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#region Fields
   public _text            = '';
   public _nextText        = '';
+  public _title           = '';
 
   public _getTextI        = 0;
   public _input           = '';
@@ -194,14 +195,15 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     }
     this._input = '';
 
-
     // here we are
-    this._httpService.Get<{ str: string, i: number }>('scriboAlacrito/getText?i=' + i).then(backendReturnText => {
+    this._httpService.Get<{ str: string, i: number, title: string }>('scriboAlacrito/getText?i=' + i).then(backendReturnText => {
+      this._title = backendReturnText.title;
 
       // if this is the first call to GetText() then fetch two texts
       if (!this._text) {
         this._text = backendReturnText.str + ' ';
-        this._httpService.Get<{ str: string, i: number }>('scriboAlacrito/getText?i=' + (++i)).then(nextTextToBe => {
+        this._httpService.Get<{ str: string, i: number, title: string }>('scriboAlacrito/getText?i=' + (++i)).then(nextTextToBe => {
+          this._title = nextTextToBe.title;
           this._nextText = nextTextToBe.str;
         });
       } else {
