@@ -11,7 +11,7 @@ class="primary-bg-800 primary-0"
     <!--spacer-->
   </div>
 
-  <div fXLayout="row" fxFlexOrder="1">
+  <div fXLayout="row" fxFlexOrder="1" fxLayoutGap.gt-sm="5px">
 
 
     <button
@@ -21,7 +21,7 @@ class="primary-bg-800 primary-0"
     aria-label="go to home button"
     (click)="NavigateTo('/')"
     class="primary-bg-400"
-    title="Go to home page">
+    [title]="GetLocalization('header-home')">
       <mat-icon class="primary-0">home</mat-icon>
     </button>
 
@@ -32,7 +32,7 @@ class="primary-bg-800 primary-0"
       aria-label="contact me button"
       (click)="NavigateTo('/contact-me')"
       class="primary-bg-400"
-      title="Contact me">
+      [title]="GetLocalization('header-contact')">
       <mat-icon class="primary-0">email</mat-icon>
     </button>
 
@@ -43,8 +43,8 @@ class="primary-bg-800 primary-0"
       aria-label="Change language button"
       (click)="_localizationService.Increment()"
       class="primary-bg-400"
-      title="Change language">
-      <mat-icon class="primary-0">format_align_center</mat-icon>
+      [title]="GetLocalization('header-language')">
+      <mat-icon class="primary-0">chat_bubble</mat-icon>
     </button>
 
     <button
@@ -54,8 +54,55 @@ class="primary-bg-800 primary-0"
       aria-label="Change theme button"
       (click)="_themesService.IncrementTheme()"
       class="primary-bg-400"
-      title="Change colour theme">
+      [title]="GetLocalization('header-theme')">
       <mat-icon class="primary-0">brush</mat-icon>
+    </button>
+
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="1"
+      mat-icon-button
+      aria-label="Change theme button"
+      (click)="NavigateTo('/cv')"
+      class="primary-bg-400"
+      [title]="GetLocalization('header-cv')">
+      <mat-icon class="primary-0">person</mat-icon>
+    </button>
+
+    <div fxFlex class="m-5"> </div>
+
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="1"
+      fx
+      mat-icon-button
+      aria-label="Change theme button"
+      (click)="NavigateTo('/big-prime')"
+      class="primary-bg-400"
+      [title]="GetLocalization('header-primes')">
+      <mat-icon class="primary-0">laptop</mat-icon>
+    </button>
+
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="1"
+      mat-icon-button
+      aria-label="Change theme button"
+      (click)="NavigateTo('/scribo-alacrito')"
+      class="primary-bg-400"
+      [title]="GetLocalization('header-scribo')">
+      <mat-icon class="primary-0">keyboard</mat-icon>
+    </button>
+
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="1"
+      mat-icon-button
+      aria-label="Change theme button"
+      (click)="NavigateTo('/codebreaker')"
+      class="primary-bg-400"
+      [title]="GetLocalization('header-code')">
+      <mat-icon class="primary-0">code</mat-icon>
     </button>
 
   </div>

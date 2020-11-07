@@ -131,7 +131,121 @@ export let EnglishLocalizations: LocalizationUnit[] = [
   },
   //#endregion
 
-  //#region not found
+  //#region cv - resume
+  {
+    label: 'cv-name-title',
+    value: 'Name:'
+  },
+  {
+    label: 'cv-age-title',
+    value: 'Age:'
+  },
+  {
+    label: 'cv-birthplace-title',
+    value: 'Birthplace:'
+  },
+  {
+    label: 'cv-stature-title',
+    value: 'Stature:'
+  },
+  {
+    label: 'cv-website-title',
+    value: 'Website:'
+  },
+  {
+    label: 'cv-website-other-title',
+    value: 'Other Website:'
+  },
+  {
+    label: 'cv-species-title',
+    value: 'Species:'
+  },
+  {
+    label: 'cv-phone-title',
+    value: 'Phone & WhatsApp:'
+  },
+  {
+    label: 'cv-email-title',
+    value: 'Email:'
+  },
+  {
+    label: 'cv-social-media-title',
+    value: 'n/a'
+  },
+  {
+    label: 'cv-github-title',
+    value: 'click me'
+  },
+  {
+    label: 'cv-name',
+    value: 'Sander Buruma'
+  },
+  {
+    label: 'cv-age',
+    value: '33'
+  },
+  {
+    label: 'cv-birthplace',
+    value: 'the Netherlands,\nStadskanaal'
+  },
+  {
+    label: 'cv-stature',
+    value: '6\'8, 2.08m'
+  },
+  {
+    label: 'cv-website',
+    value: 'You\'re looking at it...'
+  },
+  {
+    label: 'cv-website-other',
+    value: 'Scribo Cursim'
+  },
+  {
+    label: 'cv-species',
+    value: 'Giant'
+  },
+  {
+    label: 'cv-phone',
+    value: '+31 6 57120257'
+  },
+  {
+    label: 'cv-email',
+    value: '(my name) @ gmail.com'
+  },
+  //#endregion
 
+  //#region Header
+  {
+    label: 'header-home',
+    value: 'go to Home'
+  },
+  {
+    label: 'header-contact',
+    value: 'Contact me'
+  },
+  {
+    label: 'header-language',
+    value: 'Change Language'
+  },
+  {
+    label: 'header-theme',
+    value: 'Change Theme'
+  },
+  {
+    label: 'header-cv',
+    value: 'Sander\'s resume'
+  },
+  {
+    label: 'header-primes',
+    value: 'Generate Big Prime numbers'
+  },
+  {
+    label: 'header-scribo',
+    value: 'Scribo Cursim'
+  },
+  {
+    label: 'header-code',
+    value: 'Code Breaker'
+  },
   //#endregion
 ];

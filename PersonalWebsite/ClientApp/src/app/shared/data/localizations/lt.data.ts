@@ -50,7 +50,7 @@ export let LatinLocalizations: LocalizationUnit[] = [
   },
   {
     label: 'mastermind-help',
-    value: 'Scribe IV numeros inter unum octoque. Deinde comprime \'enter\' ad coniectere. Numeros primos significant numeros in rectibus locis et alteri numeri significant rectes numeros in INcorrectis locis.'
+    value: 'Scribe IV numeros inter unum octoque. Deinde comprime \'enter\' ad coniectere. Numeri primi significant numeros in rectibus locis et alteri numeri significant rectes numeros in INcorrectis locis.'
   },
   {
     label: 'mastermind-input-help',
@@ -128,6 +128,124 @@ export let LatinLocalizations: LocalizationUnit[] = [
   {
     label: 'contact-please-write-content',
     value: 'Quaeso scribo vocabulas magnae flammae e corde tuo!'
+  },
+  //#endregion
+
+  //#region cv - resume
+  {
+    label: 'cv-name-title',
+    value: 'Nomine:'
+  },
+  {
+    label: 'cv-age-title',
+    value: 'Aetate:'
+  },
+  {
+    label: 'cv-birthplace-title',
+    value: 'Patriam:'
+  },
+  {
+    label: 'cv-stature-title',
+    value: 'Statura:'
+  },
+  {
+    label: 'cv-website-title',
+    value: 'Weblocus:'
+  },
+  {
+    label: 'cv-website-other-title',
+    value: 'Alter Weblocus:'
+  },
+  {
+    label: 'cv-species-title',
+    value: 'Genus:'
+  },
+  {
+    label: 'cv-phone-title',
+    value: 'Numerum:'
+  },
+  {
+    label: 'cv-email-title',
+    value: 'E-Tabella:'
+  },
+  {
+    label: 'cv-social-media-title',
+    value: 'morbus est'
+  },
+  {
+    label: 'cv-github-title',
+    value: 'tangi me'
+  },
+  {
+    label: 'cv-name',
+    value: 'Sander Buruma'
+  },
+  {
+    label: 'cv-age',
+    value: 'XXXIII'
+  },
+  {
+    label: 'cv-birthplace',
+    value: 'Nederlandia,\nOppidafluvia'
+  },
+  {
+    label: 'cv-stature',
+    value: 'Trio punctum duo cubiti'
+  },
+  {
+    label: 'cv-website',
+    value: 'Es vidi illud...'
+  },
+  {
+    label: 'cv-website-other',
+    value: 'Scribo Cursim'
+  },
+  {
+    label: 'cv-species',
+    value: 'Vir Longissimus'
+  },
+  {
+    label: 'cv-phone',
+    value: '+XXXI VI LVII XII II LVII'
+  },
+  {
+    label: 'cv-email',
+    value: '(my name) @ gmail punctum com'
+  },
+  //#endregion
+
+  //#region Header
+  {
+    label: 'header-home',
+    value: 'Romanus i domum!'
+  },
+  {
+    label: 'header-contact',
+    value: 'Tangi Sander (per verbos, homo sordido) '
+  },
+  {
+    label: 'header-language',
+    value: 'Muta Linguam'
+  },
+  {
+    label: 'header-theme',
+    value: 'Muta Themam'
+  },
+  {
+    label: 'header-cv',
+    value: 'Curriculum Vitae Sandris'
+  },
+  {
+    label: 'header-primes',
+    value: 'Genera Numeros Magnos Primos'
+  },
+  {
+    label: 'header-scribo',
+    value: 'Scribo Cursim'
+  },
+  {
+    label: 'header-code',
+    value: 'Revelator Codicei'
   },
   //#endregion
 ];

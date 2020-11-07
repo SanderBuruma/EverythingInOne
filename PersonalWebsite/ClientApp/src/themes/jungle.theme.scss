@@ -1,9 +1,9 @@
 // Define a selectable dark theme
-$primary: mat-palette($mat-purple);
-$accent: mat-palette($mat-green, A200, A100, A400);
+$primary: mat-palette($mat-red);
+$accent: mat-palette($mat-orange);
 $warn: mat-palette($mat-yellow);
 
-$theme: mat-dark-theme(
+$theme: mat-light-theme(
   $primary,
   $accent,
   $warn

@@ -130,4 +130,123 @@ export let DutchLocalizations: LocalizationUnit[] = [
     value: 'Schrijf aub een bericht!'
   },
   //#endregion
+
+  //#region cv - resume
+  {
+    label: 'cv-name-title',
+    value: 'Naam:'
+  },
+  {
+    label: 'cv-age-title',
+    value: 'Leeftijd:'
+  },
+  {
+    label: 'cv-birthplace-title',
+    value: 'Geboorteplaats:'
+  },
+  {
+    label: 'cv-stature-title',
+    value: 'Statuur:'
+  },
+  {
+    label: 'cv-website-title',
+    value: 'Website:'
+  },
+  {
+    label: 'cv-website-other-title',
+    value: 'Andere Website:'
+  },
+  {
+    label: 'cv-species-title',
+    value: 'Soort:'
+  },
+  {
+    label: 'cv-phone-title',
+    value: 'TelNr & WhatsApp:'
+  },
+  {
+    label: 'cv-email-title',
+    value: 'EMail:'
+  },
+  {
+    label: 'cv-social-media-title',
+    value: 'nvt'
+  },
+  {
+    label: 'cv-github-title',
+    value: 'klik mij'
+  },
+  {
+    label: 'cv-name',
+    value: 'Sander Buruma'
+  },
+  {
+    label: 'cv-age',
+    value: '33'
+  },
+  {
+    label: 'cv-birthplace',
+    value: 'Nederland,\nStadskanaal'
+  },
+  {
+    label: 'cv-stature',
+    value: '2.08 meter'
+  },
+  {
+    label: 'cv-website',
+    value: 'Ge kijkt ernaar...'
+  },
+  {
+    label: 'cv-website-other',
+    value: 'Scribo Cursim'
+  },
+  {
+    label: 'cv-species',
+    value: 'Gigant'
+  },
+  {
+    label: 'cv-phone',
+    value: '+31 6 57120257'
+  },
+  {
+    label: 'cv-email',
+    value: '(my name) @ gmail punt com'
+  },
+  //#endregion
+
+  //#region Header
+  {
+    label: 'header-home',
+    value: 'Ga naar thuispagina'
+  },
+  {
+    label: 'header-contact',
+    value: 'Neem contact op'
+  },
+  {
+    label: 'header-language',
+    value: 'Verander taal'
+  },
+  {
+    label: 'header-theme',
+    value: 'Verander thema'
+  },
+  {
+    label: 'header-cv',
+    value: 'Sander\'s cv'
+  },
+  {
+    label: 'header-primes',
+    value: 'Generaar grote priemgetallen'
+  },
+  {
+    label: 'header-scribo',
+    value: 'Scribo Cursim'
+  },
+  {
+    label: 'header-code',
+    value: 'Code Breaker'
+  },
+  //#endregion
+
 ];
