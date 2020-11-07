@@ -10,7 +10,6 @@ import { ThemesService } from 'src/app/shared/services/Themes.service';
 import { LocalizationService } from 'src/app/shared/services/Localization.service';
 
 @Component({
-  selector: 'app-contact-me',
   templateUrl: './contact-me.component.html',
   styleUrls: ['./contact-me.component.scss']
 })

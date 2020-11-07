@@ -8,7 +8,6 @@ import { fadeIn, fadeInOut, upInOut } from 'src/app/shared/animations/main.anima
 import { LocalizationService } from 'src/app/shared/services/Localization.service';
 
 @Component({
-  selector: 'app-codebreaker-component',
   templateUrl: './mastermind.component.html',
   styleUrls: ['./mastermind.component.scss'],
   animations: [ fadeIn, fadeInOut, upInOut ]

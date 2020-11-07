@@ -9,6 +9,7 @@ import { BigPrimeComponent } from './components/big-prime-component/big-prime.co
 import { ScriboAlacritoComponent } from './components/scribo-alacrito/scribo-alacrito.component';
 import { MastermindComponent } from './components/mastermind/mastermind.component';
 import { ContactMeComponent } from './components/contact-me/contact-me.component';
+import { PersonalCvComponent } from './components/personal-cv/personal-cv.component';
 //#endregion
 //#endregion
 
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'big-prime',       component: BigPrimeComponent,        pathMatch: 'full' },
   { path: 'scribo-alacrito', component: ScriboAlacritoComponent,  pathMatch: 'full' },
   { path: 'codebreaker',     component: MastermindComponent,      pathMatch: 'full' },
+  { path: 'cv',              component: PersonalCvComponent,      pathMatch: 'full' },
 
   { path: '**',              component: NotFoundComponent}
 

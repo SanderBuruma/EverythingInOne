@@ -11,6 +11,7 @@ import { BigPrimeComponent } from './components/big-prime-component/big-prime.co
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ScriboAlacritoComponent } from './components/scribo-alacrito/scribo-alacrito.component';
 import { MastermindComponent } from './components/mastermind/mastermind.component';
+import { PersonalCvComponent } from './components/personal-cv/personal-cv.component';
 import { ContactMeComponent } from './components/contact-me/contact-me.component';
 import { BgheaderComponent } from './shared/components/svg/bgheader/bgheader.component';
 
@@ -40,6 +41,7 @@ import { routes } from './app.routing';
     HeaderComponent,
     ScriboAlacritoComponent,
     MastermindComponent,
+    PersonalCvComponent,
     BgheaderComponent,
     ContactMeComponent,
   ],

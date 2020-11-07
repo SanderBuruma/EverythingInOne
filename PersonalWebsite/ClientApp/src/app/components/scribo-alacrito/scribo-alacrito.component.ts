@@ -9,7 +9,6 @@ import { fadeIn, upIn } from 'src/app/shared/animations/main.animations';
 import { LocalizationService } from 'src/app/shared/services/Localization.service';
 
 @Component({
-  selector: 'app-scribo-alacrito-component',
   templateUrl: './scribo-alacrito.component.html',
   styleUrls: ['./scribo-alacrito.component.scss'],
   animations: [ fadeIn, upIn ]
