@@ -6,12 +6,12 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { BigPrimeComponent } from './big-prime-component/big-prime.component';
+import { HomeComponent } from './components/home/home.component';
+import { BigPrimeComponent } from './components/big-prime-component/big-prime.component';
 import { HeaderComponent } from './shared/components/header/header.component';
-import { ScriboAlacritoComponent } from './scribo-alacrito/scribo-alacrito.component';
-import { MastermindComponent } from './mastermind/mastermind.component';
-import { ContactMeComponent } from './contact-me/contact-me.component';
+import { ScriboAlacritoComponent } from './components/scribo-alacrito/scribo-alacrito.component';
+import { MastermindComponent } from './components/mastermind/mastermind.component';
+import { ContactMeComponent } from './components/contact-me/contact-me.component';
 import { BgheaderComponent } from './shared/components/svg/bgheader/bgheader.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';

@@ -3,12 +3,12 @@
 import { Routes } from '@angular/router';
 //#endregion
 //#region Components
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
-import { BigPrimeComponent } from './big-prime-component/big-prime.component';
-import { ScriboAlacritoComponent } from './scribo-alacrito/scribo-alacrito.component';
-import { MastermindComponent } from './mastermind/mastermind.component';
-import { ContactMeComponent } from './contact-me/contact-me.component';
+import { BigPrimeComponent } from './components/big-prime-component/big-prime.component';
+import { ScriboAlacritoComponent } from './components/scribo-alacrito/scribo-alacrito.component';
+import { MastermindComponent } from './components/mastermind/mastermind.component';
+import { ContactMeComponent } from './components/contact-me/contact-me.component';
 //#endregion
 //#endregion
 
