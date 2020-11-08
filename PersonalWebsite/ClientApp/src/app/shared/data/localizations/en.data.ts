@@ -212,6 +212,22 @@ export let EnglishLocalizations: LocalizationUnit[] = [
     label: 'cv-email',
     value: '(my name) @ gmail.com'
   },
+  {
+    label: 'cv-item-1',
+    value: 'Jan 2020 untill present - Full time Software Developer at HRorganizer.com'
+  },
+  {
+    label: 'cv-item-2',
+    value: 'April 2019 untill Jan 2020 - self study'
+  },
+  {
+    label: 'cv-item-3',
+    value: 'Feb untill April 2019 - internship at hetwonen.nl'
+  },
+  {
+    label: 'cv-item-4',
+    value: 'October untill December 2018 - Web developing bootcamp CodeGorilla'
+  },
   //#endregion
 
   //#region Header
