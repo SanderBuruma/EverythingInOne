@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../shared/services/Http.service';
-import { BaseComponent } from '../shared/base/base.component';
+import { HttpService } from 'src/app/shared/services/Http.service';
+import { BaseComponent } from 'src/app/shared/base/base.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { ThemesService } from '../shared/services/Themes.service';
-import { CookieKeys } from '../shared/enums/cookie-keys.enum';
+import { ThemesService } from 'src/app/shared/services/Themes.service';
+import { CookieKeys } from 'src/app/shared/enums/cookie-keys.enum';
 import { fadeIn, upIn } from 'src/app/shared/animations/main.animations';
-import { LocalizationService } from '../shared/services/Localization.service';
+import { LocalizationService } from 'src/app/shared/services/Localization.service';
 
 @Component({
-  selector: 'app-scribo-alacrito-component',
   templateUrl: './scribo-alacrito.component.html',
   styleUrls: ['./scribo-alacrito.component.scss'],
   animations: [ fadeIn, upIn ]
@@ -18,6 +17,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#region Fields
   public _text            = '';
   public _nextText        = '';
+  public _title           = '';
 
   public _getTextI        = 0;
   public _input           = '';
@@ -194,14 +194,15 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     }
     this._input = '';
 
-
     // here we are
-    this._httpService.Get<{ str: string, i: number }>('scriboAlacrito/getText?i=' + i).then(backendReturnText => {
+    this._httpService.Get<{ str: string, i: number, title: string }>('scriboAlacrito/getText?i=' + i).then(backendReturnText => {
+      this._title = backendReturnText.title;
 
       // if this is the first call to GetText() then fetch two texts
       if (!this._text) {
         this._text = backendReturnText.str + ' ';
-        this._httpService.Get<{ str: string, i: number }>('scriboAlacrito/getText?i=' + (++i)).then(nextTextToBe => {
+        this._httpService.Get<{ str: string, i: number, title: string }>('scriboAlacrito/getText?i=' + (++i)).then(nextTextToBe => {
+          this._title = nextTextToBe.title;
           this._nextText = nextTextToBe.str;
         });
       } else {
