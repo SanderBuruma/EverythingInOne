@@ -22,10 +22,6 @@ export let LatinLocalizations: LocalizationUnit[] = [
     value: 'Hoc est locus propter cogitationes et laborationes meos.\n\nConvenit omnes homines se ipse formose defere, indentens ut sentes medicina propter oculos dolentes, et surgentes spem et fiduciam in homine conservo.'
   },
   {
-    label: 'home-projects',
-    value: 'Paucae opera mea:'
-  },
-  {
     label: 'home-project-scribo',
     value: 'Scribo Alacrito'
   },
