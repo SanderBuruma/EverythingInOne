@@ -1,70 +1,89 @@
-<div
-fxLayout="row"
-fxLayout.lt-md="column"
-fxLayoutAlign="center center"
-class="m-t-10 m-b-10 monospace">
+<div fxLayout="column" fxLayoutAlign="center center">
 
   <div
-  fxLayout="column"
+  fxLayout="row"
+  fxLayout.lt-md="column"
   fxLayoutAlign="center center"
-  fxFlex.lt-md="70%"
-  [class.lt-md]="'m-b-10'">
-    <table>
-      <tr>
-        <th>{{ GetLocalization('cv-name-title') }}</th>
-        <th>{{ GetLocalization('cv-name') }}</th>
-      </tr>
-      <tr>
-        <td>{{ GetLocalization('cv-age-title') }}</td>
-        <td>{{ GetLocalization('cv-age') }}</td>
-      </tr>
-      <tr>
-        <td>{{ GetLocalization('cv-birthplace-title') }}</td>
-        <td>{{ GetLocalization('cv-birthplace') }}</td>
-      </tr>
-      <tr>
-        <td>{{ GetLocalization('cv-stature-title') }}</td>
-        <td>{{ GetLocalization('cv-stature') }}</td>
-      </tr>
-      <tr>
-        <td>{{ GetLocalization('cv-website-title') }}</td>
-        <td>{{ GetLocalization('cv-website') }}</td>
-      </tr>
-      <tr>
-        <td>{{ GetLocalization('cv-website-other-title') }}</td>
-        <td><a href="scribocursim.com">{{ GetLocalization('cv-website-other') }}</a></td>
-      </tr>
-      <tr>
-        <td>Github:</td>
-        <td><a href="https://github.com/SanderBuruma/">{{ GetLocalization('cv-github-title') }}</a></td>
-      </tr>
-      <tr>
-        <td>Social Media:</td>
-        <td>{{ GetLocalization('cv-social-media-title') }}</td>
-      </tr>
-      <tr>
-        <td>{{ GetLocalization('cv-species-title') }}</td>
-        <td>{{ GetLocalization('cv-species') }}</td>
-      </tr>
-      <tr>
-        <td>{{ GetLocalization('cv-phone-title') }}</td>
-        <td>{{ GetLocalization('cv-phone') }}</td>
-      </tr>
-      <tr>
-        <td>{{ GetLocalization('cv-email-title') }}</td>
-        <td>{{ GetLocalization('cv-email') }}</td>
-      </tr>
-    </table>
+  class="m-t-10 m-b-10 monospace">
+
+    <div
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxFlex.lt-md="70%"
+    fxFlexOrder="2"
+    [class.lt-md]="'m-b-10'">
+      <table>
+        <tr>
+          <th>{{ GetLocalization('cv-name-title') }}</th>
+          <th>{{ GetLocalization('cv-name') }}</th>
+        </tr>
+        <tr>
+          <td>{{ GetLocalization('cv-age-title') }}</td>
+          <td>{{ GetLocalization('cv-age') }}</td>
+        </tr>
+        <tr>
+          <td>{{ GetLocalization('cv-birthplace-title') }}</td>
+          <td>{{ GetLocalization('cv-birthplace') }}</td>
+        </tr>
+        <tr>
+          <td>{{ GetLocalization('cv-stature-title') }}</td>
+          <td>{{ GetLocalization('cv-stature') }}</td>
+        </tr>
+        <tr>
+          <td>{{ GetLocalization('cv-website-title') }}</td>
+          <td>{{ GetLocalization('cv-website') }}</td>
+        </tr>
+        <tr>
+          <td>{{ GetLocalization('cv-website-other-title') }}</td>
+          <td><a href="scribocursim.com">{{ GetLocalization('cv-website-other') }}</a></td>
+        </tr>
+        <tr>
+          <td>Github:</td>
+          <td><a href="https://github.com/SanderBuruma/">{{ GetLocalization('cv-github-title') }}</a></td>
+        </tr>
+        <tr>
+          <td>Social Media:</td>
+          <td>{{ GetLocalization('cv-social-media-title') }}</td>
+        </tr>
+        <tr>
+          <td>{{ GetLocalization('cv-species-title') }}</td>
+          <td>{{ GetLocalization('cv-species') }}</td>
+        </tr>
+        <tr>
+          <td>{{ GetLocalization('cv-phone-title') }}</td>
+          <td>{{ GetLocalization('cv-phone') }}</td>
+        </tr>
+        <tr>
+          <td>{{ GetLocalization('cv-email-title') }}</td>
+          <td>{{ GetLocalization('cv-email') }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div
+    fxFlex.lt-md="30%"
+    fxLayoutAlign="center center"
+    fxFlexOrder="1"
+    >
+      <img src="./me.jpg" height="200" width="200" class="m-l-10">
+    </div>
+
   </div>
 
-  <div fxFlex.lt-md="30%"
-  fxLayoutAlign="center center">
-  <img src="./me.jpg" height="200" width="200" class="m-l-10">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    - - - - - - - -
   </div>
 
-</div>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div
+      fxFlex.gt-sm="80%"
+      fxLayout="column"
+      class="cv-items monospace">
+      <p>{{ GetLocalization('cv-item-1') }}</p>
+      <p>{{ GetLocalization('cv-item-2') }}</p>
+      <p>{{ GetLocalization('cv-item-3') }}</p>
+      <p>{{ GetLocalization('cv-item-4') }}</p>
+    </div>
+  </div>
 
-<div fxFlexLayout="row">
-  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
-  <p fxFlex.gt-sm="60%" class="text-center">{{ GetLocalization('cv-item-1') }}</p>
 </div>

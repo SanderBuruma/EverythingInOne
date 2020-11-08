@@ -212,6 +212,22 @@ export let LatinLocalizations: LocalizationUnit[] = [
     label: 'cv-email',
     value: '(my name) @ gmail punctum com'
   },
+  {
+    label: 'cv-item-1',
+    value: 'Januarium MMXX ad hodie - Plenus Tempus Programmator Omniorum Digitalum in HRorganizer.com'
+  },
+  {
+    label: 'cv-item-2',
+    value: 'Aprilis MMIXX ad Jan MMXX - Solo discere'
+  },
+  {
+    label: 'cv-item-3',
+    value: 'Februarium ad Aprilis MMIXX - discipulus in hetwonen.nl'
+  },
+  {
+    label: 'cv-item-4',
+    value: 'Octobris ad Decembris MMIIXX - Web proficire discere CodeGorilla'
+  },
   //#endregion
 
   //#region Header
