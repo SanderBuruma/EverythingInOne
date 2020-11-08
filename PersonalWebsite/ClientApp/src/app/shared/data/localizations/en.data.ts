@@ -22,10 +22,6 @@ export let EnglishLocalizations: LocalizationUnit[] = [
     value: 'This is a place for my personal experiments and ramblings.\n\nIt behooves all people to present themselves fashionably and decently; intending to be a cure to sore eyes; inspiring hope and confidence in one\'s fellow man.'
   },
   {
-    label: 'home-projects',
-    value: 'A few mini projects:'
-  },
-  {
     label: 'home-project-scribo',
     value: 'Scribo Alacrito'
   },

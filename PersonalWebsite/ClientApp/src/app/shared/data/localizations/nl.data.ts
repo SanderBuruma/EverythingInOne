@@ -22,10 +22,6 @@ export let DutchLocalizations: LocalizationUnit[] = [
     value: 'Dit is een plek voor mijn persoonlijke experimenten en wandelingen.\n\nHet past bij alle mensen om zich modieus en fatsoenlijk te presenteren, met de bedoeling een medicijn te zijn voor zere ogen, en hoop en vertrouwen te wekken in zijn medemens'
   },
   {
-    label: 'home-projects',
-    value: 'Een paar mini projecten:'
-  },
-  {
     label: 'home-project-scribo',
     value: 'Scribo Alacrito'
   },
