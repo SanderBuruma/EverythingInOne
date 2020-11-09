@@ -20,15 +20,15 @@
   <!-- Input for any given Guess -->
   <mat-form-field class="guess-code monospace" [title]="GetLocalization('mastermind-input-help')">
     <mat-label>{{ GetLocalization('mastermind-your-guess') }}</mat-label>
-    <input matInput type="text" [(ngModel)]="guessCode" (keydown)="OnKeyDown($event)" [disabled]="LockUi">
-    <button mat-button *ngIf="guessCode" matSuffix mat-icon-button aria-label="Clear" (click)="guessCode=''">
+    <input matInput type="text" [(ngModel)]="_guessCode" (keydown)="OnKeyDown($event)" [disabled]="LockUi">
+    <button mat-button *ngIf="_guessCode" matSuffix mat-icon-button aria-label="Clear" (click)="guessCode=''">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
 
   <!-- Guesses plus feedback -->
   <div class="monospace">
-    <div class="m-0" *ngFor="let g of guessesPlusFeedback" @fadeInOut @upInOut>{{ g }}</div>
+    <div class="m-0" *ngFor="let g of _guessesPlusFeedback" @fadeInOut @upInOut>{{ g.guess }} - {{ g.bulls }} {{ g.cows }}</div>
   </div>
 
 </div>
