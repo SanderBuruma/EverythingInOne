@@ -11,21 +11,22 @@ import { MastermindComponent } from './components/mastermind/mastermind.componen
 import { ContactMeComponent } from './components/contact-me/contact-me.component';
 import { PersonalCvComponent } from './components/personal-cv/personal-cv.component';
 //#endregion
+import { CookieKeys } from './shared/enums/cookie-keys.enum';
 //#endregion
 
 const routes: Routes = [
 
-  { path: '',                   component: HomeComponent,              pathMatch: 'full' },
+  { path: '',                                       component: HomeComponent,              pathMatch: 'full' },
 
-  { path: 'contact-me',         component: ContactMeComponent,         pathMatch: 'full' },
+  { path: 'contact-me',                             component: ContactMeComponent,         pathMatch: 'full' },
 
-  { path: 'big-prime',          component: BigPrimeComponent,          pathMatch: 'full' },
-  { path: 'scribo-alacrito/:i', component: ScriboAlacritoComponent,    pathMatch: 'full' },
-  { path: 'scribo-alacrito',    component: ScriboAlacritoComponent,    pathMatch: 'full' },
-  { path: 'codebreaker',        component: MastermindComponent,        pathMatch: 'full' },
-  { path: 'cv',                 component: PersonalCvComponent,        pathMatch: 'full' },
+  { path: 'big-prime',                              component: BigPrimeComponent,          pathMatch: 'full' },
+  { path: `scribo-alacrito/:${CookieKeys.ScriboI}`, component: ScriboAlacritoComponent,    pathMatch: 'full' },
+  { path: 'scribo-alacrito',                        component: ScriboAlacritoComponent,    pathMatch: 'full' },
+  { path: 'codebreaker',                            component: MastermindComponent,        pathMatch: 'full' },
+  { path: 'cv',                                     component: PersonalCvComponent,        pathMatch: 'full' },
 
-  { path: '**',                 component: NotFoundComponent}
+  { path: '**',                                     component: NotFoundComponent}
 
 ];
 

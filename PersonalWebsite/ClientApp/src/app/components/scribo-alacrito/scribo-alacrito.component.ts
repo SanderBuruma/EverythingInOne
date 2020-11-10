@@ -47,15 +47,20 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   ) {
     super(_router, _route, _cookieService, _themesService, _localizationService);
 
-    // get the index of the text in the que
-    const cookieVal = super.GetCookievalueNum(CookieKeys.ScriboI);
-
-    // start everything
-    this._i = cookieVal >= 0 ? cookieVal : 0;
-    this.GetText(this._i);
   }
 
   ngOnInit(): void {
+    const initialNr = parseInt(this._route.snapshot.paramMap.get(CookieKeys.ScriboI), 10);
+    console.log({temp: initialNr, pMap: this._route.snapshot.paramMap});
+
+    if (initialNr) { this.I = initialNr; }
+
+    console.log({I: this.I});
+
+    // start everything
+    if (!this.I) { this.I = 0; }
+
+    this.GetText(this.I);
 
     // get number of lines
     this._httpService.Get<number>('scriboAlacrito/getLinesNr').then(nr => this._nrOfLines = nr);
@@ -67,6 +72,15 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   /** words Per Minute (chars per second multiplied by 12) to 2 decimals */
   public get Wpm() {
     return Math.round(this.SumChars / this.SumTime * 1200) / 100;
+  }
+
+  /** Sum of chars typed */
+  public get I() {
+    return super.GetCookievalueNum(CookieKeys.ScriboI);
+  }
+  /** Sum of chars typed */
+  public set I(value: number) {
+    super.SetCookievalue(CookieKeys.ScriboI, value);
   }
 
   /** Sum of chars typed */
@@ -194,6 +208,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     }
     this._input = '';
 
+    console.log({i});
     // here we are
     this._httpService.Get<{ str: string, i: number, title: string }>('scriboAlacrito/getText?i=' + i).then(backendReturnText => {
       this._title = backendReturnText.title;
