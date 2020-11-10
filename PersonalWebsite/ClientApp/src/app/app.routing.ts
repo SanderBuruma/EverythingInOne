@@ -15,16 +15,17 @@ import { PersonalCvComponent } from './components/personal-cv/personal-cv.compon
 
 const routes: Routes = [
 
-  { path: '',                component: HomeComponent,            pathMatch: 'full' },
+  { path: '',                   component: HomeComponent,              pathMatch: 'full' },
 
-  { path: 'contact-me',      component: ContactMeComponent,       pathMatch: 'full' },
+  { path: 'contact-me',         component: ContactMeComponent,         pathMatch: 'full' },
 
-  { path: 'big-prime',       component: BigPrimeComponent,        pathMatch: 'full' },
-  { path: 'scribo-alacrito', component: ScriboAlacritoComponent,  pathMatch: 'full' },
-  { path: 'codebreaker',     component: MastermindComponent,      pathMatch: 'full' },
-  { path: 'cv',              component: PersonalCvComponent,      pathMatch: 'full' },
+  { path: 'big-prime',          component: BigPrimeComponent,          pathMatch: 'full' },
+  { path: 'scribo-alacrito/:i', component: ScriboAlacritoComponent,    pathMatch: 'full' },
+  { path: 'scribo-alacrito',    component: ScriboAlacritoComponent,    pathMatch: 'full' },
+  { path: 'codebreaker',        component: MastermindComponent,        pathMatch: 'full' },
+  { path: 'cv',                 component: PersonalCvComponent,        pathMatch: 'full' },
 
-  { path: '**',              component: NotFoundComponent}
+  { path: '**',                 component: NotFoundComponent}
 
 ];
 

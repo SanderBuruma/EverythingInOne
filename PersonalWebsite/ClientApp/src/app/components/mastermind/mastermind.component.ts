@@ -119,10 +119,6 @@ export class MastermindComponent extends BaseComponent implements OnInit {
       this._roundComplete = false;
     } );
   }
-
-  private FormatGuessPlusFeedback(guess: string, bulls: number, cows: number) {
-    return `${guess} - ${bulls} ${cows}`;
-  }
   //#endregion
 
 }
