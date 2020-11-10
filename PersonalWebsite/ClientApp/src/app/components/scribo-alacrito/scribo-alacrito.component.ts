@@ -22,7 +22,6 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   public _getTextI        = 0;
   public _input           = '';
   public _inputPrevLength = 0;
-  public _i               = 0;
   public _nrOfLines       = 0;
 
   public _textCorrect     = '';
@@ -47,15 +46,21 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   ) {
     super(_router, _route, _cookieService, _themesService, _localizationService);
 
-    // get the index of the text in the que
-    const cookieVal = super.GetCookievalueNum(CookieKeys.ScriboI);
-
-    // start everything
-    this._i = cookieVal >= 0 ? cookieVal : 0;
-    this.GetText(this._i);
   }
 
   ngOnInit(): void {
+    const initialNr = parseInt(this._route.snapshot.paramMap.get(CookieKeys.ScriboI), 10);
+
+    if (initialNr) {
+      this.I = initialNr;
+      this.NavigateTo('scribo-alacrito');
+      return;
+    }
+
+    // start everything
+    if (!this.I) { this.I = 0; }
+
+    this.GetText(this.I);
 
     // get number of lines
     this._httpService.Get<number>('scriboAlacrito/getLinesNr').then(nr => this._nrOfLines = nr);
@@ -67,6 +72,15 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   /** words Per Minute (chars per second multiplied by 12) to 2 decimals */
   public get Wpm() {
     return Math.round(this.SumChars / this.SumTime * 1200) / 100;
+  }
+
+  /** Sum of chars typed */
+  public get I() {
+    return super.GetCookievalueNum(CookieKeys.ScriboI);
+  }
+  /** Sum of chars typed */
+  public set I(value: number) {
+    super.SetCookievalue(CookieKeys.ScriboI, value);
   }
 
   /** Sum of chars typed */
@@ -91,7 +105,6 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   //#region Methods
   public ChangeEvent(event: string) {
 
-    console.log({len: this._input.length});
     // if the input length is or was 0 reset the timer
     if (this._input.length <= 2) {
       this._lastTime = Date.now();
@@ -109,7 +122,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
 
     // TODO if input is in equal length to text then finish
     if (this._input.length >= this._text.length && !this._textFalse) {
-      this.GetText(this._i + 2);
+      this.GetText(this.I + 2);
     }
 
     this._inputPrevLength = this._text.length;
@@ -189,8 +202,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
 
 
       // move texts around and fetch a new one
-      this._i++;
-      super.SetCookievalue(CookieKeys.ScriboI, this._i.toString());
+      this.I++;
     }
     this._input = '';
 

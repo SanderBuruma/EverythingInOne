@@ -40,11 +40,7 @@ namespace PersonalWebsite.Controllers
          }
 
          // compare the guess and actual code
-         var rScore = new ReturnScore{
-            Bulls = 0,
-            Cows = 0
-         };
-
+         ReturnScore rScore = new ReturnScore(guess, 0, 0);
          // count bulls
          for (int i = 0; i < pegs.Length; i++){
             if (pegs[i] == code.Code[i]) rScore.Bulls++;
@@ -66,7 +62,6 @@ namespace PersonalWebsite.Controllers
          }
          rScore.Cows -= rScore.Bulls;
 
-         code.Guesses.Add(guess);
          code.RScores.Add(rScore);
 
          // if correctly guessed, generate new code
@@ -104,8 +99,7 @@ namespace PersonalWebsite.Controllers
          CodebreakerCode code = GetCode();
 
          return new { 
-            rScores = code.RScores.ToArray(), 
-            guesses = code.Guesses.ToArray()
+            rScores = code.RScores.ToArray()
          };
       }
 
@@ -122,6 +116,18 @@ namespace PersonalWebsite.Controllers
    }
 
    public class ReturnScore {
+
+		public ReturnScore(string guess, int bulls, int cows)
+		{
+			Guess = guess;
+			Bulls = bulls;
+			Cows = cows;
+		}
+
+		/// <summary>
+		/// The string value representation of the guess
+		/// </summary>
+		public string Guess { get; set; }
 
       /// <summary>
       /// The number of correctly positioned pegs
@@ -151,13 +157,11 @@ namespace PersonalWebsite.Controllers
             pegs.Add(rng.Next(8));
          }
          Code = pegs.ToArray();
-         Guesses = new List<string>{};
          RScores = new List<ReturnScore>{};
 		}
 
 		public int[] Code { get; set; }
       public string CookieId { get; set; }
-      public List<string> Guesses { get; set; }
       public List<ReturnScore> RScores { get; set; }
 
    }

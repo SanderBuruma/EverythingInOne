@@ -14,12 +14,11 @@ import { LocalizationService } from 'src/app/shared/services/Localization.servic
 })
 export class MastermindComponent extends BaseComponent implements OnInit {
   //#region Fields
-  public guessCode = '';
-  public guessedCodes: string[] = [];
-  public validCodeRgx = /^[1-8]{4}$/;
-  public guessesPlusFeedback: string[] = [];
-  public roundComplete = false;
-  public focus = true;
+  public _guessCode = '';
+  public _validCodeRgx = /^[1-8]{4}$/;
+  public _guessesPlusFeedback: {guess: string, cows: number, bulls: number}[] = [];
+  public _roundComplete = false;
+  public _focus = true;
   //#endregion
 
   //#region Constructor & ngOnInit
@@ -43,13 +42,13 @@ export class MastermindComponent extends BaseComponent implements OnInit {
   //#region Properties
   /** Locks a few UI elements if the round is complete or a request is in progress */
   public get LockUi(): boolean {
-    return this.roundComplete || !!this._httpService.RunningRequestsCount;
+    return this._roundComplete || !!this._httpService.RunningRequestsCount;
   }
   //#endregion
 
   //#region Methods
   public IsGuessCodeValid(guess: string) {
-    const check = this.validCodeRgx.test(guess);
+    const check = this._validCodeRgx.test(guess);
     return check;
   }
 
@@ -59,40 +58,40 @@ export class MastermindComponent extends BaseComponent implements OnInit {
     if (
       cond1 && cond2
     ) {
-        if (!this.roundComplete) { this.MakeGuess(); } else { this.NewGame(); }
+        if (!this._roundComplete) { this.MakeGuess(); } else { this.NewGame(); }
 
     } else if (event.key === 'Escape') {
 
       // reset guess
-      this.guessCode = '';
+      this._guessCode = '';
 
-    } else if (this.guessCode.length > 4) {
+    } else if (this._guessCode.length > 4) {
 
       // shorten too long code
-      this.guessCode = this.guessCode.substr(0, 4);
+      this._guessCode = this._guessCode.substr(0, 4);
       // reset code if invalid
-      if (!this.validCodeRgx.test(this.guessCode)) { this.guessCode = ''; }
+      if (!this._validCodeRgx.test(this._guessCode)) { this._guessCode = ''; }
 
     }
   }
 
   public MakeGuess() {
-    const cond1 = this.roundComplete, cond2 = !this.IsGuessCodeValid(this.guessCode);
+    const cond1 = this._roundComplete, cond2 = !this.IsGuessCodeValid(this._guessCode);
     if (cond1 || cond2) {
       return;
     }
-    this._httpService.Get<GuessFeedback>('codebreaker/makeGuess?guess=' + this.guessCode)
+    this._httpService.Get<GuessFeedback>('codebreaker/makeGuess?guess=' + this._guessCode)
     .then(feedback => {
-      this.guessesPlusFeedback.push(this.FormatGuessPlusFeedback(this.guessCode, feedback.bulls, feedback.cows));
+      this._guessesPlusFeedback.push({guess: this._guessCode, bulls: feedback.bulls, cows: feedback.cows});
       if (feedback.bulls === 4) {
         this.CompleteRound();
       }
-      this.guessCode = '';
+      this._guessCode = '';
     });
   }
 
   public CompleteRound() {
-    this.roundComplete = true;
+    this._roundComplete = true;
 
     setTimeout(() => {
       if (this.CompleteRound) {
@@ -102,23 +101,23 @@ export class MastermindComponent extends BaseComponent implements OnInit {
   }
 
   public GetPreviousFeedback() {
-    this._httpService.Get<{guesses: string[], rScores: {Bulls: string, Cows: string}[]}>('codebreaker/getFeedback').then(fb => {
+    this._httpService.Get<{guesses: string[], rScores: {
+      Guess: string,
+      Bulls: number,
+      Cows: number
+    }[]}>('codebreaker/getFeedback').then(fb => {
       for (let i = 0; i < fb.guesses.length; i++) {
-        this.guessesPlusFeedback.push(this.FormatGuessPlusFeedback(fb[i].guessCode, fb[i].Bulls, fb[i].Cows));
+        this._guessesPlusFeedback.push({guess: fb.rScores[i].Guess, cows: fb.rScores[i].Bulls, bulls: fb.rScores[i].Bulls});
       }
     });
   }
 
   NewGame() {
     this._httpService.Get('codebreaker/newCode').then(s => {
-      this.roundComplete = !s;
-      this.guessesPlusFeedback = [];
-      this.roundComplete = false;
+      this._roundComplete = !s;
+      this._guessesPlusFeedback = [];
+      this._roundComplete = false;
     } );
-  }
-
-  private FormatGuessPlusFeedback(guess: string, bulls: number, cows: number) {
-    return `${guess} - ${bulls} ${cows}`;
   }
   //#endregion
 
