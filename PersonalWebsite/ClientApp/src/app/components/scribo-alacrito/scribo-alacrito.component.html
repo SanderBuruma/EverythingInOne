@@ -34,10 +34,7 @@ class="m-t-10 m-b-10">
       [disabled]="(_httpService.RunningRequestsCountObservable | async) > 0"
       mat-raised-button
       color="accent"
-      (click)="
-        GetText(_getTextI, true);
-        _getTextI = FloorNumber(_getTextI) ;
-        _i = _getTextI">
+      (click)="GetText(I, true)">
       Get Text
     </button>
   </div>
