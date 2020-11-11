@@ -1,0 +1,22 @@
+img {
+  border-radius: 99999px;
+  border: solid 4px #0004;
+}
+
+table {
+  font-size: 20px;
+}
+
+tr>td, tr>th {
+  text-align: left;
+}
+
+tr>td:first-child, tr>th:first-child {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.cv-items {
+  text-align: left;
+  font-size: 18px;
+}

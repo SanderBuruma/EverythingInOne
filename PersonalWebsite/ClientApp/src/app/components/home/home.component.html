@@ -1,0 +1,30 @@
+<div fxFlexLayout="row" class="m-t-20">
+  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
+  <div
+    fxFlex.gt-sm="60%"
+    fxFlexFill
+    class="text-center">
+    <h1 class="primary-500 m-10 p-0 m-r-20">
+      {{ GetLocalization('home-title') }}
+    </h1>
+  </div>
+</div>
+
+<!-- fancy svg image -->
+<div fxFlexLayout="row" class="m-t-20">
+  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
+  <div
+    fxFlex.gt-sm="60%"
+    fxFlexFill
+    class="text-center">
+    <app-bgheader></app-bgheader>
+  </div>
+</div>
+
+<div fxFlexLayout="row" class="p-20 p-t-40 primary-bg-800 primary-50 text-center story">
+  <div fxFlex="20%" fxHide.lt-md="true"><!-- spacer --></div>
+  <div fxFlex.gt-sm="60%">
+    <p class="p-4">
+      {{ GetLocalization('home-description') }}</p>
+  </div>
+</div>

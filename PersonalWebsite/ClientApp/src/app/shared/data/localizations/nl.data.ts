@@ -22,10 +22,6 @@ export let DutchLocalizations: LocalizationUnit[] = [
     value: 'Dit is een plek voor mijn persoonlijke experimenten en wandelingen.\n\nHet past bij alle mensen om zich modieus en fatsoenlijk te presenteren, met de bedoeling een medicijn te zijn voor zere ogen, en hoop en vertrouwen te wekken in zijn medemens'
   },
   {
-    label: 'home-projects',
-    value: 'Een paar mini projecten:'
-  },
-  {
     label: 'home-project-scribo',
     value: 'Scribo Alacrito'
   },
@@ -130,4 +126,139 @@ export let DutchLocalizations: LocalizationUnit[] = [
     value: 'Schrijf aub een bericht!'
   },
   //#endregion
+
+  //#region cv - resume
+  {
+    label: 'cv-name-title',
+    value: 'Naam:'
+  },
+  {
+    label: 'cv-age-title',
+    value: 'Leeftijd:'
+  },
+  {
+    label: 'cv-birthplace-title',
+    value: 'Geboorteplaats:'
+  },
+  {
+    label: 'cv-stature-title',
+    value: 'Statuur:'
+  },
+  {
+    label: 'cv-website-title',
+    value: 'Website:'
+  },
+  {
+    label: 'cv-website-other-title',
+    value: 'Andere Website:'
+  },
+  {
+    label: 'cv-species-title',
+    value: 'Soort:'
+  },
+  {
+    label: 'cv-phone-title',
+    value: 'TelNr & WhatsApp:'
+  },
+  {
+    label: 'cv-email-title',
+    value: 'EMail:'
+  },
+  {
+    label: 'cv-social-media-title',
+    value: 'nvt'
+  },
+  {
+    label: 'cv-github-title',
+    value: 'klik mij'
+  },
+  {
+    label: 'cv-name',
+    value: 'Sander Buruma'
+  },
+  {
+    label: 'cv-age',
+    value: '33'
+  },
+  {
+    label: 'cv-birthplace',
+    value: 'Nederland,\nStadskanaal'
+  },
+  {
+    label: 'cv-stature',
+    value: '2.08 meter'
+  },
+  {
+    label: 'cv-website',
+    value: 'Ge kijkt ernaar...'
+  },
+  {
+    label: 'cv-website-other',
+    value: 'Scribo Cursim'
+  },
+  {
+    label: 'cv-species',
+    value: 'Gigant'
+  },
+  {
+    label: 'cv-phone',
+    value: '+31 6 57120257'
+  },
+  {
+    label: 'cv-email',
+    value: '(my name) @ gmail punt com'
+  },
+  {
+    label: 'cv-item-1',
+    value: 'Jan 2020 t/m vandaag - Full time Software Developer bij HRorganizer.com'
+  },
+  {
+    label: 'cv-item-2',
+    value: 'April 2019 tot Jan 2020 - zelf studie'
+  },
+  {
+    label: 'cv-item-3',
+    value: 'Feb tot April 2019 - stage at hetwonen.nl'
+  },
+  {
+    label: 'cv-item-4',
+    value: 'October tot December 2018 - Web developing bootcamp CodeGorilla'
+  },
+  //#endregion
+
+  //#region Header
+  {
+    label: 'header-home',
+    value: 'Ga naar thuispagina'
+  },
+  {
+    label: 'header-contact',
+    value: 'Neem contact op'
+  },
+  {
+    label: 'header-language',
+    value: 'Verander taal'
+  },
+  {
+    label: 'header-theme',
+    value: 'Verander thema'
+  },
+  {
+    label: 'header-cv',
+    value: 'Sander\'s cv'
+  },
+  {
+    label: 'header-primes',
+    value: 'Generaar grote priemgetallen'
+  },
+  {
+    label: 'header-scribo',
+    value: 'Scribo Cursim'
+  },
+  {
+    label: 'header-code',
+    value: 'Code Breaker'
+  },
+  //#endregion
+
 ];

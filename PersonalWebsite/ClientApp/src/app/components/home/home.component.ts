@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { ThemesService } from '../shared/services/Themes.service';
+import { ThemesService } from 'src/app/shared/services/Themes.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BaseComponent } from '../shared/base/base.component';
+import { BaseComponent } from 'src/app/shared/base/base.component';
 import { CookieService } from 'ngx-cookie-service';
-import { CookieKeys } from '../shared/enums/cookie-keys.enum';
-import { HttpService } from '../shared/services/Http.service';
-import { LocalizationService } from '../shared/services/Localization.service';
+import { CookieKeys } from 'src/app/shared/enums/cookie-keys.enum';
+import { HttpService } from 'src/app/shared/services/Http.service';
+import { LocalizationService } from 'src/app/shared/services/Localization.service';
 
 @Component({
-  selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

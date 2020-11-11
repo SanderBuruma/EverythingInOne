@@ -1,0 +1,29 @@
+
+
+#coffee-1,
+#coffee-2,
+#coffee-3 {
+  opacity: 0;
+  animation-name: CoffeeSteam;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+#coffee-1 {
+  animation-duration: 2s;
+  animation-delay: 0s;
+}
+#coffee-2 {
+  animation-duration: 2.1s;
+  animation-delay: -1.333s;
+}
+#coffee-3 {
+  animation-duration: 2.3s;
+  animation-delay: -0.666s;
+}
+
+@keyframes CoffeeSteam {
+  0%   {transform: translateY(0px);   opacity: 0%;}
+  37%  {transform: translateY(-5px);  opacity: 50%;}
+  75%  {transform: translateY(-10px); opacity: 0%;}
+  100% {transform: translateY(0px);   opacity: 0%;}
+}

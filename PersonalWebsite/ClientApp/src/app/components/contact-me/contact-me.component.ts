@@ -3,14 +3,13 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
-import { BaseComponent } from '../shared/base/base.component';
+import { BaseComponent } from 'src/app/shared/base/base.component';
 
-import { HttpService } from '../shared/services/Http.service';
-import { ThemesService } from '../shared/services/Themes.service';
-import { LocalizationService } from '../shared/services/Localization.service';
+import { HttpService } from 'src/app/shared/services/Http.service';
+import { ThemesService } from 'src/app/shared/services/Themes.service';
+import { LocalizationService } from 'src/app/shared/services/Localization.service';
 
 @Component({
-  selector: 'app-contact-me',
   templateUrl: './contact-me.component.html',
   styleUrls: ['./contact-me.component.scss']
 })

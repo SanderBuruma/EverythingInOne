@@ -47,7 +47,6 @@ export class LocalizationService extends BaseService {
         return locs[i].value;
       }
     }
-    console.log({msg: 'not found :*(', label});
   }
 
   /**

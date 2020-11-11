@@ -1,13 +1,12 @@
 import { Component, OnChanges, SimpleChanges } from '@angular/core';
-import { HttpService } from '../shared/services/Http.service';
-import { BaseComponent } from '../shared/base/base.component';
+import { HttpService } from 'src/app/shared/services/Http.service';
+import { BaseComponent } from 'src/app/shared/base/base.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { ThemesService } from '../shared/services/Themes.service';
-import { LocalizationService } from '../shared/services/Localization.service';
+import { ThemesService } from 'src/app/shared/services/Themes.service';
+import { LocalizationService } from 'src/app/shared/services/Localization.service';
 
 @Component({
-  selector: 'app-big-prime-component',
   templateUrl: './big-prime.component.html',
   styleUrls: ['./big-prime.component.scss']
 })
