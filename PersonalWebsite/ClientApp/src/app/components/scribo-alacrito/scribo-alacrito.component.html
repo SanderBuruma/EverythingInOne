@@ -22,7 +22,8 @@ class="m-t-10 m-b-10">
       matInput
       autoComplete="off"
       type="text"
-      [(ngModel)]="_getTextI">
+      [(ngModel)]="I"
+      (keydown)="IndexKeyDown($event)">
   </mat-form-field>
 
   <div

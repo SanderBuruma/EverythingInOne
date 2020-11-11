@@ -230,6 +230,12 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     const difference = Date.now() - this._lastTime;
     return Math.floor(difference / 1000);
   }
+
+  public IndexKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.GetText(this.I);
+    }
+  }
   //#endregion
 
 }
