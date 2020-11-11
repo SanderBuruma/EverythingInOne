@@ -7,6 +7,7 @@ import { ThemesService } from 'src/app/shared/services/Themes.service';
 import { CookieKeys } from 'src/app/shared/enums/cookie-keys.enum';
 import { fadeIn, upIn } from 'src/app/shared/animations/main.animations';
 import { LocalizationService } from 'src/app/shared/services/Localization.service';
+import { RouteParamKeys } from 'src/app/shared/enums/RouteParamKeys.enum';
 
 @Component({
   templateUrl: './scribo-alacrito.component.html',
@@ -49,7 +50,7 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const initialNr = parseInt(this._route.snapshot.paramMap.get(CookieKeys.ScriboI), 10);
+    const initialNr = parseInt(this._route.snapshot.paramMap.get(RouteParamKeys.ScriboI), 10);
 
     if (initialNr) {
       this.I = initialNr;
