@@ -97,6 +97,17 @@ class="primary-bg-800 primary-0"
       <mat-icon class="primary-0">code</mat-icon>
     </button>
 
+    <button
+      fxFlex="1 1 100px 100px"
+      fxFlexOrder="9"
+      mat-icon-button
+      aria-label="Change theme button"
+      (click)="NavigateTo('/electronics-game')"
+      class="primary-bg-400"
+      [title]="GetLocalization('header-code')">
+      <mat-icon class="primary-0">usb</mat-icon>
+    </button>
+
   </div>
 
 </mat-toolbar>

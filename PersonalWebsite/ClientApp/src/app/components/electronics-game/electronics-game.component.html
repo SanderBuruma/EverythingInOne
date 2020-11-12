@@ -1,8 +1,70 @@
 <div
 fxFlexLayout="column"
 fxLayoutAlign="center center"
-class="m-t-10 m-b-10">
+class="m-t-10 m-b-10 monospace">
 
+  <table>
 
+    <tr>
+      <th>
+        <span class="invis">.</span>
+        <span class="signal" (click)="IncrementInput(0)">
+          {{ _inputs[0] }}
+        </span>
+        <span class="signal" (click)="IncrementInput(1)">
+          {{ _inputs[1] }}
+        </span>
+        <span class="invis">.</span>
+      </th>
+    </tr>
+
+    <tr>
+      <th>
+        <span class="signal" (click)="IncrementInput(2)">
+          {{ _inputs[2] }}
+        </span>
+        <span>
+          {{ _microchips[0].Name }}
+        </span>
+        <span>
+          {{ _microchips[1].Name }}
+        </span>
+        <span class="output">
+          {{ GetOutPut() }}
+        </span>
+      </th>
+    </tr>
+
+    <tr>
+      <th>
+        <span class="signal" (click)="IncrementInput(3)">
+          {{ _inputs[3] }}
+        </span>
+        <span>
+          {{ _microchips[2].Name }}
+        </span>
+        <span>
+          {{ _microchips[3].Name }}
+        </span>
+        <span class="output">
+          {{ GetOutPut(1) }}
+        </span>
+      </th>
+    </tr>
+
+    <tr>
+      <th>
+        <span class="invis">.</span>
+        <span class="output">
+          {{ GetOutPut(2) }}
+        </span>
+        <span class="output">
+          {{ GetOutPut(3) }}
+        </span>
+        <span class="invis">.</span>
+      </th>
+    </tr>
+
+  </table>
 
 </div>
