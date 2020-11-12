@@ -20,7 +20,6 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   public _nextText        = '';
   public _title           = '';
 
-  public _getTextI        = 0;
   public _input           = '';
   public _inputPrevLength = 0;
   public _nrOfLines       = 0;
@@ -46,7 +45,6 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
     public _httpService: HttpService
   ) {
     super(_router, _route, _cookieService, _themesService, _localizationService);
-
   }
 
   ngOnInit(): void {
@@ -229,6 +227,12 @@ export class ScriboAlacritoComponent extends BaseComponent implements OnInit {
   public GetElapsedTime() {
     const difference = Date.now() - this._lastTime;
     return Math.floor(difference / 1000);
+  }
+
+  public IndexKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.GetText(this.I);
+    }
   }
   //#endregion
 
