@@ -15,6 +15,7 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   public _microchips: Microchip[] = [];
   public _inputs: number[] = [];
+  public _guesses: number[] = [];
 
   public _width = 2;
   public _max = 8;
@@ -29,19 +30,24 @@ export class ElectronicsGameComponent extends BaseComponent {
   ) {
     super(_router, _route, _cookieService, _themesService, _localizationService);
     this.SetNewField(this._max, this._width);
-    console.log({num: this._microchips.length});
+
   }
 
   public SetNewField(max: number, width: number) {
     this._inputs = [];
     this._microchips = [];
+    this._guesses = [];
 
     for (let i = 0; i < width * width; i++) {
-      this._microchips.push(new Microchip(max, 'abcdef'[i]));
+      this._microchips.push(new Microchip(max, 'abcdefghijklmnopqrstuvwxyz'[i]));
     }
 
     for (let i = 0; i < width * 2; i++) {
-      this._inputs.push(Math.floor(Math.random() * max));
+      this._inputs.push(0);
+    }
+
+    for (let i = 0; i < max * 2; i++) {
+      this._guesses.push(0);
     }
   }
 
@@ -63,15 +69,37 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   public IncrementInput(i) {
     let temp = this._inputs[i] + 1;
-    console.log({i, temp});
+
     temp %= this._max;
-    console.log({i, temp});
+
     this._inputs[i] = temp;
-    console.log({i, inp: this._inputs[i]});
+
   }
 
+  /** Calculates output. i=0 is bottom left, the last i is the righthand bottom most */
   public GetOutPut(i: number) {
+    let input = this._inputs[i];
+    if (i < this._width) {
+      // bottom outputs
+      input = this._microchips[i].ConvertSignal(input);
+      return this._microchips[i + 2].ConvertSignal(input);
+    } else {
+      // righthand outputs
+      input = this._microchips[i * 2 - 4].ConvertSignal(input);
+      return this._microchips[i * 2 - 3].ConvertSignal(input);
+    }
+    return '.';
+  }
 
+  public IncrementGuess(i: number) {
+    this._guesses[i] = (this._guesses[i] + 1) % this._max;
+    let correctGuesses = 0;
+    for (let j = 0; j < this._max; j++) {
+      if (this._guesses[j] === this._microchips[this._width * this._width - 1].Conversions[j]) {
+        correctGuesses++;
+      }
+    }
+    console.log({correctGuesses});
   }
 
 }

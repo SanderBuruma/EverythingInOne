@@ -226,6 +226,17 @@ export let EnglishLocalizations: LocalizationUnit[] = [
   },
   //#endregion
 
+  //#region Electronics game
+  {
+    label: 'header-electronics',
+    value: 'Microchip Game'
+  },
+  {
+    label: 'electronics-help',
+    value: 'The signals are converted by the microcihps as they travel west to east or north to south. The 2nd table shows how each chip converts its signals. The last chip in that table is the one you need to fill in yourself to win this game by clicking its numbers. Not all outputs may be shown, to make the game more difficult.'
+  },
+  //#endregion
+
   //#region Header
   {
     label: 'header-home',

@@ -1,9 +1,9 @@
 export class Microchip {
-  /** safsdf */
-  private _conversions: {to: number}[] = [];
+  /** Should convert from index to value */
+  private _conversions: number[] = [];
   private _name = '';
 
-  constructor(max: number, name: string, allowNonconversion = false) {
+  constructor(max: number, name: string, allowNonconversion = true) {
 
     // check parameters
     if (max < 2) { throw new Error('Microchip must have a max larger than 1'); }
@@ -13,28 +13,34 @@ export class Microchip {
     this.RandomizeConversions(max, allowNonconversion);
   }
 
-  private RandomizeConversions(max: number, allowNonconversion: boolean) {
+  private RandomizeConversions(max: number, allowNonConversion: boolean) {
     const arr: number[] = [];
     for (let i = 0; i < max; i++) {
       arr.push(i);
     }
     for (let i = 0; i < max; i++) {
       let randomIndex = Math.floor(Math.random() * arr.length);
-      while (!allowNonconversion && arr[randomIndex] === i) {
+
+      // todo: fix me, potentially infinite loop
+      while (!allowNonConversion && arr[randomIndex] === i) {
         randomIndex = Math.floor(Math.random() * arr.length);
       }
 
-      this._conversions.push({to: arr[randomIndex]});
+      this._conversions.push(arr[randomIndex]);
       arr.splice(randomIndex, 1);
     }
   }
 
   public ConvertSignal(signal: number) {
-    return this._conversions[signal].to;
+    return this._conversions[signal];
   }
 
   public get Name() {
     return this._name;
+  }
+
+  public get Conversions() {
+    return this._conversions;
   }
 
 }
