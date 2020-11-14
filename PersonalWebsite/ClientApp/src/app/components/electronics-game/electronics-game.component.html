@@ -1,82 +1,80 @@
 <div
-fxLayout="row"
-fxLayout.lt-sm="column"
+fxLayout="column"
 fxLayoutGap="2em"
 fxLayoutAlign="center center"
 class="m-t-10 m-b-10 monospace">
 
-  <table *ngIf="_gameIsRunning" @fadeInOut>
+  <h1 *ngIf="_gameIsRunning" @fadeInOut>
+    {{ GetLocalization('electronics-round') }} {{ _difficultiesIndex + 1 }}
+  </h1>
 
-    <tr>
-      <td class="cursor-help help text-center" [title]="GetLocalization('electronics-help')">
-        ?
-      </td>
-    </tr>
-    <tr>
-      <td class="invis">.</td>
-      <td class="signal primary-800" (click)="IncrementInput(0)">
-        {{ _inputs[0] }}
-      </td>
-      <td class="signal primary-800" (click)="IncrementInput(1)">
-        {{ _inputs[1] }}
-      </td>
-      <td class="invis">.</td>
-    </tr>
+  <div fxLayout="row wrap" fxLayoutAlign="center center">
+    <!--#region Inputs, Microchips and Outputs -->
+      <table *ngIf="_gameIsRunning" @fadeInOut>
 
-    <tr>
-      <td class="signal primary-800" (click)="IncrementInput(2)">
-        {{ _inputs[2] }}
-      </td>
-      <td>
-        {{ _microchips[0].Name }}
-      </td>
-      <td>
-        {{ _microchips[1].Name }}
-      </td>
-      <td class="output accent-800">
-        {{ GetOutPut(2) }}
-      </td>
-    </tr>
+        <tr>
+          <td class="cursor-help help text-center" [title]="GetLocalization('electronics-help')">
+            ?
+          </td>
+        </tr>
 
-    <tr>
-      <td class="signal primary-800" (click)="IncrementInput(3)">
-        {{ _inputs[3] }}
-      </td>
-      <td>
-        {{ _microchips[2].Name }}
-      </td>
-      <td>
-        {{ _microchips[3].Name }}
-      </td>
-      <td class="output accent-800">
-        {{ GetOutPut(3) }}
-      </td>
-    </tr>
+        <!-- #region Rows with inputs -->
+          <tr>
+            <td class="invis">.</td>
+            <td *ngFor="let i of GetArray(0, 1, Width)" class="signal primary-800" (click)="IncrementInput(i)">
+              {{ _inputs[i] }}
+            </td>
+            <td class="invis">.</td>
+          </tr>
+        <!-- #endregion -->
 
-    <tr>
-      <td class="invis">.</td>
-      <td class="output accent-800">
-        {{ GetOutPut(0) }}
-      </td>
-      <td class="output accent-800">
-        {{ GetOutPut(1) }}
-      </td>
-      <td class="invis">.</td>
-    </tr>
+        <!-- #region Rows with inputs, then microchips, finally outputs -->
+          <tr *ngFor="let i of GetArray(Width, 1, Width)">
+            <td class="signal primary-800" (click)="IncrementInput(i)">
+              {{ _inputs[i] }}
+            </td>
+            <td  *ngFor="let j of GetArray(0, 1, Width)">
+              {{ _microchips[(i - Width) * Width + j].Name }}
+            </td>
+            <td class="output accent-800">
+              {{ GetOutPut(i) }}
+            </td>
+          </tr>
+        <!-- #endregion -->
 
-  </table>
-  <table *ngIf="_gameIsRunning" @fadeInOut>
-    <tr>
-      <th class="invis">.</th>
-      <th *ngFor="let c of [0,1,2,3]" [class]="c !== 3 ? 'accent-800' : 'warn-800'">{{ _microchips[c].Name }}</th>
-    </tr>
-    <tr *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].slice(0,_max)">
-      <td class="primary-800">{{i}}</td>
-      <td *ngFor="let c of [0,1,2,3]" >
-        <span *ngIf="c !== 3" [title]="'chip [' + _microchips[c].Name + '] converts signal ' + i + ' to ' + _microchips[c].Conversions[i]">{{ _microchips[c].Conversions[i] }}</span>
-        <span *ngIf="c === 3" class="warn-800 warn-bg-A100 guesses" (click)="IncrementGuess(i)">{{ _guesses[i] }}</span>
-      </td>
-    </tr>
-  </table>
+        <!-- #region Rows with outputs -->
+          <tr>
+            <td class="invis">.</td>
+            <td *ngFor="let i of GetArray(0, 1, Width)" class="output accent-800">
+              {{ GetOutPut(i) }}
+            </td>
+            <td class="invis">.</td>
+          </tr>
+        <!-- #endregion -->
 
+      </table>
+    <!--#endregion  -->
+
+    <!--#region Microchip Conversion Table -->
+      <table *ngIf="_gameIsRunning" @fadeInOut class="m-t-20 m-l-20">
+
+        <tr>
+          <th class="invis">.</th>
+          <th *ngFor="let c of GetArray(0, 1, Width * Width)" [class]="c !== Difficulty.chipTBD ? 'accent-800' : 'warn-800'">{{ _microchips[c].Name }}</th>
+        </tr>
+
+        <tr *ngFor="let i of GetArray(0, 1, 16).slice(0, Max)">
+          <td class="primary-800">{{i}}</td>
+          <td *ngFor="let c of GetArray(0, 1, Width * Width)" >
+            <!-- chip -->
+            <span *ngIf="c !== Difficulty.chipTBD" [title]="'chip [' + _microchips[c].Name + '] converts signal ' + i + ' to ' + _microchips[c].Conversions[i]">{{ _microchips[c].Conversions[i] }}</span>
+            <!-- chip to be determined -->
+            <span *ngIf="c === Difficulty.chipTBD" class="warn-800 warn-bg-A100 guesses" (click)="IncrementGuess(i)">{{ _guesses[i] === -1 ? '?' : _guesses[i] }}</span>
+          </td>
+        </tr>
+
+      </table>
+    <!--#endregion  -->
+
+  </div>
 </div>

@@ -72,6 +72,16 @@ export class BaseComponent {
   public SetCookievalue(key: CookieKeys, value, expires = 7) {
     this._cookieService.set(key, value, expires);
   }
+
+  // Gets an array with a range of filled in values
+  public GetArray(start: number = 0, incrementor: number = 1, elements: number = 50) {
+    const arr: number[] = [];
+
+    for (let i = 0; i < elements; i++) {
+      arr.push(start + i * incrementor);
+    }
+    return arr;
+  }
   //#endregion
 
 }
