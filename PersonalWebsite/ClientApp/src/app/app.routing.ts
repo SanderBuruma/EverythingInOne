@@ -12,6 +12,7 @@ import { ContactMeComponent } from './components/contact-me/contact-me.component
 import { PersonalCvComponent } from './components/personal-cv/personal-cv.component';
 //#endregion
 import { RouteParamKeys } from './shared/enums/RouteParamKeys.enum';
+import { ElectronicsGameComponent } from './components/electronics-game/electronics-game.component';
 //#endregion
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'scribo-alacrito',                            component: ScriboAlacritoComponent,    pathMatch: 'full' },
   { path: 'codebreaker',                                component: MastermindComponent,        pathMatch: 'full' },
   { path: 'cv',                                         component: PersonalCvComponent,        pathMatch: 'full' },
+  { path: 'electronics-game',                           component: ElectronicsGameComponent,   pathMatch: 'full' },
 
   { path: '**',                                         component: NotFoundComponent}
 
