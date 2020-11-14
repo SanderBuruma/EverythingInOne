@@ -226,6 +226,21 @@ export let LatinLocalizations: LocalizationUnit[] = [
   },
   //#endregion
 
+  //#region Electronics game
+  {
+    label: 'header-electronics',
+    value: 'Microtabulo ludo'
+  },
+  {
+    label: 'electronics-help',
+    value: 'Signis (septentrione et occidens campi) convertuntur per micros tabulos cum vadunt meridie ad sepentrionem aut occidens at orientem. campus secundum ostendit quimodo microtabulus convertit signum. Ultimum microtabulum in hac tabula est quod necesse est emendere ad numerum rectum. Non omnes exiti ostenduntur propter dificilior facere ludi.'
+  },
+  {
+    label: 'electronics-round',
+    value: 'Circum'
+  },
+  //#endregion
+
   //#region Header
   {
     label: 'header-home',

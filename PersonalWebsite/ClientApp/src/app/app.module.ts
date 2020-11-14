@@ -13,6 +13,7 @@ import { ScriboAlacritoComponent } from './components/scribo-alacrito/scribo-ala
 import { MastermindComponent } from './components/mastermind/mastermind.component';
 import { PersonalCvComponent } from './components/personal-cv/personal-cv.component';
 import { ContactMeComponent } from './components/contact-me/contact-me.component';
+import { ElectronicsGameComponent } from './components/electronics-game/electronics-game.component';
 import { BgheaderComponent } from './shared/components/svg/bgheader/bgheader.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -44,6 +45,7 @@ import { routes } from './app.routing';
     PersonalCvComponent,
     BgheaderComponent,
     ContactMeComponent,
+    ElectronicsGameComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
