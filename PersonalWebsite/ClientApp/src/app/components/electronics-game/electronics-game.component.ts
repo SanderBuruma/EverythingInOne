@@ -6,8 +6,11 @@ import { CookieService } from 'ngx-cookie-service';
 import { ThemesService } from 'src/app/shared/services/Themes.service';
 import { LocalizationService } from 'src/app/shared/services/Localization.service';
 import { Microchip } from './chip.model';
+import { fadeInOut } from 'src/app/shared/animations/main.animations';
+import { AnimationTimers } from 'src/app/shared/enums/animation-timers.enum';
 
 @Component({
+  animations: [ fadeInOut ],
   templateUrl: './electronics-game.component.html',
   styleUrls: ['./electronics-game.component.scss']
 })
@@ -17,8 +20,10 @@ export class ElectronicsGameComponent extends BaseComponent {
   public _inputs: number[] = [];
   public _guesses: number[] = [];
 
+  public _gameIsRunning = false;
+
   public _width = 2;
-  public _max = 8;
+  public _max = 4;
 
   constructor(
     public _httpService: HttpService,
@@ -49,6 +54,7 @@ export class ElectronicsGameComponent extends BaseComponent {
     for (let i = 0; i < max * 2; i++) {
       this._guesses.push(0);
     }
+    this._gameIsRunning = true;
   }
 
   public FieldsString(i: number) {
@@ -99,7 +105,16 @@ export class ElectronicsGameComponent extends BaseComponent {
         correctGuesses++;
       }
     }
-    console.log({correctGuesses});
+
+    if (correctGuesses === this._max) {
+      this._gameIsRunning = false;
+      console.log({msg: 'round complete'});
+      setTimeout(() => {
+        this._max++;
+        this.SetNewField(this._max, this._width);
+        this._gameIsRunning = true;
+      }, AnimationTimers.Fade * 2);
+    }
   }
 
 }
