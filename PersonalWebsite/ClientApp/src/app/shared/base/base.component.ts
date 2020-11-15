@@ -84,6 +84,16 @@ export class BaseComponent {
       return v.toString(16);
     });
   }
+
+  /** Gets an array with a range of filled in values */
+  public GetArray(start: number = 0, incrementor: number = 1, elements: number = 50) {
+    const arr: number[] = [];
+
+    for (let i = 0; i < elements; i++) {
+      arr.push(start + i * incrementor);
+    }
+    return arr;
+  }
   //#endregion
 
 }
