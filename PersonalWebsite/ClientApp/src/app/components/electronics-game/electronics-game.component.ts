@@ -66,7 +66,7 @@ export class ElectronicsGameComponent extends BaseComponent {
       this._guesses.push(-1);
     }
     this._gameIsRunning = true;
-    console.log({difficulty: this.Difficulty, chips: this._microchips});
+
   }
 
   public IncrementInput(i) {
@@ -105,10 +105,10 @@ export class ElectronicsGameComponent extends BaseComponent {
       }
     }
 
-    console.log({correctGuesses});
+
     if (correctGuesses === this.Max) {
       this._gameIsRunning = false;
-      console.log({msg: 'round complete'});
+
       setTimeout(() => {
         this.DifficultiesIndexIncrement();
         this.SetNewField(this.Max, this.Width);
