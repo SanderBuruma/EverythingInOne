@@ -66,6 +66,7 @@ export class ElectronicsGameComponent extends BaseComponent {
       this._guesses.push(-1);
     }
     this._gameIsRunning = true;
+    console.log({difficulty: this.Difficulty, chips: this._microchips});
   }
 
   public IncrementInput(i) {
@@ -96,13 +97,15 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   public IncrementGuess(i: number) {
     this._guesses[i] = (this._guesses[i] + 1) % this.Max;
+
     let correctGuesses = 0;
     for (let j = 0; j < this.Max; j++) {
-      if (this._guesses[j] === this._microchips[this.Width * this.Width - 1].Conversions[j]) {
+      if (this._guesses[j] === this._microchips[this.Difficulty.chipTBD].Conversions[j]) {
         correctGuesses++;
       }
     }
 
+    console.log({correctGuesses});
     if (correctGuesses === this.Max) {
       this._gameIsRunning = false;
       console.log({msg: 'round complete'});

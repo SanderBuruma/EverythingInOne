@@ -53,8 +53,8 @@ export let difficulties: {
     max: 4,
     width: 2,
     chipTBD: 3,
-    unknownOutputs: [3],
-    unknownMicrochipConversions: [0, 1],
+    unknownOutputs: [1],
+    unknownMicrochipConversions: [0, 2],
     chipCopies: [
       {
         index: 3,
