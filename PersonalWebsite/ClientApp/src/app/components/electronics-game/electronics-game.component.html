@@ -5,7 +5,7 @@ fxLayoutAlign="center center"
 class="m-t-10 m-b-10 monospace">
 
   <h1 *ngIf="_gameIsRunning" @fadeInOut>
-    {{ GetLocalization('electronics-round') }} {{ _difficultiesIndex + 1 }}
+    {{ GetLocalization('electronics-round') }} {{ RoundIndexDisplay }}
   </h1>
 
   <div fxLayout="row wrap" fxLayoutAlign="center center">
