@@ -20,6 +20,7 @@ import { difficulties } from './difficulties.data';
 })
 export class ElectronicsGameComponent extends BaseComponent {
 
+  //#region Fields
   public _microchips: Microchip[] = [];
   public _inputs: number[] = [];
   public _guesses: number[] = [];
@@ -27,7 +28,9 @@ export class ElectronicsGameComponent extends BaseComponent {
   public _gameIsRunning = false;
   public _difficultiesIndex = 0;
   public _difficulties = difficulties;
+  //#endregion
 
+  //#region Constructor
   constructor(
     public _httpService: HttpService,
     _router: Router,
@@ -37,15 +40,17 @@ export class ElectronicsGameComponent extends BaseComponent {
     _themesService: ThemesService
   ) {
     super(_router, _route, _cookieService, _themesService, _localizationService);
-    this.SetNewField(this.Max, this.Width);
+    this.SetNewField(this.Max, this.Width, this.Height);
   }
+  //#endregion
 
-  public SetNewField(max: number, width: number) {
+  //#region Methods
+  public SetNewField(max: number, width: number, height: number) {
     this._inputs = [];
     this._microchips = [];
     this._guesses = [];
 
-    for (let i = 0; i < width * width; i++) {
+    for (let i = 0; i < width * height; i++) {
       this._microchips.push(new Microchip(
         max,
         'abcdefghijklmnopqrstuvwxyz'[i],
@@ -58,15 +63,16 @@ export class ElectronicsGameComponent extends BaseComponent {
       this._microchips[i.index] = this._microchips[i.convertTo];
     }
 
-    for (let i = 0; i < width * width; i++) {
+    for (let i = 0; i < width + height; i++) {
       this._inputs.push(0);
     }
+
 
     for (let i = 0; i < max; i++) {
       this._guesses.push(-1);
     }
     this._gameIsRunning = true;
-
+    console.log({winningChip: this._microchips[this.Difficulty.chipTBD].Conversions});
   }
 
   public IncrementInput(i) {
@@ -80,19 +86,23 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   /** Calculates output. i=0 is bottom left, the last i is the righthand bottom most */
   public GetOutPut(i: number) {
+
     // if output may not be shown
     if (this.Difficulty.unknownOutputs.indexOf(i) !== -1) { return '?'; }
 
-    let input = this._inputs[i];
+    let outputToBe = this._inputs[i];
     if (i < this.Width) {
-      // bottom outputs
-      input = this._microchips[i].ConvertSignal(input);
-      return this._microchips[i + 2].ConvertSignal(input);
+      // southern outputs
+      for (let j = 0; j < this.Height; j++) {
+        outputToBe = this._microchips[j * this.Width + i].ConvertSignal(outputToBe);
+      }
     } else {
-      // righthand outputs
-      input = this._microchips[i * 2 - 4].ConvertSignal(input);
-      return this._microchips[i * 2 - 3].ConvertSignal(input);
+      // eastern outputs
+      for (let j = 0; j < this.Width; j++) {
+        outputToBe = this._microchips[(i - this.Width) * this.Width + j].ConvertSignal(outputToBe);
+      }
     }
+    return outputToBe;
   }
 
   public IncrementGuess(i: number) {
@@ -105,13 +115,12 @@ export class ElectronicsGameComponent extends BaseComponent {
       }
     }
 
-
     if (correctGuesses === this.Max) {
       this._gameIsRunning = false;
 
       setTimeout(() => {
         this.DifficultiesIndexIncrement();
-        this.SetNewField(this.Max, this.Width);
+        this.SetNewField(this.Max, this.Width, this.Height);
         this._gameIsRunning = true;
       }, AnimationTimers.Fade * 2);
     }
@@ -121,6 +130,12 @@ export class ElectronicsGameComponent extends BaseComponent {
     this._difficultiesIndex++;
   }
 
+  public OutputHidden(i: number) {
+    return this.Difficulty.unknownOutputs.indexOf(i) !== -1;
+  }
+  //#endregion
+
+  //#region Properties
   public get DifficultiesIndex() {
     return this._difficultiesIndex % difficulties.length;
   }
@@ -135,9 +150,15 @@ export class ElectronicsGameComponent extends BaseComponent {
     return difficulties[this.DifficultiesIndex].width;
   }
 
+  /** The number of microchips in a row (and column). */
+  public get Height() {
+    return difficulties[this.DifficultiesIndex].height;
+  }
+
   /** The maximum value of inputs, outputs and microchip conversions. */
   public get Max() {
     return difficulties[this.DifficultiesIndex].max + Math.floor(this._difficultiesIndex / difficulties.length);
   }
+  //#endregion
 
 }

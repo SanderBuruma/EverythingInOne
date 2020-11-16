@@ -233,7 +233,7 @@ export let LatinLocalizations: LocalizationUnit[] = [
   },
   {
     label: 'electronics-help',
-    value: 'Signis (septentrione et occidens campi) convertuntur per micros tabulos cum vadunt meridie ad sepentrionem aut occidens at orientem. campus secundum ostendit quimodo microtabulus convertit signum. Ultimum microtabulum in hac tabula est quod necesse est emendere ad numerum rectum. Non omnes exiti ostenduntur propter dificilior facere ludi.'
+    value: 'Signis (in septentrione et occidente campi) convertuntur per micros tabulos cum vadunt meridie ad sepentrionem vel occidens ad orientem. Campus secundum ostendit quimodo microtabulus convertit signum. Ultimum microtabulum in hac tabula est quod necesse est emendere ad numerum rectum. Non omnes exiti ostenduntur propter dificilior facere ludi.'
   },
   {
     label: 'electronics-round',
