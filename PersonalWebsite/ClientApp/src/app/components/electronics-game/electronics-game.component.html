@@ -2,16 +2,19 @@
 fxLayout="column"
 fxLayoutGap="2em"
 fxLayoutAlign="center center"
-class="m-t-10 m-b-10 monospace">
+class="m-t-10 m-b-10 monospace"
+*ngIf="_gameIsRunning" @fadeInOut>
 
-  <h1 *ngIf="_gameIsRunning" @fadeInOut>
+  <h1>
     {{ GetLocalization('electronics-round') }} {{ RoundIndexDisplay }}
   </h1>
+
+  <button mat-flat-button color="warn" (click)="ResetRound(true)" [disabled]="!_gameIsRunning">Reset</button>
 
   <div fxLayout="row wrap" fxLayoutAlign="center center">
 
     <!--#region Inputs, Microchips and Outputs -->
-      <table *ngIf="_gameIsRunning" @fadeInOut>
+      <table>
 
         <tr>
           <td class="cursor-help help text-center" [title]="GetLocalization('electronics-help')">
@@ -57,7 +60,7 @@ class="m-t-10 m-b-10 monospace">
     <!--#endregion  -->
 
     <!--#region Microchip Conversion Table -->
-      <table *ngIf="_gameIsRunning" @fadeInOut class="m-t-20 m-l-20">
+      <table class="m-t-20 m-l-20">
 
         <tr>
           <th class="invis">.</th>

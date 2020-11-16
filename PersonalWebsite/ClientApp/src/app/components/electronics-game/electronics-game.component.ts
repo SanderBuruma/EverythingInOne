@@ -118,13 +118,7 @@ export class ElectronicsGameComponent extends BaseComponent {
 
     // end round if all guesses are correct
     if (correctGuesses === this.Max) {
-      this._gameIsRunning = false;
-
-      setTimeout(() => {
-        this.RoundIndexIncrement();
-        this.SetNewField(this.Max, this.Width, this.Height);
-        this._gameIsRunning = true;
-      }, AnimationTimers.Fade * 1.5);
+      this.ResetRound();
     }
   }
 
@@ -134,6 +128,22 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   public OutputHidden(i: number) {
     return this.Difficulty.unknownOutputs.indexOf(i) !== -1;
+  }
+
+  /**
+   * Sets or resets for the next round
+   * @param resetPossible resets round index if set to true, default false
+   */
+  public ResetRound(resetPossible = false) {
+    if (resetPossible && this.RoundIndex === 0) { return; }
+    this._gameIsRunning = false;
+
+    setTimeout(() => {
+
+      if (resetPossible) { this.RoundIndex = 0; } else { this.RoundIndexIncrement(); }
+      this.SetNewField(this.Max, this.Width, this.Height);
+      this._gameIsRunning = true;
+    }, AnimationTimers.Fade * 1.5);
   }
   //#endregion
 
