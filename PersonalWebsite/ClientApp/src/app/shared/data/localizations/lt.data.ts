@@ -239,6 +239,18 @@ export let LatinLocalizations: LocalizationUnit[] = [
     label: 'electronics-round',
     value: 'Circum'
   },
+  {
+    label: 'electronics-mouseover-1',
+    value: 'tabula'
+  },
+  {
+    label: 'electronics-mouseover-2',
+    value: 'mutat signum'
+  },
+  {
+    label: 'electronics-mouseover-3',
+    value: 'ad'
+  },
   //#endregion
 
   //#region Header

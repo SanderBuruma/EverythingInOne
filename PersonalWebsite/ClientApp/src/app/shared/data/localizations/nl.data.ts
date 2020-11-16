@@ -239,6 +239,18 @@ export let DutchLocalizations: LocalizationUnit[] = [
     label: 'electronics-round',
     value: 'Ronde'
   },
+  {
+    label: 'electronics-mouseover-1',
+    value: 'chip'
+  },
+  {
+    label: 'electronics-mouseover-2',
+    value: 'zet signaal'
+  },
+  {
+    label: 'electronics-mouseover-3',
+    value: 'om naar'
+  },
   //#endregion
 
   //#region Header

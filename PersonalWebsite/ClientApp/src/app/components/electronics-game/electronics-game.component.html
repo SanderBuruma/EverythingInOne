@@ -67,7 +67,7 @@ class="m-t-10 m-b-10 monospace">
           <td class="primary-800">{{i}}</td>
           <td *ngFor="let c of GetArray(0, 1, Width * Width)" >
             <!-- chip -->
-            <span *ngIf="c !== Difficulty.chipTBD" [title]="'chip [' + _microchips[c].Name + '] converts signal ' + i + ' to ' + _microchips[c].Conversions[i]">{{ _microchips[c].ConversionsRevealed ?  _microchips[c].Conversions[i] : '?' }}</span>
+            <span *ngIf="c !== Difficulty.chipTBD" [title]="GetLocalization('electronics-mouseover-1') + ' [' + _microchips[c].Name + '] ' + GetLocalization('electronics-mouseover-2') + ' ' + i + ' ' + GetLocalization('electronics-mouseover-3') + ' ' + (_microchips[c].ConversionsRevealed ?  _microchips[c].Conversions[i] : '?')">{{ _microchips[c].ConversionsRevealed ?  _microchips[c].Conversions[i] : '?' }}</span>
             <!-- chip to be determined -->
             <span *ngIf="c === Difficulty.chipTBD" class="warn-800 warn-bg-A100 guesses" (click)="IncrementGuess(i)">{{ _guesses[i] === -1 ? '?' : _guesses[i] }}</span>
           </td>
