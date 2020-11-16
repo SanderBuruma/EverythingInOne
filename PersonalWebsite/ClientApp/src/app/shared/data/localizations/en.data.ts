@@ -239,6 +239,18 @@ export let EnglishLocalizations: LocalizationUnit[] = [
     label: 'electronics-round',
     value: 'Round'
   },
+  {
+    label: 'electronics-mouseover-1',
+    value: 'chip'
+  },
+  {
+    label: 'electronics-mouseover-2',
+    value: 'converts signal'
+  },
+  {
+    label: 'electronics-mouseover-3',
+    value: 'to'
+  },
   //#endregion
 
   //#region Header

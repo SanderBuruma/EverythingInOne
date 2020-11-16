@@ -233,11 +233,23 @@ export let DutchLocalizations: LocalizationUnit[] = [
   },
   {
     label: 'electronics-help',
-    value: 'De signalen gaan van west naar oost en noord naar zuid. Deze worden omgezet door de microchips volgens de 2e tabel. De laatste chip moet je met correcte waarden invullen. Je wint wanneer alle waarden van deze laatste chip correct zijn ingesteld. Niet alle informatie wordt altijd vertoond, om het spel moeilijker te maken.'
+    value: 'De signalen gaan van west naar oost en noord naar zuid. Deze worden omgezet door de microchips volgens de 2e tabel. De laatste chip moet je met correcte waarden invullen. Je wint wanneer alle waarden van deze laatste chip correct zijn ingesteld. Niet alle informatie worden altijd vertoond, om het spel moeilijker te maken.'
   },
   {
     label: 'electronics-round',
     value: 'Ronde'
+  },
+  {
+    label: 'electronics-mouseover-1',
+    value: 'chip'
+  },
+  {
+    label: 'electronics-mouseover-2',
+    value: 'zet signaal'
+  },
+  {
+    label: 'electronics-mouseover-3',
+    value: 'om naar'
   },
   //#endregion
 

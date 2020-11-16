@@ -12,8 +12,6 @@ import { LocalizationService } from 'src/app/shared/services/Localization.servic
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends BaseComponent {
-  public _count = 0;
-
   constructor(
     _router: Router,
     _route: ActivatedRoute,
@@ -23,19 +21,6 @@ export class HomeComponent extends BaseComponent {
     private _httpService: HttpService
   ) {
     super(_router, _route, _cookieService, _themesService, _localizationService);
-
-    const cookie = super.GetCookievalue(CookieKeys.Count);
-
-    let nr: number = parseInt(cookie, 10);
-    if (!(nr >= 0)) {
-      nr = 0;
-    }
-    this._count = nr;
-  }
-
-  public Increment() {
-    this._count++;
-    super.SetCookievalue(CookieKeys.Count, this._count);
   }
 
   public EmailTheDev() {

@@ -12,6 +12,7 @@ import { AnimationTimers } from 'src/app/shared/enums/animation-timers.enum';
 
 import { Microchip } from './chip.model';
 import { difficulties } from './difficulties.data';
+import { CookieKeys } from 'src/app/shared/enums/cookie-keys.enum';
 
 @Component({
   animations: [ fadeInOut ],
@@ -20,14 +21,16 @@ import { difficulties } from './difficulties.data';
 })
 export class ElectronicsGameComponent extends BaseComponent {
 
+  //#region Fields
   public _microchips: Microchip[] = [];
   public _inputs: number[] = [];
   public _guesses: number[] = [];
 
   public _gameIsRunning = false;
-  public _difficultiesIndex = 0;
   public _difficulties = difficulties;
+  //#endregion
 
+  //#region Constructor
   constructor(
     public _httpService: HttpService,
     _router: Router,
@@ -37,15 +40,17 @@ export class ElectronicsGameComponent extends BaseComponent {
     _themesService: ThemesService
   ) {
     super(_router, _route, _cookieService, _themesService, _localizationService);
-    this.SetNewField(this.Max, this.Width);
+    this.SetNewField(this.Max, this.Width, this.Height);
   }
+  //#endregion
 
-  public SetNewField(max: number, width: number) {
+  //#region Methods
+  public SetNewField(max: number, width: number, height: number) {
     this._inputs = [];
     this._microchips = [];
     this._guesses = [];
 
-    for (let i = 0; i < width * width; i++) {
+    for (let i = 0; i < width * height; i++) {
       this._microchips.push(new Microchip(
         max,
         'abcdefghijklmnopqrstuvwxyz'[i],
@@ -58,15 +63,15 @@ export class ElectronicsGameComponent extends BaseComponent {
       this._microchips[i.index] = this._microchips[i.convertTo];
     }
 
-    for (let i = 0; i < width * width; i++) {
+    for (let i = 0; i < width + height; i++) {
       this._inputs.push(0);
     }
+
 
     for (let i = 0; i < max; i++) {
       this._guesses.push(-1);
     }
     this._gameIsRunning = true;
-
   }
 
   public IncrementInput(i) {
@@ -78,26 +83,32 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   }
 
-  /** Calculates output. i=0 is bottom left, the last i is the righthand bottom most */
+  /** Calculates an output field. i=0 is bottom left, the last i is the righthand bottom most */
   public GetOutPut(i: number) {
+
     // if output may not be shown
     if (this.Difficulty.unknownOutputs.indexOf(i) !== -1) { return '?'; }
 
-    let input = this._inputs[i];
+    let outputToBe = this._inputs[i];
     if (i < this.Width) {
-      // bottom outputs
-      input = this._microchips[i].ConvertSignal(input);
-      return this._microchips[i + 2].ConvertSignal(input);
+      // southern outputs
+      for (let j = 0; j < this.Height; j++) {
+        outputToBe = this._microchips[j * this.Width + i].ConvertSignal(outputToBe);
+      }
     } else {
-      // righthand outputs
-      input = this._microchips[i * 2 - 4].ConvertSignal(input);
-      return this._microchips[i * 2 - 3].ConvertSignal(input);
+      // eastern outputs
+      for (let j = 0; j < this.Width; j++) {
+        outputToBe = this._microchips[(i - this.Width) * this.Width + j].ConvertSignal(outputToBe);
+      }
     }
+    return outputToBe;
   }
 
+  /** Increments a guess */
   public IncrementGuess(i: number) {
     this._guesses[i] = (this._guesses[i] + 1) % this.Max;
 
+    // counts the nr of correct guesses
     let correctGuesses = 0;
     for (let j = 0; j < this.Max; j++) {
       if (this._guesses[j] === this._microchips[this.Difficulty.chipTBD].Conversions[j]) {
@@ -105,39 +116,74 @@ export class ElectronicsGameComponent extends BaseComponent {
       }
     }
 
-
+    // end round if all guesses are correct
     if (correctGuesses === this.Max) {
-      this._gameIsRunning = false;
-
-      setTimeout(() => {
-        this.DifficultiesIndexIncrement();
-        this.SetNewField(this.Max, this.Width);
-        this._gameIsRunning = true;
-      }, AnimationTimers.Fade * 2);
+      this.ResetRound();
     }
   }
 
-  public DifficultiesIndexIncrement() {
-    this._difficultiesIndex++;
+  public RoundIndexIncrement() {
+    this.RoundIndex++;
   }
 
+  public OutputHidden(i: number) {
+    return this.Difficulty.unknownOutputs.indexOf(i) !== -1;
+  }
+
+  /**
+   * Sets or resets for the next round
+   * @param resetPossible resets round index if set to true, default false
+   */
+  public ResetRound(resetPossible = false) {
+    if (resetPossible && this.RoundIndex === 0) { return; }
+    this._gameIsRunning = false;
+
+    setTimeout(() => {
+
+      if (resetPossible) { this.RoundIndex = 0; } else { this.RoundIndexIncrement(); }
+      this.SetNewField(this.Max, this.Width, this.Height);
+      this._gameIsRunning = true;
+    }, AnimationTimers.Fade * 1.5);
+  }
+  //#endregion
+
+  //#region Properties
   public get DifficultiesIndex() {
-    return this._difficultiesIndex % difficulties.length;
+    return this.RoundIndex % difficulties.length;
   }
 
   /** The current difficulty setting */
   public get Difficulty() {
-    return this._difficulties[this.DifficultiesIndex];
+    return this._difficulties[this.RoundIndex];
   }
 
   /** The number of microchips in a row (and column). */
   public get Width() {
-    return difficulties[this.DifficultiesIndex].width;
+    return this.Difficulty.width;
+  }
+
+  /** The number of microchips in a row (and column). */
+  public get Height() {
+    return this.Difficulty.height;
   }
 
   /** The maximum value of inputs, outputs and microchip conversions. */
   public get Max() {
-    return difficulties[this.DifficultiesIndex].max + Math.floor(this._difficultiesIndex / difficulties.length);
+    return this.Difficulty.max + Math.floor(this.RoundIndex / difficulties.length);
   }
+
+  /** The index of the current round */
+  public get RoundIndex() {
+    return super.GetCookievalueNum(CookieKeys.ElxRound);
+  }
+  /** The index of the current round */
+  public set RoundIndex(value: number) {
+    super.SetCookievalue(CookieKeys.ElxRound, value);
+  }
+  /** The current round */
+  public get RoundIndexDisplay() {
+    return super.GetCookievalueNum(CookieKeys.ElxRound) + 1;
+  }
+  //#endregion
 
 }
