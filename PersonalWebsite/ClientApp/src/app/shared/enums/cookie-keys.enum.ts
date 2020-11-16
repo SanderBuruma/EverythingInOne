@@ -5,8 +5,8 @@ export enum CookieKeys {
   ScriboCharSum = 'scribo-sum-chars',
   ScriboTimeSum = 'scribo-sum-time',
 
-  // home
-  Count = 'count',
+  // electronics game
+  ElxRound = 'electronics-round',
 
   // all
   ThemeIndex = 'theme-index',
