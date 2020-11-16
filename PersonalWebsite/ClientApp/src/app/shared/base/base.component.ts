@@ -16,7 +16,7 @@ export class BaseComponent {
     public _localizationService: LocalizationService
   ) {
     // acts as a sort of user id
-    if (!this.GetCookievalue(CookieKeys.RngId, '')) { this.SetCookievalue(CookieKeys.RngId, Math.random() * 2e9 ); }
+    if (!this.GetCookievalue(CookieKeys.RngId, '')) { this.SetCookievalue(CookieKeys.RngId, this.GenerateGuid() ); }
   }
 
   public async NavigateTo(url: string) {
@@ -73,7 +73,19 @@ export class BaseComponent {
     this._cookieService.set(key, value, expires);
   }
 
-  // Gets an array with a range of filled in values
+  // https://stackoverflow.com/a/2117523/10055628
+  /**
+   * Generates a random Guid
+   */
+  public GenerateGuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      // tslint:disable-next-line: no-bitwise
+      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  /** Gets an array with a range of filled in values */
   public GetArray(start: number = 0, incrementor: number = 1, elements: number = 50) {
     const arr: number[] = [];
 

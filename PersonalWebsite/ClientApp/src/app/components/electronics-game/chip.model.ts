@@ -43,15 +43,7 @@ export class Microchip {
   }
 
   public get Conversions() {
-    if (this._conversionsRevealed) {
-      return this._conversions;
-    } else {
-      const emptyArr = [];
-      for (let i = 0; i < this._conversions.length; i++) {
-        emptyArr.push('?');
-      }
-      return emptyArr;
-    }
+    return this._conversions;
   }
 
 }
