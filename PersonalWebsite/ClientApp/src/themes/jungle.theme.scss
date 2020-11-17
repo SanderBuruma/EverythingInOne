@@ -1,7 +1,7 @@
 // Define a selectable dark theme
 $primary: mat-palette($mat-red);
 $accent: mat-palette($mat-orange);
-$warn: mat-palette($mat-yellow);
+$warn: mat-palette($mat-green);
 
 $theme: mat-light-theme(
   $primary,
