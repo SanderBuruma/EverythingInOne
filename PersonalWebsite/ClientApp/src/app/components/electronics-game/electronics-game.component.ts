@@ -49,6 +49,13 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   //#region Methods
   public SetNewField(max: number, width: number, height: number) {
+    this._httpService.Get(
+      'dev/log-message?msg=round+' + this.RoundIndex +
+      '+and+max+' + max +
+      '+and+width+' + width +
+      '+and+height+' + height
+    );
+
     this._inputs = [];
     this._microchips = [];
     this._guesses = [];

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using System.Net.Mail;
 using System.Net;
+using PersonalWebsite.Strategies;
+
 namespace PersonalWebsite.Controllers
 {
    public class DevController : BaseController
@@ -46,7 +48,22 @@ namespace PersonalWebsite.Controllers
 
       }
 
-      
+      [HttpGet("log-message")]
+      public void LogMessage(string msg) {
+         UserInfoCollector.AddMessage(_httpContextAccessor.HttpContext, msg);
+      }
+
+      [HttpGet("get-user-info")]
+      public object GetUserInfo(string password)
+      { 
+         if (!CheckSecretPhrase(password)) {
+            _httpContextAccessor.HttpContext.Response.StatusCode = 403;
+            return null;
+         } 
+         string[] msgs = UserInfoCollector.Messages;
+         UserInfoCollector.ResetMessages();
+         return new { msgs };
+      }
    }
 
    public class EmailtoSend {
