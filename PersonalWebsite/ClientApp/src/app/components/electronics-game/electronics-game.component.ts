@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base/base.component';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -28,6 +28,9 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   public _gameIsRunning = false;
   public _difficulties = difficulties;
+
+  /** The index of the guesses array which will be modified when the user presses a number key on their keyboard */
+  public _guessKeyboardIndex = 0;
   //#endregion
 
   //#region Constructor
@@ -49,6 +52,7 @@ export class ElectronicsGameComponent extends BaseComponent {
     this._inputs = [];
     this._microchips = [];
     this._guesses = [];
+    this._guessKeyboardIndex = 0;
 
     for (let i = 0; i < width * height; i++) {
       this._microchips.push(new Microchip(
@@ -177,7 +181,7 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   /** The maximum value of inputs, outputs and microchip conversions. */
   public get Max() {
-    return this.Difficulty.max + Math.floor(this.RoundIndex / difficulties.length);
+    return Math.min(this.Difficulty.max + Math.floor(this.RoundIndex / difficulties.length), 10);
   }
 
   /** The index of the current round */
@@ -194,4 +198,18 @@ export class ElectronicsGameComponent extends BaseComponent {
   }
   //#endregion
 
+
+  //#region Listeners
+  @HostListener('document:keydown', ['$event'])
+  handleDeleteKeyboardEvent(event: KeyboardEvent) {
+    console.log({key: event.key});
+
+    if (/[0-9]/g.test(event.key) && this._gameIsRunning) {
+      this._guesses[this._guessKeyboardIndex] = parseInt(event.key, 10);
+      this._guessKeyboardIndex++;
+      this._guessKeyboardIndex %= this.Max;
+    }
+
+  }
+  //#endregion
 }
