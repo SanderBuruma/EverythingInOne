@@ -233,7 +233,7 @@ export let EnglishLocalizations: LocalizationUnit[] = [
   },
   {
     label: 'electronics-help',
-    value: 'The signals are converted by the microchips as they travel west to east or north to south. The 2nd table shows how each chip converts its signals. The last chip in that table is the one you need to fill in yourself to win this game by clicking its numbers. Not all outputs and microchip values may be shown, to make the game more difficult.'
+    value: 'The signals are converted by the microchips as they travel west to east or north to south. The 2nd table shows how each chip converts its signals. The marked chip in that table (with the underlined question marks) is the one you need to fill in yourself to win this game by clicking its numbers. Not all outputs and microchip values may be shown, to make the game more difficult.'
   },
   {
     label: 'electronics-round',
@@ -300,6 +300,10 @@ export let EnglishLocalizations: LocalizationUnit[] = [
   {
     label: 'shuffle',
     value: 'Shuffle'
+  },
+  {
+    label: 'help',
+    value: 'Help'
   },
   //#endregion
 ];

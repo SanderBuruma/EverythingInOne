@@ -12,6 +12,7 @@ class="m-t-10 m-b-10 monospace"
   <div fxLayout="row wrap" fxLayoutGap="5px">
     <button *ngIf="this.RoundIndex" mat-flat-button color="warn" (click)="ResetRound(true)" [disabled]="!_gameIsRunning">{{ GetLocalization('reset') }}</button>
     <button mat-flat-button color="warn" (click)="RestartRound(true)" [disabled]="!_gameIsRunning">{{ GetLocalization('shuffle') }}</button>
+    <button mat-flat-button color="warn" (click)="ModalOn()" [title]="GetLocalization('electronics-help')" [disabled]="!_gameIsRunning">{{ GetLocalization('help') }}!</button>
   </div>
 
 
@@ -19,12 +20,6 @@ class="m-t-10 m-b-10 monospace"
 
     <!--#region Inputs, Microchips and Outputs -->
       <table>
-
-        <tr>
-          <td class="cursor-help help text-center" [title]="GetLocalization('electronics-help')">
-            ?
-          </td>
-        </tr>
 
         <!-- #region Rows with inputs -->
           <tr>
@@ -84,5 +79,10 @@ class="m-t-10 m-b-10 monospace"
       </table>
     <!--#endregion  -->
 
+  </div>
+</div>
+<div @fadeInOut *ngIf="ModalActive" class="modal-background" fxLayout="row wrap" fxLayoutAlign="center center" (click)="ModalOff()">
+  <div class="modal-foreground" fxLayout="column wrap" fxLayoutAlign="center center">
+    {{ GetLocalization('electronics-help') }}
   </div>
 </div>

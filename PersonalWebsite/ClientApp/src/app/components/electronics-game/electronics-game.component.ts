@@ -111,7 +111,11 @@ export class ElectronicsGameComponent extends BaseComponent {
   /** Increments a guess */
   public IncrementGuess(i: number) {
     this._guesses[i] = (this._guesses[i] + 1) % this.Max;
+    this.CheckGuesses();
+  }
 
+  /** Check guesses and start next round if all are correct */
+  public CheckGuesses() {
     // counts the nr of correct guesses
     let correctGuesses = 0;
     for (let j = 0; j < this.Max; j++) {
@@ -159,6 +163,19 @@ export class ElectronicsGameComponent extends BaseComponent {
   }
   //#endregion
 
+  //#region Listeners
+  @HostListener('document:keydown', ['$event'])
+  handleDeleteKeyboardEvent(event: KeyboardEvent) {
+    if (/[0-9]/g.test(event.key) && this._gameIsRunning) {
+      this._guesses[this._guessKeyboardIndex] = parseInt(event.key, 10);
+      this._guessKeyboardIndex++;
+      this._guessKeyboardIndex %= this.Max;
+    }
+
+    this.CheckGuesses();
+  }
+  //#endregion
+
   //#region Properties
   public get DifficultiesIndex() {
     return this.RoundIndex % difficulties.length;
@@ -195,21 +212,6 @@ export class ElectronicsGameComponent extends BaseComponent {
   /** The current round */
   public get RoundIndexDisplay() {
     return super.GetCookievalueNum(CookieKeys.ElxRound) + 1;
-  }
-  //#endregion
-
-
-  //#region Listeners
-  @HostListener('document:keydown', ['$event'])
-  handleDeleteKeyboardEvent(event: KeyboardEvent) {
-    console.log({key: event.key});
-
-    if (/[0-9]/g.test(event.key) && this._gameIsRunning) {
-      this._guesses[this._guessKeyboardIndex] = parseInt(event.key, 10);
-      this._guessKeyboardIndex++;
-      this._guessKeyboardIndex %= this.Max;
-    }
-
   }
   //#endregion
 }
