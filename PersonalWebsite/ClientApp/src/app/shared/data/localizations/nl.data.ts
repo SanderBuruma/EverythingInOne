@@ -288,4 +288,19 @@ export let DutchLocalizations: LocalizationUnit[] = [
   },
   //#endregion
 
+  //#region
+  {
+    label: 'reset',
+    value: 'Begin opnieuw'
+  },
+  {
+    label: 'restart',
+    value: 'Herstart'
+  },
+  {
+    label: 'shuffle',
+    value: 'Schud'
+  },
+  //#endregion
+
 ];

@@ -287,4 +287,19 @@ export let LatinLocalizations: LocalizationUnit[] = [
     value: 'Revelator Codicei'
   },
   //#endregion
+
+  //#region
+  {
+    label: 'reset',
+    value: 'Sile ab initio'
+  },
+  {
+    label: 'restart',
+    value: 'Sile'
+  },
+  {
+    label: 'shuffle',
+    value: 'Misce'
+  },
+  //#endregion
 ];

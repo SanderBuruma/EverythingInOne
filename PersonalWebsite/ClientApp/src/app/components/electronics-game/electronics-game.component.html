@@ -9,7 +9,11 @@ class="m-t-10 m-b-10 monospace"
     {{ GetLocalization('electronics-round') }} {{ RoundIndexDisplay }}
   </h1>
 
-  <button *ngIf="this.RoundIndex" mat-flat-button color="warn" (click)="ResetRound(true)" [disabled]="!_gameIsRunning">Reset</button>
+  <div fxLayout="row wrap" fxLayoutGap="5px">
+    <button *ngIf="this.RoundIndex" mat-flat-button color="warn" (click)="ResetRound(true)" [disabled]="!_gameIsRunning">{{ GetLocalization('reset') }}</button>
+    <button mat-flat-button color="warn" (click)="RestartRound(true)" [disabled]="!_gameIsRunning">{{ GetLocalization('shuffle') }}</button>
+  </div>
+
 
   <div fxLayout="row wrap" fxLayoutAlign="center center">
 
@@ -37,10 +41,10 @@ class="m-t-10 m-b-10 monospace"
             <td [class]="OutputHidden(i + Width) ? '' : 'signal primary-800'" (click)="IncrementInput(i + Width)">
               {{ OutputHidden(i + Width) ? '' : _inputs[i + Width] }}
             </td>
-            <td  *ngFor="let j of GetArray(0, 1, Width)" [class]="Difficulty.chipTBD === (i * Width + j) ? 'warn-800' : ''">
+            <td  *ngFor="let j of GetArray(0, 1, Width)" [class]="Difficulty.chipTBD === (i * Width + j) ? 'warn-800' : 'accent-800'">
               {{ _microchips[i * Width + j].Name }}
             </td>
-            <td [class]="OutputHidden(i + Width) ? '' : 'signal accent-800'">
+            <td>
               {{ OutputHidden(i + Width) ? '' : GetOutPut(i + Width) }}
             </td>
           </tr>
@@ -49,7 +53,7 @@ class="m-t-10 m-b-10 monospace"
         <!-- #region Rows with outputs -->
           <tr>
             <td class="invis">.</td>
-            <td *ngFor="let i of GetArray(0, 1, Width)" [class]="OutputHidden(i) ? '' : 'signal accent-800'">
+            <td *ngFor="let i of GetArray(0, 1, Width)">
               {{ OutputHidden(i) ? '' : GetOutPut(i) }}
             </td>
             <td class="invis">.</td>

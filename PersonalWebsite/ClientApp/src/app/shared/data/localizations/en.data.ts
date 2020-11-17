@@ -287,4 +287,19 @@ export let EnglishLocalizations: LocalizationUnit[] = [
     value: 'Code Breaker'
   },
   //#endregion
+
+  //#region
+  {
+    label: 'reset',
+    value: 'Reset'
+  },
+  {
+    label: 'restart',
+    value: 'Restart'
+  },
+  {
+    label: 'shuffle',
+    value: 'Shuffle'
+  },
+  //#endregion
 ];

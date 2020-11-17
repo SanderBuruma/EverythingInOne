@@ -134,16 +134,24 @@ export class ElectronicsGameComponent extends BaseComponent {
    * Sets or resets for the next round
    * @param resetPossible resets round index if set to true, default false
    */
-  public ResetRound(resetPossible = false) {
+  public ResetRound(resetPossible = false, restart = false) {
+    // dnn't reset on round 1
     if (resetPossible && this.RoundIndex === 0) { return; }
     this._gameIsRunning = false;
 
     setTimeout(() => {
-
-      if (resetPossible) { this.RoundIndex = 0; } else { this.RoundIndexIncrement(); }
+      if (resetPossible) {
+        this.RoundIndex = 0;
+      } else if (!restart) {
+        this.RoundIndexIncrement();
+      }
       this.SetNewField(this.Max, this.Width, this.Height);
       this._gameIsRunning = true;
-    }, AnimationTimers.Fade * 1.5);
+    }, AnimationTimers.Fade);
+  }
+
+  public RestartRound() {
+    this.ResetRound(false, true);
   }
   //#endregion
 
@@ -154,7 +162,7 @@ export class ElectronicsGameComponent extends BaseComponent {
 
   /** The current difficulty setting */
   public get Difficulty() {
-    return this._difficulties[this.RoundIndex];
+    return this._difficulties[this.RoundIndex % difficulties.length];
   }
 
   /** The number of microchips in a row (and column). */
