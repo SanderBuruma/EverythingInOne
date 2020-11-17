@@ -12,9 +12,10 @@
     {{ GetLocalization('mastermind-title')}}<span class="help cursor-help" [title]="GetLocalization('mastermind-help')">?</span>
   </h2>
 
-  <div fxLayout="row" fxLayoutGap="5px">
+  <div fxLayout="row wrap" fxLayoutGap="5px">
     <button mat-flat-button color="primary" (click)="MakeGuess()" [disabled]="LockUi" class="monospace">{{ GetLocalization('mastermind-guess') }}</button>
     <button mat-flat-button color="primary" (click)="NewGame()" [disabled]="_httpService.RunningRequestsCount > 0" class="monospace">{{ GetLocalization('mastermind-new-code') }}</button>
+    <button mat-flat-button color="primary" (click)="ModalOn()" [disabled]="_httpService.RunningRequestsCount > 0" class="monospace">{{ GetLocalization('help') }}</button>
   </div>
 
   <!-- Input for any given Guess -->
@@ -31,4 +32,10 @@
     <div class="m-0" *ngFor="let g of _guessesPlusFeedback" @fadeInOut @upInOut>{{ g.guess }} - {{ g.bulls }} {{ g.cows }}</div>
   </div>
 
+</div>
+
+<div @fadeInOut *ngIf="ModalActive" class="modal-background" fxLayout="row wrap" fxLayoutAlign="center center" (click)="ModalOff()">
+  <div class="modal-foreground" fxLayout="column wrap" fxLayoutAlign="center center">
+    {{ GetLocalization('mastermind-help') }}
+  </div>
 </div>

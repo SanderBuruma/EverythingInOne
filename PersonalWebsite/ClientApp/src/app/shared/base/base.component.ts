@@ -7,6 +7,10 @@ import { ThemesService } from '../services/Themes.service';
 // tslint:disable-next-line: max-line-length
 /** The base comonent which contains all fields, properties and methods that all components should contain (except perhaps app.component.ts)*/
 export class BaseComponent {
+  //#region Fields
+  public _modalActive = false;
+  //#endregion
+
   //#region Constructor & ngOnInit
   constructor(
     public _router: Router,
@@ -18,7 +22,18 @@ export class BaseComponent {
     // acts as a sort of user id
     if (!this.GetCookievalue(CookieKeys.RngId, '')) { this.SetCookievalue(CookieKeys.RngId, this.GenerateGuid() ); }
   }
+  //#endregion
 
+  //#region Properties
+  public get ModalActive() {
+    return this._modalActive;
+  }
+  public set ModalActive(value: boolean) {
+    this._modalActive = value;
+  }
+  //#endregion
+
+  //#region Methods
   public async NavigateTo(url: string) {
     await this._router.navigateByUrl(url);
   }
@@ -93,6 +108,13 @@ export class BaseComponent {
       arr.push(start + i * incrementor);
     }
     return arr;
+  }
+
+  public ModalOn() {
+    this.ModalActive = true;
+  }
+  public ModalOff() {
+    this.ModalActive = false;
   }
   //#endregion
 

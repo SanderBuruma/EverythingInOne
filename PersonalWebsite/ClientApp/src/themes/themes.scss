@@ -26,7 +26,7 @@
   border-color: black;
 }
 
-$intensities: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700);
+$intensities: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A800);
 //the below lines use every style and output and in many hues.
 @mixin theme-mixin($theme, $primary, $accent, $warn){
   @include angular-material-theme($theme);
