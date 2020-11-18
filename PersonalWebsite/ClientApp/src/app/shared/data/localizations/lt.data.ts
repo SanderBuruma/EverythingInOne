@@ -233,7 +233,7 @@ export let LatinLocalizations: LocalizationUnit[] = [
   },
   {
     label: 'electronics-help',
-    value: 'Signis (in septentrione et occidente campi) convertuntur per micros tabulos cum vadunt meridie ad sepentrionem vel occidens ad orientem. Campus secundum ostendit quimodo microtabulus convertit signum. Ultimum microtabulum in hac tabula est quod necesse est emendere ad numerum rectum. Non omnes exiti ostenduntur propter dificilior facere ludi.'
+    value: 'Signis (in septentrione et occidente campi) convertuntur per micros tabulos cum vadunt meridie ad sepentrionem vel occidens ad orientem. Campus secundum ostendit quimodo microtabulus convertit signum. Notatum (cum sublinea) microtabulum in hac tabula est quod necesse est emendere ad numerum rectum. Non omnes notitiae ostenduntur propter dificilior facere ludi.'
   },
   {
     label: 'electronics-round',
@@ -285,6 +285,25 @@ export let LatinLocalizations: LocalizationUnit[] = [
   {
     label: 'header-code',
     value: 'Revelator Codicei'
+  },
+  //#endregion
+
+  //#region
+  {
+    label: 'reset',
+    value: 'Sile ab initio'
+  },
+  {
+    label: 'restart',
+    value: 'Sile'
+  },
+  {
+    label: 'shuffle',
+    value: 'Misce'
+  },
+  {
+    label: 'help',
+    value: 'Succurre'
   },
   //#endregion
 ];

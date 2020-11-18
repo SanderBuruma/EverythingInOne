@@ -73,10 +73,10 @@ namespace PersonalWebsite.Controllers
       [HttpGet("getText")]
       public object GetText(int i)
       {
-         var context = _httpContextAccessor.HttpContext;
+         HttpContext context = _httpContextAccessor.HttpContext;
          
          string ip = context.Connection.RemoteIpAddress.ToString();
-         var currentDate = DateTime.Now.ToUniversalTime();
+         DateTime currentDate = DateTime.Now.ToUniversalTime();
          if (i < 0)
              i = 0;
          i %= _lines.Length;
