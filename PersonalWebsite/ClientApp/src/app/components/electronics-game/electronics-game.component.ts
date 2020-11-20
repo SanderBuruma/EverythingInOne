@@ -132,7 +132,7 @@ export class ElectronicsGameComponent extends BaseComponent {
     }
 
     // end round if all guesses are correct
-    if (correctGuesses === this.Max) {
+    if (correctGuesses >= this.Max) {
       this.ResetRound();
     }
   }
@@ -219,6 +219,20 @@ export class ElectronicsGameComponent extends BaseComponent {
   /** The current round */
   public get RoundIndexDisplay() {
     return super.GetCookievalueNum(CookieKeys.ElxRound) + 1;
+  }
+
+  public get SetOfChips(): Microchip[] {
+    const set: Microchip[] = [];
+    for (let i = 0; i < this._microchips.length; i++) {
+      if (set.indexOf(this._microchips[i]) === -1) {
+        set.push(this._microchips[i]);
+      }
+    }
+    return set;
+  }
+
+  public get ChipTBD() {
+    return this._microchips[this.Difficulty.chipTBD];
   }
   //#endregion
 }
