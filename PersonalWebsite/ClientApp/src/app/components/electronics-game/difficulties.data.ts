@@ -110,14 +110,8 @@ export let difficulties: Difficulty[] = [
     [],
     [1, 2],
     [
-      new ChipCopy(
-        3,
-        2
-      ),
-      new ChipCopy(
-        2,
-        1
-      ),
+      new ChipCopy(3, 2),
+      new ChipCopy(2, 1),
     ],
   ),
 
@@ -130,14 +124,8 @@ export let difficulties: Difficulty[] = [
     [1],
     [0, 2],
     [
-      new ChipCopy(
-        3,
-        2
-      ),
-      new ChipCopy(
-        2,
-        0
-      ),
+      new ChipCopy(3, 2),
+      new ChipCopy(2, 0),
     ],
   ),
 
@@ -148,8 +136,16 @@ export let difficulties: Difficulty[] = [
     3,
     4,
     [],
-    [],
-    [],
+    [1],
+    [
+      new ChipCopy(4, 2),
+      new ChipCopy(8, 0),
+      new ChipCopy(7, 1),
+      new ChipCopy(6, 0),
+      new ChipCopy(5, 1),
+      new ChipCopy(3, 1),
+      new ChipCopy(2, 0),
+    ],
   ),
 
 ];
