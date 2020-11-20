@@ -98,6 +98,11 @@ export class MastermindComponent extends BaseComponent implements OnInit {
         this.NewGame();
       }
     }, 2000);
+
+    this._httpService.Get(
+      'dev/log-message?msg=mastermind+' + this._guessCode +
+      '+guesses+length+' + this._guessesPlusFeedback.length
+    );
   }
 
   public GetPreviousFeedback() {
