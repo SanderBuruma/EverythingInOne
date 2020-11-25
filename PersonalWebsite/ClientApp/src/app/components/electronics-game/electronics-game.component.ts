@@ -174,6 +174,8 @@ export class ElectronicsGameComponent extends BaseComponent {
   @HostListener('document:keydown', ['$event'])
   handleDeleteKeyboardEvent(event: KeyboardEvent) {
     if (/[0-9]/g.test(event.key) && this._gameIsRunning) {
+      const guess = parseInt(event.key, 10);
+      if (guess > this.Max) { return; }
       this._guesses[this._guessKeyboardIndex] = parseInt(event.key, 10);
       this._guessKeyboardIndex++;
       this._guessKeyboardIndex %= this.Max;
